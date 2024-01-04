@@ -1,0 +1,18 @@
+{
+  "name": "production-tracker-v2",
+  "version": "2.0.0",
+  "description": "Production tracker for my coworkers at meti",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "@abdullah1hashim",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.2"
+  }
+}
