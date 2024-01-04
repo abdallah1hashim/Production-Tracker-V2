@@ -1,0 +1,60 @@
+:root {
+  --primary-100: #6c35de;
+  --primary-200: #a364ff;
+  --primary-300: #ffc7ff;
+  --accent-100: #cb80ff;
+  --accent-200: #373737;
+  --text-100: #ffffff;
+  --text-200: #e0e0e0;
+  --bg-100: #241b35;
+  --bg-200: #342a45;
+  --bg-300: #4d425f;
+  --transition: 0.3s;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  background-color: #eee;
+}
+
+/* .index-body{
+    background: rgb(174,201,238);
+    background: radial-gradient(circle, rgba(174,201,238,1) 0%, rgba(200,215,240,1) 58%, rgba(148,187,233,0.2806372549019608) 100%);
+  } */
+p,
+h1 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  position: relative;
+}
+
+/* Componnent */
+.br-red {
+  border: 2px solid red;
+}
+
+.z-drop {
+  z-index: -10;
+}
+
+.z-pop {
+  z-index: 10;
+}
+footer {
+  text-align: center;
+}
+footer a {
+  color: black !important;
+  text-decoration: none;
+}
+footer a:hover {
+  color: var(--primary) !important;
+  text-decoration: underline;
+}
