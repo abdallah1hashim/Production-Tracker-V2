@@ -1,0 +1,140 @@
+body {
+  background-color: var(--bg-100);
+  color: white;
+}
+
+/* info */
+.info {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  background-color: var(--bg-200);
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px;
+  border-radius: 35px;
+}
+.info .h2-con {
+  padding-bottom: 20px;
+}
+.info h2 {
+  width: fit-content;
+  padding: 10px 20px;
+  text-shadow: 2px 2px black;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 35px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.info h2::after {
+  content: "";
+  position: absolute;
+  border-radius: 35px;
+  /* height: 95%;
+    width: 98%;
+    top: 1px;
+    left: 1px; */
+  inset: 5px;
+  background-color: var(--bg-100);
+  z-index: -1;
+}
+.info h2::before {
+  z-index: -2;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -70px;
+  width: 170%;
+  height: 140%;
+  background: linear-gradient(#00ccff, #d500f9);
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.details {
+  display: flex;
+  gap: 20px;
+}
+.user-icon {
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--dark-body-background);
+  border-radius: 55px;
+}
+.user-icon i {
+  padding: 20px;
+  font-size: 50px;
+}
+.details {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 100%;
+}
+.personal-info {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+}
+.personal-info p h3 {
+  width: 100%;
+  flex-grow: 1;
+}
+.personal-info-text {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.personal-info p {
+  width: 33%;
+  padding: 10px 0;
+}
+/* End info */
+/* side nav */
+.side-nav {
+  height: calc(70vh - 59px) !important;
+  display: flex;
+  border: 1px solid;
+  border-color: transparent white transparent transparent;
+}
+.side-nav ul {
+  margin: auto 0;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.side-nav ul li {
+  list-style: none;
+}
+.side-nav ul a {
+  margin: auto;
+  color: white;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.active {
+  color: var(--primary-100) !important;
+}
+.side-nav ul a:hover {
+  color: var(--primary-100);
+}
+.side-nav ul span {
+  padding: 5px;
+  background-color: var(--bg-200);
+  border-radius: 5px;
+}
+/* End */

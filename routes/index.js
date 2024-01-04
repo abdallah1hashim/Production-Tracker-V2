@@ -8,5 +8,8 @@ router.get("/", (req, res, next) => {
 router.get("/login", (req, res, next) => {
   res.render("app/login.ejs");
 });
+router.post("/login", (req, res, next) => {
+  res.redirect("/labeler/");
+});
 
 module.exports = router;
