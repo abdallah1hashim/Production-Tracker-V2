@@ -1,0 +1,19 @@
+.info {
+  height: calc(100vh - 205px) !important;
+  display: block;
+}
+.info .search {
+  text-align: center;
+  padding: 20px 0;
+}
+table {
+  width: 100%;
+  text-align: center;
+}
+th {
+  color: var(--primary-100);
+}
+th,
+td {
+  border: 4px solid var(--bg-100);
+}

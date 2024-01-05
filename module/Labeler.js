@@ -40,7 +40,6 @@ const labelerSchema = new Schema({
     type: Number,
     required: true,
   },
-  tasks: [{ type: Schema.Types.ObjectId, required: true, ref: "Task" }],
 });
 
 module.exports = mongoose.model("Labeler", labelerSchema);

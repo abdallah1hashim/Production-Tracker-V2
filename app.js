@@ -57,36 +57,36 @@ mongoose
     `mongodb+srv://Inulla:%24M%40%40g%23ME410@nullla.fupqou2.mongodb.net/productionTracker`
   )
   .then(() => {
-    Labeler.findOne().then((user) => {
-      if (!user) {
-        const labeler = new Labeler({
-          name: "Abdullah Essam Fathy",
-          shift: "Overnight",
-          team: "659848fbe78289bb15339b6d",
-          username: "me555555",
-          email: "abdollahizzy41@gmail.com",
-          password: "4102001336",
-          metiuser: 555555,
-          location: "floor4",
-          device: 1,
-          tasks: [],
-        });
-        labeler.save();
-      }
-    });
-    // Qc.findOne().then((user) => {
+    // Labeler.findOne().then((user) => {
     //   if (!user) {
-    //     const qc = new Qc({
+    //     const labeler = new Labeler({
     //       name: "Abdullah Essam Fathy",
     //       shift: "Overnight",
+    //       team: "659848fbe78289bb15339b6d",
     //       username: "me555555",
     //       email: "abdollahizzy41@gmail.com",
     //       password: "4102001336",
+    //       metiuser: 555555,
     //       location: "floor4",
+    //       device: 1,
+    //       tasks: [],
     //     });
-    //     qc.save();
+    //     labeler.save();
     //   }
     // });
+    Qc.findOne().then((user) => {
+      if (!user) {
+        const qc = new Qc({
+          name: "Abdullah Essam Fathy",
+          shift: "Overnight",
+          username: "me555555",
+          email: "abdollahizzy41@gmail.com",
+          password: "4102001336",
+          location: "floor4",
+        });
+        qc.save();
+      }
+    });
     app.listen(port);
   })
   .catch((err) => {

@@ -2,7 +2,7 @@ const Labeler = require("../module/Labeler");
 const Task = require("../module/Task.js");
 
 exports.getHome = (req, res, next) => {
-  console.log(req.user);
+  console.log(req.user.team);
   res.render("labeler/labeler.ejs", {
     team: req.user.team,
     labelerDetails: req.user,
@@ -32,6 +32,7 @@ exports.postStartTask = (req, res, next) => {
   const queueName = req.body.queueName;
   const numObj = req.body.numObj;
   const date = new Date().toLocaleString();
+  const teamId = req.body.teamId;
 
   Task.findOne({ id: TaskId })
     .then((task) => {
@@ -42,6 +43,7 @@ exports.postStartTask = (req, res, next) => {
           startDate: date,
           queueName: queueName,
           labelerId: labelerId,
+          teamId: teamId,
           submitted: false,
           skipped: false,
           labelersWorkedOn: [{ labelerId: labelerId }],
@@ -59,6 +61,7 @@ exports.postStartTask = (req, res, next) => {
         task.startDate = date;
         task.queueName = queueName;
         task.labelerId = labelerId;
+        task.teamId = teamId;
         task.submitted = false;
         task.skipped = false;
 

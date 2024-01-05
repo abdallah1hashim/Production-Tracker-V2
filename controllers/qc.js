@@ -26,9 +26,14 @@ exports.getHome = (req, res, next) => {
 // };
 
 exports.getStartedTask = (req, res, next) => {
-  Task.find({ labelerId: { team: req.user._id } })
+  Task.find({ teamId: req.user._id, submitted: false, skipped: false })
     .then((tasks) => {
-      console.log(tasks);
+      res.render("qc/StartedTasks.ejs", {
+        tasks: tasks,
+        pageTitle: "Started Tasks",
+        path: "/started-Task",
+        pos: "qc",
+      });
     })
     .catch((err) => {
       err;

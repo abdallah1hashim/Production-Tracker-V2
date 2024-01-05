@@ -15,6 +15,11 @@ const TaskSchema = new Schema(
       required: true,
       ref: "Labeler",
     },
+    teamId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "QC",
+    },
     submitted: { type: Boolean },
     skipped: { type: Boolean },
     labelersWorkedOn: [
