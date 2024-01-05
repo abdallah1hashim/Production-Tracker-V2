@@ -27,3 +27,7 @@ select {
   border-radius: 10px;
   padding: 2px 7px;
 }
+
+.search_select_box button {
+  padding: 2px 7px !important;
+}

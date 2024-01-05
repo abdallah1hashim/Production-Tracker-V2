@@ -24,8 +24,9 @@ const labelerSchema = new Schema({
     required: true,
   },
   team: {
-    type: Number,
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: "QC",
   },
   shift: {
     type: String,
@@ -39,14 +40,7 @@ const labelerSchema = new Schema({
     type: Number,
     required: true,
   },
-  submitedTasks: [
-    {
-      id: { type: Number, required: true },
-      queueName: { type: String, required: true },
-      numObj: { type: Number, required: true },
-      status: { type: String, required: true },
-    },
-  ],
+  tasks: [{ type: Schema.Types.ObjectId, required: true, ref: "Task" }],
 });
 
 module.exports = mongoose.model("Labeler", labelerSchema);

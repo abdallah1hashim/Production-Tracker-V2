@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const stlSchema = new Schema({
+const adminSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -19,10 +19,7 @@ const stlSchema = new Schema({
     type: String,
     required: true,
   },
-  shiftName: {
-    type: String,
-    required: true,
-  },
+  superAdmin: { type: Boolean, required: true },
 });
 
-module.exports = mongoose.model("STL", stlSchema);
+module.exports = mongoose.model("Admin", adminSchema);

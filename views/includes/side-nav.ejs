@@ -1,29 +1,37 @@
 <div class="side-nav col-3">
   <ul>
-    <li>
-      <a class="<%= path == "/labler"? "active" : "" %>" href="home"
-        ><span><i class="fa-solid fa-house"></i></span>  Home</a
-      >
-    </li>
-    <li>
-      <a class="<%= path == "/start-task"? "active" : "" %>" href="start-task"
-        ><span><i class="fa-solid fa-door-open"></i></span>  Start Task</a
-      >
-    </li>
-    <li>
-      <a class="<%= path == "/submit-task"? "active" : "" %>" href="submit-task"
-        ><span><i class="fa-solid fa-door-closed"></i></span>  Submit Task</a
-      >
-    </li>
-    <li>
-      <a class="<%= path == "/spl"? "active" : "" %>" href="spl"
-        ><span><i class="fa-solid fa-gauge"></i></span>  SPL</a
-      >
-    </li>
-    <li>
-      <a class="<%= path == "/hours"? "active" : "" %>" href="Hours"
-        ><span><i class="fa-solid fa-clock"></i></span>  Hours</a
-      >
-    </li>
+      <% if (pos === "labeler") {  %>
+        <li>
+          <a class="<%= path === "/labler"? "active" : "" %>" href="home"
+            ><span><i class="fa-solid fa-house"></i></span>  Home</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/start-task"? "active" : "" %>" href="start-task"
+            ><span><i class="fa-solid fa-door-open"></i></span>  Start Task</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/submit-task"? "active" : "" %>" href="submit-task"
+            ><span><i class="fa-solid fa-door-closed"></i></span>  Submit Task</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/spl"? "active" : "" %>" href="spl"
+            ><span><i class="fa-solid fa-gauge"></i></span>  SPL</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/hours"? "active" : "" %>" href="Hours"
+            ><span><i class="fa-solid fa-clock"></i></span>  Hours</a
+          >
+        </li>
+      <% } else if (pos === "qc"){  %>
+        <li>
+          <a class="<%= path === "/qc"? "active" : "" %>" href="home"
+            ><span><i class="fa-solid fa-house"></i></span>  Home</a
+          >
+        </li>
+      <% } %>
   </ul>
 </div>

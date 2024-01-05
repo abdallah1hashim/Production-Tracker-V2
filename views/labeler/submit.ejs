@@ -18,15 +18,17 @@
                           <h2>Start Task</h2>
                         </div>
                         <div class="details">
-                         <form action="./post-submit-task" method="post">
+                         <form action="/labeler/post-submit-task" method="post">
                             <p>your Tasks: </p>
-                            <select>
-                                
+                            <select name="taskId">
+                                <% tasks.forEach( task =>{ %>
+                                    <option value="<%= task.id %>"><%= task.id %></option>
+                                <% })%>
                             </select>
                             <p>Number of object:</p>
-                            <input type="text">
+                            <input type="number" name="submitedObj" >
                             <p>Status of the Task:</p>
-                            <select>
+                            <select name="status">
                                 <option value="submit">Submit</option>
                                 <option value="skip">Skip</option>
                                 <option value="abandoned">Abandoned</option>

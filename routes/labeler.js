@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.get("/home", labelerController.getHome);
 router.get("/start-task", labelerController.getStartTask);
-router.post("/start-task", labelerController.postStartTask);
+router.post("/add-task", labelerController.postStartTask);
 router.get("/submit-task", labelerController.getSubmitTask);
+router.post("/post-submit-task", labelerController.postSubmitTask);
 router.get("/spl", labelerController.getSpl);
 router.get("/hours", labelerController.getHours);
 
