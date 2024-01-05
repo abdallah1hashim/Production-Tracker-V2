@@ -1,15 +1,11 @@
 const express = require("express");
 
+const indexController = require("../controllers/index");
+
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  res.render("app/index.ejs");
-});
-router.get("/login", (req, res, next) => {
-  res.render("app/login.ejs");
-});
-router.post("/login", (req, res, next) => {
-  res.redirect("/labeler/");
-});
+router.get("/", indexController.getIndex);
+router.get("/login", indexController.getLogin);
+router.post("/login", indexController.postLogin);
 
 module.exports = router;

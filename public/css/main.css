@@ -74,8 +74,9 @@ footer {
 footer a {
   color: black !important;
   text-decoration: none;
+  transition: var(--transition);
 }
 footer a:hover {
-  color: var(--primary) !important;
+  color: var(--primary-100) !important;
   text-decoration: underline;
 }

@@ -1,5 +1,6 @@
 <%- include("../includes/head.ejs") %>
 <link rel="stylesheet" href="css/labeler.css">
+<link rel="stylesheet" href="css/Form.css">
 </head>
     <body>
         <header>
@@ -17,13 +18,14 @@
                           <h2>Start Task</h2>
                         </div>
                         <div class="details">
-                         <form action="./post-start-task" method="post">
-                            <p>number of objects</p>
-                            <input type="text" required>
-                            <p>Queue Name</p>
-                            <select>
-                                
-                            </select>
+                         <form action="/start-task" method="post">
+                            <p>number of objects: </p>
+                            <input type="text" name="numObj" required>
+                            <p>Queue Name:</p>
+                            <input type="text" name="queueName" />
+                            <p>Task ID:</p>
+                            <input type="text" name="TaskId" value>
+                            <input type="hidden" name="labelerId" value="<%= labelerDetails._id %>">
                             <button type="submit">Start</button>
                          </form>
                         </div>

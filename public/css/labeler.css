@@ -2,6 +2,9 @@ body {
   background-color: var(--bg-100);
   color: white;
 }
+footer a {
+  color: white !important;
+}
 
 /* info */
 .info {
@@ -137,4 +140,5 @@ body {
   background-color: var(--bg-200);
   border-radius: 5px;
 }
+
 /* End */

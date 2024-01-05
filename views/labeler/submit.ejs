@@ -1,0 +1,44 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="css/labeler.css">
+<link rel="stylesheet" href="css/Form.css">
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="container">
+
+            
+            <div class="row">
+              <%- include("../includes/side-nav.ejs") %>
+                <div class=" main col-9 ">
+                    <div class="info">
+                        <div class="h2-con w-100">
+                          <h2>Start Task</h2>
+                        </div>
+                        <div class="details">
+                         <form action="./post-submit-task" method="post">
+                            <p>your Tasks: </p>
+                            <select>
+                                
+                            </select>
+                            <p>Number of object:</p>
+                            <input type="text">
+                            <p>Status of the Task:</p>
+                            <select>
+                                <option value="submit">Submit</option>
+                                <option value="skip">Skip</option>
+                                <option value="abandoned">Abandoned</option>
+                                <option value="taken">Taken</option>
+                            </select>
+                            <button type="submit">Submit</button>
+                         </form>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    </body>
+<%- include("../includes/end.ejs") %>

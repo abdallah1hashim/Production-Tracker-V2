@@ -1,0 +1,29 @@
+form {
+  width: 100%;
+}
+form input,
+select {
+  width: 50%;
+}
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 3px 10px;
+  border-radius: 5px;
+  background-color: var(--bg-100);
+  color: white;
+  border: 1px solid black;
+  transition: var(--transition);
+}
+button:hover {
+  color: var(--primary-100);
+}
+p {
+  margin-top: 16px !important;
+  text-transform: capitalize;
+}
+input,
+select {
+  border-radius: 10px;
+  padding: 2px 7px;
+}

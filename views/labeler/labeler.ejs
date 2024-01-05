@@ -21,13 +21,13 @@
                             <i class="fa-solid fa-user"></i>
                           </div>
                           <div class="personal-info">
-                            <h3>${this._data.name}</h3>
+                            <h3><%= labelerDetails.name %></h3>
                             <div class="personal-info-text">
-                              <p>EMAIL: ${this._data.email}</p>
-                              <p>SHIFT: ${this._data.shift === "ON" ? "Over Night" : ""}</p>
-                              <p>LOCATION: ${this._data.location}</p>
-                              <p>TEAM: ${this._data.team}</p>
-                              <p>DEVICE: ${this._data.device}</p>
+                              <p>EMAIL: me<%= labelerDetails.metiuser %>@meti.ai</p>
+                              <p>SHIFT: <%= labelerDetails.shift %></p>
+                              <p>LOCATION: <%= labelerDetails.location %></p>
+                              <p>TEAM: <%= labelerDetails.team %></p>
+                              <p>DEVICE: C-<%= labelerDetails.device %></p>
                             </div>
                           </div>
                         </div>

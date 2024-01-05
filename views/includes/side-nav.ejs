@@ -1,7 +1,7 @@
 <div class="side-nav col-3">
   <ul>
     <li>
-      <a class="<%= path == "/labler/home"? "active" : "" %>" href="/home"
+      <a class="<%= path == "/labler"? "active" : "" %>" href="home"
         ><span><i class="fa-solid fa-house"></i></span>  Home</a
       >
     </li>
@@ -11,17 +11,17 @@
       >
     </li>
     <li>
-      <a href="labeler/submittask"
+      <a class="<%= path == "/submit-task"? "active" : "" %>" href="submit-task"
         ><span><i class="fa-solid fa-door-closed"></i></span>  Submit Task</a
       >
     </li>
     <li>
-      <a href="labeler/spl"
+      <a class="<%= path == "/spl"? "active" : "" %>" href="spl"
         ><span><i class="fa-solid fa-gauge"></i></span>  SPL</a
       >
     </li>
     <li>
-      <a href="labeler/Hours"
+      <a class="<%= path == "/hours"? "active" : "" %>" href="Hours"
         ><span><i class="fa-solid fa-clock"></i></span>  Hours</a
       >
     </li>
