@@ -23,6 +23,10 @@ const stlSchema = new Schema({
     type: String,
     required: true,
   },
+  position: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("STL", stlSchema);

@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 const Labeler = require("./module/Labeler");
 const Qc = require("./module/qc");
 const Tl = require("./module/tl");
+const STL = require("./module/stl");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -96,10 +97,11 @@ mongoose
     //       username: "me555555",
     //       email: "abdollahizzy41@gmail.com",
     //       password: "4102001336",
-    //       location: "floor4",
+    //       teamLeadId: "6598e93f9792f29af783b9a3",
     //     });
     //     qc.save();
     //   }
+    // });
     Tl.findOne().then((user) => {
       if (!user) {
         const tl = new Tl({
@@ -109,10 +111,24 @@ mongoose
           email: "abdollahizzy41@gmail.com",
           password: "4102001336",
           locationName: "floor4",
+          position: "Team Lead",
         });
         tl.save();
       }
     });
+    // STL.findOne().then((user) => {
+    //   if (!user) {
+    //     const stl = new STL({
+    //       name: "Mahmoud Abdel-Tawab",
+    //       shiftName: "OverNight",
+    //       username: "me555555",
+    //       email: "abdollahizzy41@gmail.com",
+    //       password: "123456",
+    //       position: "Senior Team Lead",
+    //     });
+    //     stl.save();
+    //   }
+    // });
     app.listen(port);
   })
   .catch((err) => {

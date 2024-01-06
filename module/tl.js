@@ -23,7 +23,12 @@ const tlSchema = new Schema({
     type: String,
     required: true,
   },
-  shift: {
+  SeniorId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "STL",
+  },
+  position: {
     type: String,
     required: true,
   },

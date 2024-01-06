@@ -19,11 +19,16 @@ const qcSchema = new Schema({
     type: String,
     required: true,
   },
-  location: {
+  teamLeadId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "TL",
+  },
+  shift: {
     type: String,
     required: true,
   },
-  shift: {
+  position: {
     type: String,
     required: true,
   },
