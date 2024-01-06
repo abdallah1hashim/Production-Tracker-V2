@@ -1,0 +1,38 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="css/labeler.css">
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="container">
+
+            
+            <div class="row">
+              <%- include("../includes/side-nav.ejs") %>
+                <div class=" main col-9 ">
+                    <div class="info">
+                        <div class="h2-con w-100">
+                          <h2>User Details</h2>
+                        </div>
+                        <div class="details">
+                          <div class="user-icon">
+                            <i class="fa-solid fa-user"></i>
+                          </div>
+                          <div class="personal-info">
+                            <h3><%= tl.name %></h3>
+                            <div class="personal-info-text">
+                              <p>SHIFT: <%= tl.shift %></p>
+                              <p>LOCATION: <%= tl.locationName %></p>
+                              <p>Postion: Team Lead (TL)</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    </body>
+<%- include("../includes/end.ejs") %>

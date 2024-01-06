@@ -15,31 +15,22 @@
                 <div class=" main col-9 ">
                     <div class="info">
                         <div class="h2-con w-100">
-                          <h2>Tasks</h2>
-                        </div>
-                        <div class="search">
-                            <input type="text">
-                            <span></span>
+                          <h2>My Team</h2>
                         </div>
                         <table>
                             <tr>
                                 <th>C</th>
-                                <th>Task ID</th>
-                                <th>Queue</th>
-                                <th>started</th>
-                                <th>Obj</th>
+                                <th>LabelerID</th>
+                                <th>Name</th>
                                 <th></th>
-                                <th></th>
+
                             </tr>
-                            <% tasks.forEach(el => {%>
+                            <% labelers.forEach(el => {%>
                             <tr>
-                                <td>C-<%= el.labelerId.device %></td>
-                                <td><%= el.id %></td>
-                                <td><%= el.queueName %></td>
-                                <td><%= el.startDate %></td>
-                                <td><%= el.StartednumObj %></td>
-                                <td><a href="edit">edit</a></td>
-                                <td>delete</td>
+                                <td>C-<%= el.device %></td>
+                                <td><%= el.username %></td>
+                                <td><%= el.name %></td>
+                                <td><a href="#">edit</a></td>
                             </tr>
                             <% }) %>
                         </table>

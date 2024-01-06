@@ -11,12 +11,14 @@ app.use(express.urlencoded({ extended: true }));
 
 const Labeler = require("./module/Labeler");
 const Qc = require("./module/qc");
+const Tl = require("./module/tl");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/labeler", express.static(path.join(__dirname, "public")));
 app.use("/qc", express.static(path.join(__dirname, "public")));
+app.use("/tl", express.static(path.join(__dirname, "public")));
 app.use(
   "/css",
   express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
@@ -31,12 +33,23 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  Labeler.findOne({ username: "me555555" })
-    .populate({ path: "team", select: "name" })
-    .exec()
+  // Labeler.findOne({ username: "me555555" })
+  //   .populate({ path: "team", select: "name" })
+  //   .exec()
+  //   .then((user) => {
+  //     req.user = user;
+  //     next();
+  //   })
+  //   .catch((err) => console.log(err));
+  // Qc.findOne({ username: "me555555" })
+  //   .then((user) => {
+  //     req.user = user;
+  //     next();
+  //   })
+  //   .catch((err) => console.log(err));
+  Tl.findOne({ username: "me555555" })
     .then((user) => {
       req.user = user;
-      console.log(user);
       next();
     })
     .catch((err) => console.log(err));
@@ -45,11 +58,12 @@ app.use((req, res, next) => {
 const indexRoutes = require("./routes/index");
 const labelerRoutes = require("./routes/labeler");
 const qcRoutes = require("./routes/qc");
-const { name } = require("ejs");
+const tlRoutes = require("./routes/tl");
 
 app.use("/", indexRoutes);
 app.use("/labeler", labelerRoutes);
 app.use("/qc", qcRoutes);
+app.use("/tl", tlRoutes);
 
 // app.use("/labeler", labelerRoutes);
 mongoose
@@ -74,17 +88,29 @@ mongoose
     //     labeler.save();
     //   }
     // });
-    Qc.findOne().then((user) => {
+    // Qc.findOne().then((user) => {
+    //   if (!user) {
+    //     const qc = new Qc({
+    //       name: "Abdullah Essam Fathy",
+    //       shift: "Overnight",
+    //       username: "me555555",
+    //       email: "abdollahizzy41@gmail.com",
+    //       password: "4102001336",
+    //       location: "floor4",
+    //     });
+    //     qc.save();
+    //   }
+    Tl.findOne().then((user) => {
       if (!user) {
-        const qc = new Qc({
+        const tl = new Tl({
           name: "Abdullah Essam Fathy",
           shift: "Overnight",
           username: "me555555",
           email: "abdollahizzy41@gmail.com",
           password: "4102001336",
-          location: "floor4",
+          locationName: "floor4",
         });
-        qc.save();
+        tl.save();
       }
     });
     app.listen(port);

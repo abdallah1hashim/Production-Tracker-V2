@@ -1,0 +1,51 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="css/labeler.css">
+<link rel="stylesheet" href="css/Form.css">
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="container">
+
+            
+            <div class="row">
+              <%- include("../includes/side-nav.ejs") %>
+                <div class=" main col-9 ">
+                    <div class="info">
+                        <div class="h2-con w-100">
+                          <h2>Create Labeler Account</h2>
+                        </div>
+                        <div class="details">
+                         <form action="/create-labeler" method="post">
+                            <p>Name: </p>
+                            <input type="text" name="name">
+                            <p>Device:</p>
+                            <input type="number" name="device" >
+                            <p>username: </p>
+                            <input type="number" name="username">
+                            <p>email: </p>
+                            <input type="email" name="email">
+                            <p>password: </p>
+                            <input type="password" name="password">
+                            <p>Team:</p>
+                            <select name="teamId">
+                                <% qc.forEach( c => {  %>
+                                    <option value="<%= c._id %>"><%= c.name %></option>
+                                <% })  %>
+                            </select>
+                            <p>Team Lead:</p>
+                            <input type="text" name="teamlead" >
+                            <p>Senior Team Lead:</p>
+                            <input type="text" name="senior" >
+                            <button type="submit">Create</button>
+                         </form>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    </body>
+<%- include("../includes/end.ejs") %>

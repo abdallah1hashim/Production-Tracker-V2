@@ -8,7 +8,7 @@ const labelerSchema = new Schema({
     required: true,
   },
   username: {
-    type: String,
+    type: Number,
     required: true,
   },
   email: {
@@ -17,10 +17,6 @@ const labelerSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
-  },
-  metiuser: {
-    type: Number,
     required: true,
   },
   team: {
@@ -33,8 +29,9 @@ const labelerSchema = new Schema({
     required: true,
   },
   location: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: "TL",
   },
   device: {
     type: Number,

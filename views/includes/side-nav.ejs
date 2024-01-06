@@ -28,13 +28,44 @@
         </li>
       <% } else if (pos === "qc"){  %>
         <li>
-          <a class="<%= path === "/qc"? "active" : "" %>" href="home"
+          <a class="<%= path === "/qc"? "active" : "" %>" href="/qc/home"
             ><span><i class="fa-solid fa-house"></i></span>  Home</a
           >
         </li>
         <li>
-          <a class="<%= path === "/started-tasks"? "active" : "" %>" href="start-task"
+          <a class="<%= path === "/started-tasks"? "active" : "" %>" href="/qc/start-task"
             ><span><i class="fa-solid fa-door-open"></i></span>  Started Tasks</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/labelers"? "active" : "" %>" href="/qc/labelers"
+            ><span><i class="fa-solid fa-user"></i></span>  Labelers</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/create-labelers"? "active" : "" %>" href="/create-labeler"
+            ><span><i class="fa-solid fa-user"></i></span>  Create Labeler</a
+          >
+        </li>
+      <% } else if (pos === "tl"){  %>
+        <li>
+          <a class="<%= path === "/tl"? "active" : "" %>" href="/tl/home"
+            ><span><i class="fa-solid fa-house"></i></span>  Home</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/started-tasks"? "active" : "" %>" href="/tl/start-task"
+            ><span><i class="fa-solid fa-door-open"></i></span>  Started Tasks</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/labelers"? "active" : "" %>" href="/tl/labelers"
+            ><span><i class="fa-solid fa-user"></i></span>  Labelers</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/create-labelers"? "active" : "" %>" href="/create-labeler"
+            ><span><i class="fa-solid fa-user"></i></span>  Create Labeler</a
           >
         </li>
       <% } %>
