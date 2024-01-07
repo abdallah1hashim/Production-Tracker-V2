@@ -24,9 +24,10 @@ const qcSchema = new Schema({
     required: true,
     ref: "TL",
   },
-  shift: {
-    type: String,
+  seniorId: {
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: "STL",
   },
   position: {
     type: String,

@@ -1,0 +1,67 @@
+<%- include("../includes/head.ejs") %>
+    </head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <form action="/create-QC" method="post">
+                <p>Name:</p>
+                <input type="text" name="name">
+                <p>username:</p>
+                <input type="text" name="username">
+                <p>email:</p>
+                <input type="email" name="email">
+                <p>password:</p>
+                <input type="password" name="password">
+                <p>location:</p>
+                <input type="text" name="location">
+                <% if (user.postion === "Senior Team Lead") {  %>
+                    <input type="hidden" name="seniorId" value="<%= user._id %>">
+                <% } else { %>
+                    <p>Senior Team Lead: </p>
+                    <select name="seniorId">
+                        <% seiors.forEach (s => { %>
+                            <option value="<% s._id %>"><% s.name %></option>
+                        <% }) %>
+                    </select>
+                <% } %>
+
+                <input type="hidden" name="position" value="Team lead">
+            </form>
+        </main>
+<%- include("../includes/end.ejs") %>
+<!-- 
+    const tlSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  locationName: {
+    type: String,
+    required: true,
+  },
+  SeniorId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "STL",
+  },
+  position: {
+    type: String,
+    required: true,
+  },
+});
+
+ -->

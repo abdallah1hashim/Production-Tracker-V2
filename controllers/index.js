@@ -53,3 +53,28 @@ exports.postCreateLabelers = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.getCreateQc = (req, res, next) => {
+  res.render("app/create-QC.ejs", {
+    userDetails: req.user,
+    queues: obj.queues,
+    pageTitle: "Create QC",
+    path: "/create-qc",
+  });
+};
+exports.getcreatTL = (req, res, next) => {
+  res.render("app/create-TL.ejs", {
+    userDetails: req.user,
+    queues: obj.queues,
+    pageTitle: "Create Team Lead",
+    path: "/create-tl",
+  });
+};
+// exports.getCreateSTl = (req, res, next) => {
+//       res.render("app/create-TL.ejs", {
+//         userDetails: req.user,
+//         queues: obj.queues,
+//         pageTitle: "Create QC",
+//         path: "/create-qc",
+//       });
+// };

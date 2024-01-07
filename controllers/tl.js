@@ -1,8 +1,8 @@
 const Task = require("../module/Task");
 
 exports.getHome = (req, res, send) => {
-  res.render("tl/home.ejs", {
-    tl: req.user,
+  res.render("team/home.ejs", {
+    user: req.user,
     pageTitle: "Home",
     path: "/tl",
     pos: "tl",
@@ -13,7 +13,7 @@ exports.getStartedTask = (req, res, next) => {
     .populate("labelerId")
     .then((tasks) => {
       console.log(tasks);
-      res.render("tl/StartedTasks.ejs", {
+      res.render("team/StartedTasks.ejs", {
         tasks: tasks,
         pageTitle: "Started Tasks",
         path: "/started-Task",

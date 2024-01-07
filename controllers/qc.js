@@ -3,8 +3,8 @@ const Task = require("../module/Task");
 const Qc = require("../module/qc");
 
 exports.getHome = (req, res, next) => {
-  res.render("qc/home.ejs", {
-    qc: req.user,
+  res.render("team/home.ejs", {
+    user: req.user,
     pageTitle: "Home",
     path: "/qc",
     pos: "qc",
@@ -15,7 +15,7 @@ exports.getStartedTask = (req, res, next) => {
   Task.find({ teamId: req.user._id, submitted: false, skipped: false })
     .populate("labelerId")
     .then((tasks) => {
-      res.render("qc/StartedTasks.ejs", {
+      res.render("team/StartedTasks.ejs", {
         tasks: tasks,
         pageTitle: "Started Tasks",
         path: "/started-Task",
@@ -31,7 +31,7 @@ exports.getLabelers = (req, res, next) => {
     .then((labelers) => {
       console.log(labelers);
       console.log(req.user._id);
-      res.render("qc/labelers.ejs", {
+      res.render("team/labelers.ejs", {
         labelers: labelers,
         pageTitle: "Labelers",
         path: "/labelers",

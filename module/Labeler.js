@@ -24,9 +24,10 @@ const labelerSchema = new Schema({
     required: true,
     ref: "QC",
   },
-  shift: {
-    type: String,
+  seniorId: {
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: "QC",
   },
   location: {
     type: Schema.Types.ObjectId,
@@ -35,6 +36,10 @@ const labelerSchema = new Schema({
   },
   device: {
     type: Number,
+    required: true,
+  },
+  position: {
+    type: String,
     required: true,
   },
 });

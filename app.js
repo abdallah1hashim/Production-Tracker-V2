@@ -56,6 +56,8 @@ app.use((req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+const errorController = require("./controllers/error");
+
 const indexRoutes = require("./routes/index");
 const labelerRoutes = require("./routes/labeler");
 const qcRoutes = require("./routes/qc");
@@ -65,6 +67,9 @@ app.use("/", indexRoutes);
 app.use("/labeler", labelerRoutes);
 app.use("/qc", qcRoutes);
 app.use("/tl", tlRoutes);
+// app.use("/stl", tlRoutes);
+// app.use("/tl", tlRoutes);
+app.use(errorController.get404);
 
 // app.use("/labeler", labelerRoutes);
 mongoose
@@ -89,33 +94,33 @@ mongoose
     //     labeler.save();
     //   }
     // });
-    // Qc.findOne().then((user) => {
-    //   if (!user) {
-    //     const qc = new Qc({
-    //       name: "Abdullah Essam Fathy",
-    //       shift: "Overnight",
-    //       username: "me555555",
-    //       email: "abdollahizzy41@gmail.com",
-    //       password: "4102001336",
-    //       teamLeadId: "6598e93f9792f29af783b9a3",
-    //     });
-    //     qc.save();
-    //   }
-    // });
-    Tl.findOne().then((user) => {
+    Qc.findOne().then((user) => {
       if (!user) {
-        const tl = new Tl({
+        const qc = new Qc({
           name: "Abdullah Essam Fathy",
           shift: "Overnight",
           username: "me555555",
           email: "abdollahizzy41@gmail.com",
           password: "4102001336",
-          locationName: "floor4",
-          position: "Team Lead",
+          teamLeadId: "6598e93f9792f29af783b9a3",
         });
-        tl.save();
+        qc.save();
       }
     });
+    // Tl.findOne().then((user) => {
+    //   if (!user) {
+    //     const tl = new Tl({
+    //       name: "Abdullah Essam Fathy",
+    //       shift: "Overnight",
+    //       username: "me555555",
+    //       email: "abdollahizzy41@gmail.com",
+    //       password: "4102001336",
+    //       locationName: "floor4",
+    //       position: "Team Lead",
+    //     });
+    //     tl.save();
+    //   }
+    // });
     // STL.findOne().then((user) => {
     //   if (!user) {
     //     const stl = new STL({

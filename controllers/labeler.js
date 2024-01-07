@@ -2,7 +2,7 @@ const Labeler = require("../module/Labeler");
 const Task = require("../module/Task.js");
 
 exports.getHome = (req, res, next) => {
-  res.render("labeler/labeler.ejs", {
+  res.render("labeler/home.ejs", {
     team: req.user.team,
     labelerDetails: req.user,
     pageTitle: "Home",
