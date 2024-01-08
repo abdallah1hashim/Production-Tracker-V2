@@ -1,5 +1,6 @@
 <div class="side-nav col-3">
   <ul>
+    <p><%= pos%></p>
       <% if (pos === "labeler") {  %>
         <li>
           <a class="<%= path === "/labler"? "active" : "" %>" href="home"
@@ -66,6 +67,37 @@
         <li>
           <a class="<%= path === "/create-labelers"? "active" : "" %>" href="/create-labeler"
             ><span><i class="fa-solid fa-user"></i></span>  Create Labeler</a
+          >
+        </li>
+      <% } else if (pos === "stl"){  %>
+        <li>
+          <a class="<%= path === "/stl"? "active" : "" %>" href="/stl/home"
+            ><span><i class="fa-solid fa-house"></i></span>  Home</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/started-tasks"? "active" : "" %>" href="/stl/start-task"
+            ><span><i class="fa-solid fa-door-open"></i></span>  Started Tasks</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/labelers"? "active" : "" %>" href="/stl/labelers"
+            ><span><i class="fa-solid fa-user"></i></span>  Labelers</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/create-labelers"? "active" : "" %>" href="/create-labeler"
+            ><span><i class="fa-solid fa-user"></i></span>  Create Labeler</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/create-qc"? "active" : "" %>" href="/create-qc"
+            ><span><i class="fa-solid fa-user"></i></span>  Create QC</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/create-tl"? "active" : "" %>" href="/create-TL"
+            ><span><i class="fa-solid fa-user"></i></span>  Create Team Lead</a
           >
         </li>
       <% } %>

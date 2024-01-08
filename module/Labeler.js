@@ -8,7 +8,7 @@ const labelerSchema = new Schema({
     required: true,
   },
   username: {
-    type: Number,
+    type: String,
     required: true,
   },
   email: {
@@ -27,7 +27,7 @@ const labelerSchema = new Schema({
   seniorId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "QC",
+    ref: "STL",
   },
   location: {
     type: Schema.Types.ObjectId,

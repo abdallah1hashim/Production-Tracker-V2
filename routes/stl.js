@@ -6,6 +6,7 @@ const indexControllers = require("../controllers/index");
 const router = express.Router();
 
 router.get("/home", stlControllers.getHome);
+router.get("/start-task", stlControllers.getStartedTask);
 router.get("/create-team-lead", indexControllers.getcreatTL);
 // router.get("/labelers", tlControllers.getLabelers);
 

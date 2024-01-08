@@ -41,6 +41,7 @@ const TaskSchema = new Schema(
       },
     ],
     queues: [],
+    tasks: [],
   },
   { timestamps: true }
 );

@@ -23,9 +23,10 @@
                           <div class="personal-info">
                             <h3><%= user.name %></h3>
                             <div class="personal-info-text">
-                              <p>SHIFT: <%= user.shift %></p>
-                              <p>LOCATION: <%= user.location %></p>
-                              <p>Postion:<%= user.postion %></p>
+                              <% if (user.position === "Senior Team Lead") { %>
+                                <p>SHIFT: <%= user.shiftName %></p>
+                                <p>Postion: <%= user.position %></p>
+                              <% } %>
                             </div>
                           </div>
                         </div>

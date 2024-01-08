@@ -12,8 +12,12 @@ exports.getHome = (req, res, next) => {
 };
 
 exports.getStartTask = (req, res, next) => {
+  console.log("Inside getStartTask controller");
+  console.log(req.user);
+
   Task.findById("6597cdbef00a2b6650a7f0eb")
     .then((obj) => {
+      console.log(obj); // Log the object you retrieved
       res.render("labeler/start.ejs", {
         labelerDetails: req.user,
         queues: obj.queues,
@@ -22,57 +26,63 @@ exports.getStartTask = (req, res, next) => {
         pos: "labeler",
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err); // Log any errors that occur
+      res.status(500).send("Internal Server Error");
+    });
 };
 
-exports.postStartTask = (req, res, next) => {
-  const labelerId = req.body.labelerId;
-  const TaskId = req.body.TaskId;
-  const queueName = req.body.queueName;
-  const numObj = req.body.numObj;
-  const date = new Date().toLocaleString();
-  const teamId = req.body.teamId;
+exports.postStartTask = async (req, res, next) => {
+  try {
+    const labelerId = req.body.labelerId;
+    const TaskId = req.body.TaskId;
+    const queueName = req.body.queueName;
+    const numObj = req.body.numObj;
+    const date = new Date().toLocaleString();
+    const teamId = req.user.team._id;
+    const seniotId = req.user.seniorId._id;
+    const teamLeadId = req.user._id;
 
-  Task.findOne({ id: TaskId })
-    .then((task) => {
-      if (!task) {
-        const startTask = new Task({
-          id: TaskId,
-          StartednumObj: numObj,
-          startDate: date,
-          queueName: queueName,
-          labelerId: labelerId,
-          teamId: teamId,
-          submitted: false,
-          skipped: false,
-          labelersWorkedOn: [{ labelerId: labelerId }],
-        });
-        startTask.save();
-        Labeler.findById(req.user._id)
-          .then((l) => {
-            l.tasks.push(startTask);
-            l.save();
-          })
-          .catch((err) => console.log(err));
-        res.redirect("/labeler/home");
-      } else if (task && labelerId) {
-        task.StartednumObj = numObj;
-        task.startDate = date;
-        task.queueName = queueName;
-        task.labelerId = labelerId;
-        task.teamId = teamId;
-        task.submitted = false;
-        task.skipped = false;
+    let task = await Task.findOne({ id: TaskId });
 
-        const labelerWorkedOn = { labelerId: labelerId };
-        task.labelersWorkedOn.push(labelerWorkedOn);
+    if (!task) {
+      console.log(req.user);
+      const startTask = new Task({
+        id: TaskId,
+        StartednumObj: numObj,
+        startDate: date,
+        queueName: queueName,
+        labelerId: labelerId,
+        teamId: teamId,
+        seniorId: seniotId,
+        teamLeadId: teamLeadId,
+        submitted: false,
+        skipped: false,
+        labelersWorkedOn: [{ labelerId: labelerId }],
+      });
 
-        task.save();
+      await startTask.save();
+    } else if (task && labelerId) {
+      task.StartednumObj = numObj;
+      task.startDate = date;
+      task.queueName = queueName;
+      task.labelerId = labelerId;
+      task.teamId = teamId;
+      task.submitted = false;
+      task.skipped = false;
 
-        res.redirect("/labeler/home");
-      }
-    })
-    .catch((err) => console.log(err));
+      const labelerWorkedOn = { labelerId: labelerId };
+      task.labelersWorkedOn.push(labelerWorkedOn);
+
+      await task.save();
+    }
+
+    return res.redirect("/labeler/home");
+  } catch (err) {
+    console.error(err);
+    // Handle the error appropriately, e.g., by sending an error response to the client
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 exports.getSubmitTask = (req, res, next) => {
@@ -135,3 +145,58 @@ exports.getHours = (req, res, next) => {
     pos: "labeler",
   });
 };
+
+// exports.postStartTask = (req, res, next) => {
+//   console.log(req.user);
+//   const labelerId = req.body.labelerId;
+//   const TaskId = req.body.TaskId;
+//   const queueName = req.body.queueName;
+//   const numObj = req.body.numObj;
+//   const date = new Date().toLocaleString();
+//   const teamId = req.user.team._id;
+//   const seniotId = req.user.seniorId._id;
+//   const teamLeadId = req.user._id;
+
+//   Task.findOne({ id: TaskId })
+//     .then((task) => {
+//       if (!task) {
+//         const startTask = new Task({
+//           id: TaskId,
+//           StartednumObj: numObj,
+//           startDate: date,
+//           queueName: queueName,
+//           labelerId: labelerId,
+//           teamId: teamId,
+//           seniorId: seniotId,
+//           teamLeadId: teamLeadId,
+//           submitted: false,
+//           skipped: false,
+//           labelersWorkedOn: [{ labelerId: labelerId }],
+//         });
+//         startTask.save();
+//         Labeler.findById(req.user._id)
+//           .then((l) => {
+//             l.tasks.push(startTask);
+//             l.save();
+//           })
+//           .catch((err) => console.log(err));
+//         res.redirect("/labeler/home");
+//       } else if (task && labelerId) {
+//         task.StartednumObj = numObj;
+//         task.startDate = date;
+//         task.queueName = queueName;
+//         task.labelerId = labelerId;
+//         task.teamId = teamId;
+//         task.submitted = false;
+//         task.skipped = false;
+
+//         const labelerWorkedOn = { labelerId: labelerId };
+//         task.labelersWorkedOn.push(labelerWorkedOn);
+
+//         task.save();
+
+//         res.redirect("/labeler/home");
+//       }
+//     })
+//     .catch((err) => console.log(err));
+// };

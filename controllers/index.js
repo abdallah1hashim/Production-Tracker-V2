@@ -1,19 +1,51 @@
 const Labeler = require("../module/Labeler");
-const Qc = require("../module/qc");
+const QC = require("../module/qc");
+const TL = require("../module/tl");
+const STL = require("../module/stl");
 
 exports.getIndex = (req, res, next) => {
   res.render("app/index.ejs", { pageTitle: "Production Tracker" });
 };
 
 exports.getLogin = (req, res, next) => {
-  res.render("app/login.ejs", { pageTitle: "Login" });
+  res.render("auth/login.ejs", { pageTitle: "Login" });
 };
 
 exports.postLogin = (req, res, next) => {
-  res.redirect("/labeler/home");
+  Labeler.findOne({ username: req.user })
+    .then((user) => {
+      if (user && user.position === "Labeler") {
+        res.redirect("/labeler/home");
+      } else {
+        return QC.findOne({ username: req.user });
+      }
+    })
+    .then((user) => {
+      if (user && user.position === "Quality Control") {
+        res.redirect("/qc/home");
+      } else {
+        return TL.findOne({ username: req.user });
+      }
+    })
+    .then((user) => {
+      if (user && user.position === "Team Lead") {
+        res.redirect("/tl/home");
+      } else {
+        return STL.findOne({ username: req.user });
+      }
+    })
+    .then((user) => {
+      if (user && user.position === "Senior Team Lead") {
+        res.redirect("/stl/home");
+      }
+    })
+    .catch((err) => {
+      res.redirect("/");
+      console.log(err);
+    });
 };
 exports.getCreateLabelers = (req, res, next) => {
-  Qc.find()
+  QC.find()
     .then((qc) => {
       res.render("app/create-labeler", {
         qc: qc,
