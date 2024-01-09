@@ -12,25 +12,24 @@ exports.getHome = (req, res, next) => {
 };
 
 exports.getStartedTask = (req, res, next) => {
+  console.log(req.user);
   Task.find({ teamId: req.user._id, submitted: false, skipped: false })
     .populate("labelerId")
     .then((tasks) => {
       res.render("team/StartedTasks.ejs", {
         tasks: tasks,
         pageTitle: "Started Tasks",
-        path: "/started-Task",
+        path: "start-Task",
         pos: "qc",
       });
     })
     .catch((err) => {
-      err;
+      console.log(err);
     });
 };
 exports.getLabelers = (req, res, next) => {
   Labeler.find({ team: req.user._id })
     .then((labelers) => {
-      console.log(labelers);
-      console.log(req.user._id);
       res.render("team/labelers.ejs", {
         labelers: labelers,
         pageTitle: "Labelers",
@@ -39,6 +38,6 @@ exports.getLabelers = (req, res, next) => {
       });
     })
     .catch((err) => {
-      err;
+      console.log(err);
     });
 };

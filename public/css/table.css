@@ -2,6 +2,13 @@
   height: calc(100vh - 205px) !important;
   display: block;
 }
+.scroller {
+  display: block;
+  overflow: hidden scroll;
+  height: 350px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 6px black;
+}
 .info .search {
   text-align: center;
   padding: 20px 0;
@@ -16,4 +23,43 @@ th {
 th,
 td {
   border: 4px solid var(--bg-100);
+}
+.info {
+  overflow: hidden !important;
+}
+a {
+  text-decoration: none;
+}
+.save,
+.edit {
+  color: lightgreen;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.save:hover,
+.edit:hover {
+  color: rgb(49, 161, 77);
+}
+.delete {
+  border: none;
+  background-color: transparent;
+  color: lightcoral;
+  transition: var(--transition);
+}
+.delete:hover {
+  color: rgb(207, 92, 92);
+}
+button {
+  color: lightgreen;
+  /* transition: var(--transition); */
+  /* cursor: pointer; */
+  background-color: transparent;
+  transition: var(--transition);
+  border: none;
+}
+input {
+  background-color: var(--bg-100);
+  border: none;
+  color: white;
+  width: fit-content !important;
 }

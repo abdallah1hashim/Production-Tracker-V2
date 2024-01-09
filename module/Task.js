@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema(
   {
-    id: { type: Number, required: true },
+    id: { type: Number },
     queueName: { type: String },
     StartednumObj: { type: Number },
     SubmittednumObj: { type: Number },
@@ -12,22 +12,18 @@ const TaskSchema = new Schema(
     submittedDate: { type: String },
     labelerId: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: "Labeler",
     },
     teamId: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: "QC",
     },
     teamLeadId: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: "TL",
     },
     seniorId: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: "STL",
     },
     submitted: { type: Boolean },

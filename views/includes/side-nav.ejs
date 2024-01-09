@@ -34,7 +34,7 @@
           >
         </li>
         <li>
-          <a class="<%= path === "/started-tasks"? "active" : "" %>" href="/qc/start-task"
+          <a class="<%= path === "start-Task"? "active" : "" %>" href="/qc/start-task"
             ><span><i class="fa-solid fa-door-open"></i></span>  Started Tasks</a
           >
         </li>
@@ -46,6 +46,11 @@
         <li>
           <a class="<%= path === "/create-labelers"? "active" : "" %>" href="/create-labeler"
             ><span><i class="fa-solid fa-user"></i></span>  Create Labeler</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/add-queue"? "active" : "" %>" href="/queue"
+            ><span><i class="fa-solid fa-angle-right"></i></span>  Queues</a
           >
         </li>
       <% } else if (pos === "tl"){  %>

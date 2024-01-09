@@ -1,10 +1,16 @@
 const Labeler = require("../module/Labeler");
 const Task = require("../module/Task.js");
+let LabelerUser;
 
-exports.getHome = (req, res, next) => {
+exports.getHome = async (req, res, next) => {
+  LabelerUser = await Labeler.findOne(req.user._id)
+    .populate({ path: "team", select: "name" })
+    .populate({ path: "seniorId" })
+    .populate({ path: "location", select: "locationName _id" })
+    .exec();
+
   res.render("labeler/home.ejs", {
-    team: req.user.team,
-    labelerDetails: req.user,
+    labelerDetails: labelerUse,
     pageTitle: "Home",
     path: "/labler",
     pos: "labeler",
@@ -13,7 +19,6 @@ exports.getHome = (req, res, next) => {
 
 exports.getStartTask = (req, res, next) => {
   console.log("Inside getStartTask controller");
-  console.log(req.user);
 
   Task.findById("6597cdbef00a2b6650a7f0eb")
     .then((obj) => {
@@ -46,7 +51,6 @@ exports.postStartTask = async (req, res, next) => {
     let task = await Task.findOne({ id: TaskId });
 
     if (!task) {
-      console.log(req.user);
       const startTask = new Task({
         id: TaskId,
         StartednumObj: numObj,

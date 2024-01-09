@@ -33,7 +33,7 @@
                             <p>Queue Name:</p>
                                 <select type="text" name="queueName">
                                     <% queues.forEach(q => { %>
-                                        <option value="<%= q %>"><%= q %></option>
+                                        <option value="<%= q %>"><%= q.toUpperCase() %></option>
                                         <% }) %>
                                 </select>
                             <p>Task ID:</p>

@@ -24,7 +24,7 @@
                             <p>Device:</p>
                             <input type="number" name="device" >
                             <p>username: </p>
-                            <input type="number" name="username">
+                            <input type="text" name="username">
                             <p>email: </p>
                             <input type="email" name="email">
                             <p>password: </p>
@@ -36,9 +36,15 @@
                                 <% })  %>
                             </select>
                             <p>Team Lead:</p>
-                            <input type="text" name="teamlead" >
+                            <select name="teamlead">
+                                <% tl.forEach( c => {  %>
+                                    <option value="<%= c._id %>"><%= c.name %></option>
+                                <% })  %>
+                            </select>
                             <p>Senior Team Lead:</p>
-                            <input type="text" name="senior" >
+                            <input type="text"  value="<%= user.seniorId.name %>" readonly>
+                            <input type="hidden" name="senior"  value="<%= user.seniorId._id %>" readonly>
+                            <input type="hidden" name="position"  value="Labeler" readonly>
                             <button type="submit">Create</button>
                          </form>
                         </div>

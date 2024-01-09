@@ -21,28 +21,31 @@
                             <input type="text">
                             <span></span>
                         </div>
-                        <table>
-                            <tr>
-                                <th>C</th>
-                                <th>Task ID</th>
-                                <th>Queue</th>
-                                <th>started</th>
-                                <th>Obj</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <% tasks.forEach(el => {%>
-                            <tr>
-                                <td>C-<%= el.labelerId.device %></td>
-                                <td><%= el.id %></td>
-                                <td><%= el.queueName %></td>
-                                <td><%= el.startDate %></td>
-                                <td><%= el.StartednumObj %></td>
-                                <td><a href="edit">edit</a></td>
-                                <td>delete</td>
-                            </tr>
-                            <% }) %>
-                        </table>
+                        <div class="scroller">
+
+                            <table>
+                                <tr>
+                                    <th>C</th>
+                                    <th>Task ID</th>
+                                    <th>Queue</th>
+                                    <th>started</th>
+                                    <th>Obj</th>
+                                    <th>#</th>
+                                    <th>#</th>
+                                </tr>
+                                <% tasks.forEach(el => {%>
+                                    <tr>
+                                        <td>C-<%= el.labelerId.device %></td>
+                                        <td><%= el.id %></td>
+                                        <td><%= el.queueName %></td>
+                                        <td><%= el.startDate %></td>
+                                        <td><%= el.StartednumObj %></td>
+                                        <td><a class="edit" href="#">edit</a></td>
+                                        <td><a class="delete" href="#">delete</a></td>
+                                    </tr>
+                                    <% }) %>
+                                </table>
+                            </div>
                       </div>
                 </div>
             </div>

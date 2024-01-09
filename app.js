@@ -34,45 +34,39 @@ app.use(
   express.static(path.join(__dirname, "node_modules/jquery/dist"))
 );
 
-app.use((req, res, next) => {
-  Labeler.findOne({ username: "me555555" })
-    .populate({ path: "team", select: "name" })
-    .populate({ path: "seniorId" })
-    .populate({ path: "location", select: "locationName _id" })
-    .exec()
-    .then((user) => {
-      if (user && user.position === "Labeler") {
-        req.user = user;
-        return next();
-      } else {
-        return QC.findOne({ username: "me555555" });
-      }
-    })
-    .then((user) => {
-      if (user && user.position === "Quality Control") {
-        req.user = user;
-        return next();
-      } else {
-        return TL.findOne({ username: "me555555" });
-      }
-    })
-    .then((user) => {
-      if (user && user.position === "Team Lead") {
-        req.user = user;
-        return next();
-      } else {
-        return STL.findOne({ username: "me555555" });
-      }
-    })
-    .then((user) => {
-      if (user && user.position === "Senior Team Lead") {
-        req.user = user;
-        return next();
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+app.use(async (req, res, next) => {
+  try {
+    const findUserByUsernamePosition = async (username) => {
+      return await Labeler.findOne({ username: username });
+    };
+    const findQCByUsernamePosition = async (username) => {
+      return await QC.findOne({ username: username })
+        .populate({ path: "seniorId", select: "name shiftName" })
+        .populate({ path: "teamLeadId", select: "name locationName" })
+        .exec();
+    };
+    const findTeamLeadByUsernamePosition = async (username) => {
+      return await TL.findOne({ username: username });
+    };
+    const findSTLByUsernamePosition = async (username) => {
+      return await STL.findOne({ username: username });
+    };
+
+    let user =
+      // (await findUserByUsernamePosition("me555555")) ||
+      await findQCByUsernamePosition("me555555");
+    // (await findTeamLeadByUsernamePosition("me555555")) ||
+    // (await findSTLByUsernamePosition("me555555"));
+
+    if (user) {
+      req.user = user;
+      return;
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    next();
+  }
 });
 
 const indexRoutes = require("./routes/index");
@@ -95,37 +89,39 @@ mongoose
     `mongodb+srv://Inulla:%24M%40%40g%23ME410@nullla.fupqou2.mongodb.net/productionTracker`
   )
   .then(() => {
-    Labeler.findOne().then((user) => {
-      if (!user) {
-        const labeler = new Labeler({
-          name: "Abdullah Essam Fathy",
-          shift: "Overnight",
-          team: "659848fbe78289bb15339b6d",
-          location: "6599c6a92338f4d1b5bc2b96",
-          username: "me555555",
-          email: "abdollahizzy41@gmail.com",
-          password: "4102001336",
-          seniorId: "6599c669444cd519f97282c2",
-          device: 1,
-          tasks: [],
-          position: "Labeler",
-        });
-        labeler.save();
-      }
-    });
-    // Qc.findOne().then((user) => {
+    // Labeler.findOne().then((user) => {
     //   if (!user) {
-    //     const qc = new Qc({
+    //     const labeler = new Labeler({
     //       name: "Abdullah Essam Fathy",
     //       shift: "Overnight",
+    //       team: "659848fbe78289bb15339b6d",
+    //       location: "6599c6a92338f4d1b5bc2b96",
     //       username: "me555555",
     //       email: "abdollahizzy41@gmail.com",
     //       password: "4102001336",
-    //       teamLeadId: "6598e93f9792f29af783b9a3",
+    //       seniorId: "6599c669444cd519f97282c2",
+    //       device: 1,
+    //       tasks: [],
+    //       position: "Labeler",
     //     });
-    //     qc.save();
+    //     labeler.save();
     //   }
     // });
+    QC.findOne().then((user) => {
+      if (!user) {
+        const qc = new QC({
+          name: "QC 1",
+          shift: "Overnight",
+          username: "me555555",
+          email: "1@gmail.com",
+          password: "4102001336",
+          teamLeadId: "6598e93f9792f29af783b9a3",
+          seniorId: "6599c669444cd519f97282c2",
+          position: "Quality Control",
+        });
+        qc.save();
+      }
+    });
     // Tl.findOne().then((user) => {
     //   if (!user) {
     //     const tl = new Tl({
