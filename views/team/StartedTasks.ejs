@@ -37,7 +37,7 @@
                                     <tr>
                                         <td>C-<%= el.labelerId.device %></td>
                                         <td><%= el.id %></td>
-                                        <td><%= el.queueName %></td>
+                                        <td><%= el.queueName.name.toUpperCase() %></td>
                                         <td><%= el.startDate %></td>
                                         <td><%= el.StartednumObj %></td>
                                         <td><a class="edit" href="#">edit</a></td>
@@ -45,6 +45,7 @@
                                     </tr>
                                     <% }) %>
                                 </table>
+                                <button class="add">+</button>
                             </div>
                       </div>
                 </div>

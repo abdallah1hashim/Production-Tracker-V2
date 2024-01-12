@@ -1,5 +1,6 @@
 const Labeler = require("../module/Labeler");
 const Task = require("../module/Task.js");
+const Q = require("../module/queues");
 let LabelerUser;
 
 exports.getHome = async (req, res, next) => {
@@ -10,7 +11,7 @@ exports.getHome = async (req, res, next) => {
     .exec();
 
   res.render("labeler/home.ejs", {
-    labelerDetails: labelerUse,
+    labelerDetails: LabelerUser,
     pageTitle: "Home",
     path: "/labler",
     pos: "labeler",
@@ -20,12 +21,12 @@ exports.getHome = async (req, res, next) => {
 exports.getStartTask = (req, res, next) => {
   console.log("Inside getStartTask controller");
 
-  Task.findById("6597cdbef00a2b6650a7f0eb")
+  Q.find()
     .then((obj) => {
       console.log(obj); // Log the object you retrieved
       res.render("labeler/start.ejs", {
         labelerDetails: req.user,
-        queues: obj.queues,
+        queues: obj,
         pageTitle: "Start Task",
         path: "/start-task",
         pos: "labeler",

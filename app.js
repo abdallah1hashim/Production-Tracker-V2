@@ -52,9 +52,8 @@ app.use(async (req, res, next) => {
       return await STL.findOne({ username: username });
     };
 
-    let user =
-      // (await findUserByUsernamePosition("me555555")) ||
-      await findQCByUsernamePosition("me555555");
+    // let user = await findUserByUsernamePosition("me555555");
+    let user = await findQCByUsernamePosition("me555555");
     // (await findTeamLeadByUsernamePosition("me555555")) ||
     // (await findSTLByUsernamePosition("me555555"));
 

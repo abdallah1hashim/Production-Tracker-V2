@@ -14,6 +14,7 @@ exports.getHome = (req, res, next) => {
 exports.getStartedTask = (req, res, next) => {
   console.log(req.user);
   Task.find({ teamId: req.user._id, submitted: false, skipped: false })
+    .populate("queueName")
     .populate("labelerId")
     .then((tasks) => {
       res.render("team/StartedTasks.ejs", {

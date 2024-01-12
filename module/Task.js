@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const TaskSchema = new Schema(
   {
     id: { type: Number },
-    queueName: { type: String },
+    queueName: { type: Schema.Types.ObjectId, ref: "Q" },
     StartednumObj: { type: Number },
     SubmittednumObj: { type: Number },
     startDate: { type: String },

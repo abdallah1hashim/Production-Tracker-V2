@@ -63,3 +63,19 @@ input {
   color: white;
   width: fit-content !important;
 }
+.scroller {
+  position: relative;
+}
+.scroller .add {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--bg-100);
+  padding: 1px 15px;
+  font-size: 50px;
+  border-radius: 100%;
+  transition: var(--transition);
+}
+.scroller .add:hover {
+  background-color: var(--bg-300);
+}

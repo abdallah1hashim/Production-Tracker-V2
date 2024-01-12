@@ -18,21 +18,25 @@
                         <div class="h2-con w-100">
                           <h2>My Team</h2>
                         </div>
-                        <table>
-                            <tr>
-                                <th>Queue name</th>
-                                <th>#</th>
-                                <th>#</th>
+                        <div class="scroller">
 
-                            </tr>
-                            <% q.forEach(el => {%>
-                            <tr>
-                                    <td class="name"><%= el.name.toUpperCase() %></td>
-                                    <td class="edit" data-edit="<%= el._id %>">edit</td>
-                                <td><form action="delet-queue/<%= el._id %>" method="post"><button class="delete" type="submit">Delete</button></form></td>
-                            </tr>
-                            <% }) %>
-                        </table>
+                            <table>
+                                <tr>
+                                    <th>Queue name</th>
+                                    <th>#</th>
+                                    <th>#</th>
+                                    
+                                </tr>
+                                <% q.forEach(el => {%>
+                                    <tr>
+                                        <td class="name"><%= el.name.toUpperCase() %></td>
+                                        <td class="edit" data-edit="<%= el._id %>">edit</td>
+                                        <td><form action="delet-queue/<%= el._id %>" method="post"><button class="delete" type="submit">Delete</button></form></td>
+                                    </tr>
+                                    <% }) %>
+                                </table>
+                                <button class="add">+</button>
+                            </div>
                       </div>
                 </div>
             </div>
