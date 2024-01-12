@@ -1,18 +1,53 @@
-console.log("working");
-const btn = document.querySelectorAll(".edit");
-btn.forEach((b) => {
-  b.addEventListener("click", (e) => {
-    const des = b.dataset.edit;
-    const name = b.previousElementSibling;
-    const content = name.textContent;
-    const markup = `
-        <form action="/edit-queue/${des}" method="post">
-        <input name="name" value="${content}" >
-        <button type="submit" class="save" > save </button>
-        </form>
-        `;
+const body = document.querySelector("tbody");
+const rows = document.querySelectorAll("tr");
+const addBtn = document.querySelector(".add");
 
-    name.innerHTML = markup;
-    name.querySelector("input").focus();
-  });
+rows.forEach((r) => {
+  r.addEventListener("click", handleClick);
+});
+
+function handleClick(e) {
+  const editBtn = e.target.closest(".edit");
+  const deleteBtn = e.target.closest(".delete");
+  const id = editBtn ? editBtn.dataset.edit : null;
+  const cancelBtn = e.target.closest(".cancel");
+
+  if (!deleteBtn && !editBtn && !cancelBtn) return;
+
+  const row = e.target.closest("tr");
+  const markup = row.innerHTML;
+
+  if (editBtn) {
+    const newMarkup = `
+     
+        <td class="name"> <form method="post" action="edit-queue"><input name="name">
+       <input type="hidden" name="queueId" value="${id}"><button class="save" type="submit" >Save</button></form></td>
+        <td colspan="2"><button class="cancel">Cancel</button></td>
+      
+    `;
+    row.innerHTML = newMarkup;
+
+    row.querySelector(".cancel").addEventListener("click", function () {
+      row.innerHTML = markup;
+
+      row.addEventListener("click", handleClick);
+    });
+  }
+
+  if (cancelBtn) {
+    row.innerHTML = markup;
+
+    row.addEventListener("click", handleClick);
+  }
+}
+
+addBtn.addEventListener("click", () => {
+  const newMarkup = `
+     
+  <td class="name"> <form method="post" action="add-queue"><input type="text" name="name">
+ <button class="save" type="submit" >Save</button></form></td>
+  <td colspan="2"><button class="cancel">Cancel</button></td>
+
+`;
+  body.insertAdjacentHTML("beforeend", newMarkup);
 });

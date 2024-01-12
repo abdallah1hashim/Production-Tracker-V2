@@ -127,6 +127,42 @@ exports.postAddQueue = async (req, res, next) => {
 
   if (req.user.position === "Quality Control") res.redirect("/qc/home");
 };
+exports.postِAddQueue = async (req, res, next) => {
+  try {
+    const name = req.body.name;
+    const existingQueue = await Q.findOne({ name: name });
+
+    if (existingQueue) throw new Error("Queue Already Exists");
+
+    const newQueue = new Q({ name: name });
+    newQueue.save();
+    res.redirect("queue");
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.postِEditQueue = async (req, res, next) => {
+  try {
+    const name = req.body.name;
+    const queueId = req.body.queueId;
+    console.log(name, queueId);
+    const updatedQueue = await Q.findById(queueId);
+    updatedQueue.name = name;
+
+    updatedQueue.save();
+    res.redirect("queue");
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.postDeleteQueue = (req, res, next) => {
+  const queueId = req.body.queueId;
+  Q.findByIdAndDelete(queueId)
+    .then(() => {
+      res.redirect("queue");
+    })
+    .catch((err) => console.log(err));
+};
 // exports.getCreateSTl = (req, res, next) => {
 //       res.render("app/create-TL.ejs", {
 //         userDetails: req.user,

@@ -40,16 +40,19 @@ a {
 .edit:hover {
   color: rgb(49, 161, 77);
 }
-.delete {
+.delete,
+.cancel {
   border: none;
   background-color: transparent;
   color: lightcoral;
   transition: var(--transition);
 }
-.delete:hover {
+.delete:hover,
+.cancel:hover {
   color: rgb(207, 92, 92);
 }
-button {
+button,
+a {
   color: lightgreen;
   /* transition: var(--transition); */
   /* cursor: pointer; */
