@@ -5,10 +5,11 @@ const indexController = require("../controllers/index");
 const router = express.Router();
 
 router.get("/", indexController.getIndex);
-router.get("/login", indexController.getLogin);
-router.post("/login", indexController.postLogin);
 router.get("/create-labeler", indexController.getCreateLabelers);
+router.get("/edit-labeler/:labelerId", indexController.getEditLabelers);
 router.post("/create-labeler", indexController.postCreateLabelers);
+router.post("/edit-labeler", indexController.postEditLabelers);
+router.post("/delete-labeler", indexController.postDeleteLabelers);
 router.get("/queue", indexController.getQueue);
 router.post("/queue", indexController.postAddQueue);
 router.post("/add-queue", indexController.postِAddQueue);

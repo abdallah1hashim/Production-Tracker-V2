@@ -1,6 +1,6 @@
 <%- include("../includes/head.ejs") %>
-<link rel="stylesheet" href="css/labeler.css">
-<link rel="stylesheet" href="css/table.css">
+<link rel="stylesheet" href="/css/labeler.css">
+<link rel="stylesheet" href="/css/table.css">
 </head>
     <body>
         <header>
@@ -32,8 +32,8 @@
                                 <td>C-<%= el.device %></td>
                                 <td><%= el.username %></td>
                                 <td><%= el.name %></td>
-                                <td><a class="edit" href="#">edit</a></td>
-                                <td><a class="delete" href="#">delete</a></td>
+                                <td><a href="/edit-labeler/<%= el._id %>?edit=true" class="edit">edit</a></td>
+                                <td><form action="/delete-labeler" method="post"><input type="hidden" name="labelerId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
                             </tr>
                             <% }) %>
                         </table>

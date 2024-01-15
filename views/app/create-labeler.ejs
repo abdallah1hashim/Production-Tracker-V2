@@ -1,6 +1,6 @@
 <%- include("../includes/head.ejs") %>
-<link rel="stylesheet" href="css/labeler.css">
-<link rel="stylesheet" href="css/Form.css">
+<link rel="stylesheet" href="/css/labeler.css">
+<link rel="stylesheet" href="/css/Form.css">
 </head>
     <body>
         <header>
@@ -18,17 +18,17 @@
                           <h2>Create Labeler Account</h2>
                         </div>
                         <div class="details">
-                         <form action="/create-labeler" method="post">
+                         <form <%= editing ? `action=/edit-labeler` : `action=/create-labeler` %> method="post">
                             <p>Name: </p>
-                            <input type="text" name="name">
+                            <input type="text" name="name" <%= editing ? `value=${labeler.name}` : ""; %>>
                             <p>Device:</p>
-                            <input type="number" name="device" >
+                            <input type="number" name="device" <%= editing ? `value=${labeler.device}` : "";%> >
                             <p>username: </p>
-                            <input type="text" name="username">
+                            <input type="text" name="username" <%= editing ? `value=${labeler.username}` : "" %>>
                             <p>email: </p>
-                            <input type="email" name="email">
+                            <input type="email" name="email" <%= editing ? `value=${labeler.email}` : "" %>>
                             <p>password: </p>
-                            <input type="password" name="password">
+                            <input <%= editing ? `type="text"` : `type="password"` %> name="password" <%= editing ? `value=${labeler.password}` : "" %>>
                             <p>Team:</p>
                             <select name="teamId">
                                 <% qc.forEach( c => {  %>
@@ -45,7 +45,8 @@
                             <input type="text"  value="<%= user.seniorId.name %>" readonly>
                             <input type="hidden" name="senior"  value="<%= user.seniorId._id %>" readonly>
                             <input type="hidden" name="position"  value="Labeler" readonly>
-                            <button type="submit">Create</button>
+                            <%- editing ? `<input type="hidden" name="labelerId"  value="${labeler._id}" readonly>` : `` %>
+                            <button type="submit"><%= editing ? "Update" : "Submit" %></button>
                          </form>
                         </div>
                       </div>

@@ -1,6 +1,8 @@
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
+const session = require("express-session");
+
 
 const app = express();
 const port = 3000;
@@ -16,23 +18,24 @@ const STL = require("./module/stl");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
+app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/labeler", express.static(path.join(__dirname, "public")));
-app.use("/qc", express.static(path.join(__dirname, "public")));
-app.use("/tl", express.static(path.join(__dirname, "public")));
-app.use("/stl", express.static(path.join(__dirname, "public")));
-app.use(
-  "/css",
-  express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
-);
-app.use(
-  "/js",
-  express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
-);
-app.use(
-  "/js",
-  express.static(path.join(__dirname, "node_modules/jquery/dist"))
-);
+// app.use("/labeler", express.static(path.join(__dirname, "public")));
+// app.use("/qc", express.static(path.join(__dirname, "public")));
+// app.use("/tl", express.static(path.join(__dirname, "public")));
+// app.use("/stl", express.static(path.join(__dirname, "public")));
+// app.use(
+//   "/css",
+//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
+// );
+// app.use(
+//   "/js",
+//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
+// );
+// app.use(
+//   "/js",
+//   express.static(path.join(__dirname, "node_modules/jquery/dist"))
+// );
 
 app.use(async (req, res, next) => {
   try {
@@ -69,6 +72,7 @@ app.use(async (req, res, next) => {
 });
 
 const indexRoutes = require("./routes/index");
+const authRoutes = require("./routes/auth");
 const labelerRoutes = require("./routes/labeler");
 const qcRoutes = require("./routes/qc");
 const tlRoutes = require("./routes/tl");
@@ -76,6 +80,7 @@ const stlRoutes = require("./routes/stl");
 const errorController = require("./controllers/error");
 
 app.use("/", indexRoutes);
+app.use("/", authRoutes);
 app.use("/labeler", labelerRoutes);
 app.use("/qc", qcRoutes);
 app.use("/tl", tlRoutes);

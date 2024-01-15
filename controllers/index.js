@@ -9,37 +9,6 @@ exports.getIndex = (req, res, next) => {
   res.render("app/index.ejs", { pageTitle: "Production Tracker" });
 };
 
-exports.getLogin = (req, res, next) => {
-  res.render("auth/login.ejs", { pageTitle: "Login" });
-};
-
-exports.postLogin = async (req, res, next) => {
-  try {
-    if (req.user) {
-      switch (req.user.position) {
-        case "Labeler":
-          res.redirect("/labeler/home");
-          break;
-        case "Quality Control":
-          res.redirect("/qc/home");
-          break;
-        case "Team Lead":
-          res.redirect("/tl/home");
-          break;
-        case "Senior Team Lead":
-          res.redirect("/stl/home");
-          break;
-        default:
-          res.redirect("/");
-      }
-    } else {
-      res.redirect("/");
-    }
-  } catch (err) {
-    console.error(err);
-    res.redirect("/");
-  }
-};
 exports.getCreateLabelers = async (req, res, next) => {
   try {
     const qc = await QC.find();
@@ -53,6 +22,35 @@ exports.getCreateLabelers = async (req, res, next) => {
       pageTitle: "Create Labeler",
       path: "/create-labeler",
       pos: "qc",
+      editing: false,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.getEditLabelers = async (req, res, next) => {
+  try {
+    const editMode = req.query.edit;
+    const qc = await QC.find();
+    const tl = await TL.find();
+    const user = req.user;
+    const labelerId = req.params.labelerId;
+
+    if (editMode !== "true") {
+      res.redirect("/");
+    }
+
+    const labeler = await Labeler.findById(labelerId);
+
+    res.render("app/create-labeler", {
+      qc: qc,
+      tl: tl,
+      user: user,
+      pageTitle: "Edit Labeler",
+      path: "/create-labeler",
+      pos: "qc",
+      labeler: labeler,
+      editing: editMode,
     });
   } catch (err) {
     console.log(err);
@@ -72,7 +70,18 @@ exports.postCreateLabelers = async (req, res, next) => {
 
     const labeler = await Labeler.findOne({ username: newUsername });
 
-    if (labeler) return;
+    if (labeler) {
+      labeler.name = newName;
+      labeler.device = newDevice;
+      labeler.username = newUsername;
+      labeler.email = newEmail;
+      labeler.password = newPssword;
+      labeler.team = newTeam;
+      labeler.location = newTeamLead;
+      labeler.seniorId = newSenior;
+      labeler.position = position;
+      labeler.save();
+    }
     const newLabeler = new Labeler({
       name: newName,
       device: newDevice,
@@ -87,6 +96,47 @@ exports.postCreateLabelers = async (req, res, next) => {
 
     newLabeler.save();
     if (req.user.position === "Quality Control") res.redirect("/qc/home");
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.postEditLabelers = async (req, res, next) => {
+  try {
+    const labelerId = req.body.labelerId;
+    const newName = req.body.name;
+    const newDevice = req.body.device;
+    const newUsername = req.body.username;
+    const newEmail = req.body.email;
+    const newPssword = req.body.password;
+    const newTeam = req.body.teamId;
+    const newTeamLead = req.body.teamlead;
+    const newSenior = req.body.senior;
+
+    const labeler = await Labeler.findById(labelerId);
+    if (!labeler) res.redirect("/");
+
+    labeler.name = newName;
+    labeler.device = newDevice;
+    labeler.username = newUsername;
+    labeler.email = newEmail;
+    labeler.password = newPssword;
+    labeler.team = newTeam;
+    labeler.location = newTeamLead;
+    labeler.seniorId = newSenior;
+    labeler.save();
+    if (req.user.position === "Quality Control") res.redirect("/qc/labelers");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.postDeleteLabelers = async (req, res, next) => {
+  try {
+    const labelerId = req.body.labelerId;
+
+    const labeler = await Labeler.deleteOne({ _id: labelerId });
+
+    if (req.user.position === "Quality Control") res.redirect("/qc/labelers");
   } catch (error) {
     console.log(error);
   }
@@ -145,7 +195,6 @@ exports.postِEditQueue = async (req, res, next) => {
   try {
     const name = req.body.name;
     const queueId = req.body.queueId;
-    console.log(name, queueId);
     const updatedQueue = await Q.findById(queueId);
     updatedQueue.name = name;
 

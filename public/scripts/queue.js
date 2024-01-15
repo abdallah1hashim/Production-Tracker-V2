@@ -41,7 +41,10 @@ function handleClick(e) {
   }
 }
 
+let formAdded = false;
+
 addBtn.addEventListener("click", () => {
+  if (formAdded) return;
   const newMarkup = `
      
   <td class="name"> <form method="post" action="add-queue"><input type="text" name="name">
@@ -50,4 +53,12 @@ addBtn.addEventListener("click", () => {
 
 `;
   body.insertAdjacentHTML("beforeend", newMarkup);
+  formAdded = true;
+
+  const cancelBtn = document.querySelector(".cancel");
+  cancelBtn.addEventListener("click", () => {
+    // Remove the form when the cancel button is clicked
+    body.removeChild(body.lastElementChild);
+    formAdded = false; // Reset the flag
+  });
 });
