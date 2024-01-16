@@ -4,9 +4,27 @@ const QC = require("../module/qc");
 const TL = require("../module/tl");
 const STL = require("../module/stl");
 const Q = require("../module/queues");
+const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        "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",
+    },
+  })
+);
 
 exports.getIndex = (req, res, next) => {
-  res.render("app/index.ejs", { pageTitle: "Production Tracker" });
+  const position = req.user && req.user.position ? req.user.position : "";
+
+  res.render("app/index.ejs", {
+    pageTitle: "Production Tracker",
+    isLoggedin: req.session.isLoggedin,
+    position: position,
+  });
 };
 
 exports.getCreateLabelers = async (req, res, next) => {
@@ -21,7 +39,7 @@ exports.getCreateLabelers = async (req, res, next) => {
       user: user,
       pageTitle: "Create Labeler",
       path: "/create-labeler",
-      pos: "qc",
+      pos: req.user.position,
       editing: false,
     });
   } catch (err) {
@@ -48,7 +66,7 @@ exports.getEditLabelers = async (req, res, next) => {
       user: user,
       pageTitle: "Edit Labeler",
       path: "/create-labeler",
-      pos: "qc",
+      pos: req.user.position,
       labeler: labeler,
       editing: editMode,
     });
@@ -63,6 +81,7 @@ exports.postCreateLabelers = async (req, res, next) => {
     const newUsername = req.body.username;
     const newEmail = req.body.email;
     const newPssword = req.body.password;
+    const hashedPassword = await bcrypt.hash(newPssword, 12);
     const newTeam = req.body.teamId;
     const newTeamLead = req.body.teamlead;
     const newSenior = req.body.senior;
@@ -75,27 +94,46 @@ exports.postCreateLabelers = async (req, res, next) => {
       labeler.device = newDevice;
       labeler.username = newUsername;
       labeler.email = newEmail;
-      labeler.password = newPssword;
+      labeler.password = hashedPassword;
       labeler.team = newTeam;
       labeler.location = newTeamLead;
       labeler.seniorId = newSenior;
       labeler.position = position;
       labeler.save();
     }
-    const newLabeler = new Labeler({
-      name: newName,
-      device: newDevice,
-      username: newUsername,
-      email: newEmail,
-      password: newPssword,
-      team: newTeam,
-      location: newTeamLead,
-      seniorId: newSenior,
-      position: position,
-    });
+    if (!labeler) {
+      const newLabeler = new Labeler({
+        name: newName,
+        device: newDevice,
+        username: newUsername,
+        email: newEmail,
+        password: hashedPassword,
+        team: newTeam,
+        location: newTeamLead,
+        seniorId: newSenior,
+        position: position,
+      });
 
-    newLabeler.save();
+      await newLabeler.save();
+    }
     if (req.user.position === "Quality Control") res.redirect("/qc/home");
+    transporter.sendMail({
+      to: newEmail,
+      from: "app@productiontracker.com",
+      subject: "Account Created",
+      html: `
+     <p>Dear [User],</p>
+     <p>Your account has been successfully created.</p>
+     <p>Please click the following link to verify your email address and set up your password:</p>
+     <p>Your Username: ${newUsername}</p>
+     <p>Your Password: ${newPssword}</p>
+     <p>You can login anytime now!</p>
+     <a href="[Verification Link]">Login</a>
+     <p>If you did not create an account or have any concerns, please contact our support team.</p>
+     <p>Thank you for choosing our service!</p>
+     <p>Best regards</p>
+     `,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -108,6 +146,7 @@ exports.postEditLabelers = async (req, res, next) => {
     const newUsername = req.body.username;
     const newEmail = req.body.email;
     const newPssword = req.body.password;
+    const hashedPassword = await bcrypt.hash(newPssword, 12);
     const newTeam = req.body.teamId;
     const newTeamLead = req.body.teamlead;
     const newSenior = req.body.senior;
@@ -119,12 +158,13 @@ exports.postEditLabelers = async (req, res, next) => {
     labeler.device = newDevice;
     labeler.username = newUsername;
     labeler.email = newEmail;
-    labeler.password = newPssword;
+    labeler.password = hashedPassword;
     labeler.team = newTeam;
     labeler.location = newTeamLead;
     labeler.seniorId = newSenior;
     labeler.save();
     if (req.user.position === "Quality Control") res.redirect("/qc/labelers");
+    if (req.user.position === "Team Lead") res.redirect("/tl/labelers");
   } catch (error) {
     console.log(error);
   }
@@ -164,7 +204,7 @@ exports.getQueue = async (req, res, next) => {
     q: q,
     pageTitle: "Queues",
     path: "/add-queue",
-    pos: "qc",
+    pos: req.user.position,
   });
 };
 exports.postAddQueue = async (req, res, next) => {

@@ -1,11 +1,12 @@
 const Task = require("../module/Task");
+const Labeler = require("../module/Labeler");
 
 exports.getHome = (req, res, send) => {
   res.render("team/home.ejs", {
     user: req.user,
     pageTitle: "Home",
     path: "/tl",
-    pos: "tl",
+    pos: req.user.position,
   });
 };
 exports.getStartedTask = (req, res, next) => {
@@ -16,8 +17,8 @@ exports.getStartedTask = (req, res, next) => {
       res.render("team/StartedTasks.ejs", {
         tasks: tasks,
         pageTitle: "Started Tasks",
-        path: "/started-Task",
-        pos: "tl",
+        path: "/started-tasks",
+        pos: req.user.position,
       });
     })
     .catch((err) => {
@@ -25,19 +26,17 @@ exports.getStartedTask = (req, res, next) => {
     });
 };
 
-//   exports.getLabelers = (req, res, next) => {
-//     Labeler.find({ location: req.user._id })
-//       .then((labelers) => {
-//         console.log(labelers);
-//         console.log(req.user._id);
-//         res.render("tl/labelers.ejs", {
-//           labelers: labelers,
-//           pageTitle: "Labelers",
-//           path: "/labelers",
-//           pos: "tl",
-//         });
-//       })
-//       .catch((err) => {
-//         err;
-//       });
-//   };
+exports.getLabelers = (req, res, next) => {
+  Labeler.find({ location: req.user._id })
+    .then((labelers) => {
+      res.render("team/labelers.ejs", {
+        labelers: labelers,
+        pageTitle: "Labelers",
+        path: "/labelers",
+        pos: req.user.position,
+      });
+    })
+    .catch((err) => {
+      err;
+    });
+};

@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/home", tlControllers.getHome);
 router.get("/start-task", tlControllers.getStartedTask);
-// router.get("/labelers", tlControllers.getLabelers);
+router.get("/labelers", tlControllers.getLabelers);
 
 module.exports = router;

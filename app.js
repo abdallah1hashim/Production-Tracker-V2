@@ -2,10 +2,18 @@ const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
-
+const MongoDBStore = require("connect-mongodb-session")(session);
+// Inulla
+// %24M%40%40g%23ME410
+// productionTracker
+const MONGODBURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@nullla.fupqou2.mongodb.net/${process.env.MONGO_DB}`;
 
 const app = express();
 const port = 3000;
+const store = new MongoDBStore({
+  uri: MONGODBURI,
+  collection: "sessions",
+});
 
 // Add middleware for parsing JSON and URL-encoded bodies
 app.use(express.json());
@@ -36,33 +44,36 @@ app.use(express.static(path.join(__dirname, "public")));
 //   "/js",
 //   express.static(path.join(__dirname, "node_modules/jquery/dist"))
 // );
+app.use(
+  session({
+    secret: "myappsecret",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
 
 app.use(async (req, res, next) => {
   try {
-    const findUserByUsernamePosition = async (username) => {
-      return await Labeler.findOne({ username: username });
-    };
-    const findQCByUsernamePosition = async (username) => {
-      return await QC.findOne({ username: username })
-        .populate({ path: "seniorId", select: "name shiftName" })
-        .populate({ path: "teamLeadId", select: "name locationName" })
-        .exec();
-    };
-    const findTeamLeadByUsernamePosition = async (username) => {
-      return await TL.findOne({ username: username });
-    };
-    const findSTLByUsernamePosition = async (username) => {
-      return await STL.findOne({ username: username });
-    };
-
-    // let user = await findUserByUsernamePosition("me555555");
-    let user = await findQCByUsernamePosition("me555555");
-    // (await findTeamLeadByUsernamePosition("me555555")) ||
-    // (await findSTLByUsernamePosition("me555555"));
-
-    if (user) {
+    console.log(req.session.user);
+    const position = req.session.user.position;
+    if (position === "Labeler") {
+      const user = await Labeler.findById(req.session.user._id);
       req.user = user;
-      return;
+    }
+    if (position === "Quality Control") {
+      const user = await QC.findById(req.session.user._id)
+        .populate("teamLeadId")
+        .populate("seniorId");
+      req.user = user;
+    }
+    if (position === "Team Lead") {
+      const user = await TL.findById(req.session.user._id).populate("seniorId");
+      req.user = user;
+    }
+    if (position === "Senior Team Lead") {
+      const user = await STL.findById(req.session.user._id);
+      req.user = user;
     }
   } catch (err) {
     console.error(err);
@@ -89,71 +100,9 @@ app.use(errorController.get404);
 
 // app.use("/labeler", labelerRoutes);
 mongoose
-  .connect(
-    `mongodb+srv://Inulla:%24M%40%40g%23ME410@nullla.fupqou2.mongodb.net/productionTracker`
-  )
+  .connect(MONGODBURI)
   .then(() => {
-    // Labeler.findOne().then((user) => {
-    //   if (!user) {
-    //     const labeler = new Labeler({
-    //       name: "Abdullah Essam Fathy",
-    //       shift: "Overnight",
-    //       team: "659848fbe78289bb15339b6d",
-    //       location: "6599c6a92338f4d1b5bc2b96",
-    //       username: "me555555",
-    //       email: "abdollahizzy41@gmail.com",
-    //       password: "4102001336",
-    //       seniorId: "6599c669444cd519f97282c2",
-    //       device: 1,
-    //       tasks: [],
-    //       position: "Labeler",
-    //     });
-    //     labeler.save();
-    //   }
-    // });
-    QC.findOne().then((user) => {
-      if (!user) {
-        const qc = new QC({
-          name: "QC 1",
-          shift: "Overnight",
-          username: "me555555",
-          email: "1@gmail.com",
-          password: "4102001336",
-          teamLeadId: "6598e93f9792f29af783b9a3",
-          seniorId: "6599c669444cd519f97282c2",
-          position: "Quality Control",
-        });
-        qc.save();
-      }
-    });
-    // Tl.findOne().then((user) => {
-    //   if (!user) {
-    //     const tl = new Tl({
-    //       name: "Abdullah Essam Fathy",
-    //       shift: "Overnight",
-    //       username: "me555555",
-    //       email: "abdollahizzy41@gmail.com",
-    //       password: "4102001336",
-    //       locationName: "floor4",
-    //       position: "Team Lead",
-    //     });
-    //     tl.save();
-    //   }
-    // });
-    // STL.findOne().then((user) => {
-    //   if (!user) {
-    //     const stl = new STL({
-    //       name: "Mahmoud Abdel-Tawab",
-    //       shiftName: "OverNight",
-    //       username: "me555555",
-    //       email: "abdollahizzy41@gmail.com",
-    //       password: "123456",
-    //       position: "Senior Team Lead",
-    //     });
-    //     stl.save();
-    //   }
-    // });
-    app.listen(port);
+    app.listen(process.env.PORT || port);
   })
   .catch((err) => {
     console.log(err);

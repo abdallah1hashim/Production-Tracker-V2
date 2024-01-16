@@ -5,17 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "MONGO_USER=Inulla MONGO_PASSWORD=%24M%40%40g%23ME410 MONGO_DB=productionTracker node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "@abdullah1hashim",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
+    "connect-mongodb-session": "^3.1.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "mongoose": "^8.0.3",
+    "nodemailer": "^6.9.8",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^3.0.2",
     "tw-elements": "^1.1.0"
   }

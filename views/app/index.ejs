@@ -9,7 +9,18 @@
           <div class="logo">
             <img src="/img/logo-no-background.webp" alt="logo" />
           </div>
-          <a href="./login" class="login-btn">Login</a>
+          <% if (isLoggedin) {%>
+            <a href="<%= 
+            position === "Labeler" ? "labeler/home" :
+            position === "Quality Control" ? "qc/home" :
+            position === "Team Lead" ? "tl/home" :
+            position === "Senior Team Lead" ? "stl/home" :
+            '' %>"
+            class="login-btn">App</a>
+          
+            <%} else { %>
+           <a href="./login" class="login-btn">Login</a> %>
+            <%}%>
         </div>
       </nav>
       

@@ -28,7 +28,7 @@
                             <p>email: </p>
                             <input type="email" name="email" <%= editing ? `value=${labeler.email}` : "" %>>
                             <p>password: </p>
-                            <input <%= editing ? `type="text"` : `type="password"` %> name="password" <%= editing ? `value=${labeler.password}` : "" %>>
+                            <input <%= editing ? `type="text"` : `type="password"` %> name="password" >
                             <p>Team:</p>
                             <select name="teamId">
                                 <% qc.forEach( c => {  %>

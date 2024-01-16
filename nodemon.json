@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "Inulla",
+    "MONGO_PASSWORD": "%24M%40%40g%23ME410",
+    "MONGO_DB": "productionTracker"
+  }
+}

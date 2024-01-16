@@ -30,6 +30,12 @@
                                 <p>Location: <%= user.teamLeadId.locationName %> </p>
                                 <p>SHIFT: <%= user.seniorId.shiftName %></p>
                               <% } %>
+                              <% if (user.position === "Team Lead") { %>
+                                <p>username: <%= user.username %> </p>
+                                <p>Postion: <%= user.position %></p>
+                                <p>Location: <%= user.locationName %> </p>
+                                <p>SHIFT: <%= user.seniorId.shiftName %></p>
+                              <% } %>
                                 <% if (user.position === "Senior Team Lead") { %>
                                   <p>username: <%= user.username %> </p>
                                 <p>SHIFT: <%= user.shiftName %></p>

@@ -23,7 +23,7 @@ const tlSchema = new Schema({
     type: String,
     required: true,
   },
-  SeniorId: {
+  seniorId: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: "STL",

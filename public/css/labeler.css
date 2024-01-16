@@ -105,6 +105,15 @@ footer a {
   width: 33%;
   padding: 10px 0;
 }
+
+@media (max-width: 992px) {
+  .personal-info-text {
+    flex-direction: column;
+  }
+  .personal-info-text p {
+    width: 100%;
+  }
+}
 /* End info */
 /* side nav */
 .side-nav {

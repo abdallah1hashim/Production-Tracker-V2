@@ -14,22 +14,19 @@ exports.getHome = async (req, res, next) => {
     labelerDetails: LabelerUser,
     pageTitle: "Home",
     path: "/labler",
-    pos: "labeler",
+    pos: req.user.position,
   });
 };
 
 exports.getStartTask = (req, res, next) => {
-  console.log("Inside getStartTask controller");
-
   Q.find()
     .then((obj) => {
-      console.log(obj); // Log the object you retrieved
       res.render("labeler/start.ejs", {
         labelerDetails: req.user,
         queues: obj,
         pageTitle: "Start Task",
         path: "/start-task",
-        pos: "labeler",
+        pos: req.user.position,
       });
     })
     .catch((err) => {
@@ -97,7 +94,7 @@ exports.getSubmitTask = (req, res, next) => {
         tasks: tasks,
         pageTitle: "Submit Task",
         path: "/submit-task",
-        pos: "labeler",
+        pos: req.user.position,
       });
     })
     .catch((err) => console.log(err));
@@ -136,18 +133,120 @@ exports.postSubmitTask = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+exports.getAnalytics = async (req, res, next) => {
+  const date = new Date();
+  const dayOfmonth = date.getDate();
+  const dayOfWeek = date.getDay();
+  const today = date.toDateString();
+  console.log(date);
+
+  // Calculate the beginning and ending of the day
+  const beginningOfDay = new Date(date);
+  beginningOfDay.setUTCHours(0, 0, 0, 0);
+  const endingOfDay = new Date(date);
+  endingOfDay.setUTCHours(23, 59, 59, 999);
+
+  // Calculate the beginning and ending of the week
+  const beginningOfWeek = new Date(date);
+  beginningOfWeek.setUTCHours(0, 0, 0, 0);
+  beginningOfWeek.setDate(date.getDate() - dayOfWeek); // Set to the first day of the week
+  const endingOfWeek = new Date(date);
+  endingOfWeek.setUTCHours(23, 59, 59, 999);
+  endingOfWeek.setDate(date.getDate() + (6 - dayOfWeek)); // Set to the last day of the week
+
+  // Calculate the beginning and ending of the month
+  const beginningOfMonth = new Date(date);
+  beginningOfMonth.setUTCHours(0, 0, 0, 0);
+  beginningOfMonth.setDate(1); // Set to the first day of the month
+  const endingOfMonth = new Date(date);
+  endingOfMonth.setUTCHours(23, 59, 59, 999);
+  endingOfMonth.setMonth(date.getMonth() + 1, 0); // Set to the last day of the month
+
+  const beginningOfDayISOString = beginningOfDay.toISOString();
+  const endingOfDayISOString = endingOfDay.toISOString();
+  const beginningOfWeekISOString = beginningOfWeek.toISOString();
+  const endingOfWeekISOString = endingOfWeek.toISOString();
+  const beginningOfMonthISOString = beginningOfMonth.toISOString();
+  const endingOfMonthISOString = endingOfMonth.toISOString();
+
+  const dailyTasks = await Task.find({
+    labelerId: req.user._id,
+    submitted: true,
+    updatedAt: {
+      $gte: beginningOfDayISOString,
+      $lte: endingOfDayISOString,
+    },
+  }).populate("queueName");
+  const dailyTasksByQueue = dailyTasks.reduce(function (obj, v) {
+    // increment or set the property
+    // `(obj[v.status] || 0)` returns the property value if defined
+    // or 0 ( since `undefined` is a falsy value
+    obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
+    // return the updated object
+    return obj;
+    // set the initial value as an object
+  }, {});
+
+  const weeklyTasks = await Task.find({
+    labelerId: req.user._id,
+    submitted: true,
+    updatedAt: {
+      $gte: beginningOfWeekISOString,
+      $lte: endingOfWeekISOString,
+    },
+  }).populate("queueName");
+  const weeklyTasksByQueue = weeklyTasks.reduce(function (obj, v) {
+    // increment or set the property
+    // `(obj[v.status] || 0)` returns the property value if defined
+    // or 0 ( since `undefined` is a falsy value
+    obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
+    // return the updated object
+    return obj;
+    // set the initial value as an object
+  }, {});
+  const MonthlyTasks = await Task.find({
+    labelerId: req.user._id,
+    submitted: true,
+    updatedAt: {
+      $gte: beginningOfMonthISOString,
+      $lte: endingOfMonthISOString,
+    },
+  }).populate("queueName");
+  const MonthlyTasksByQueue = MonthlyTasks.reduce(function (obj, v) {
+    // increment or set the property
+    // `(obj[v.status] || 0)` returns the property value if defined
+    // or 0 ( since `undefined` is a falsy value
+    obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
+    // return the updated object
+    return obj;
+    // set the initial value as an object
+  }, {});
+
+  res.render("labeler/analytics.ejs", {
+    pageTitle: "ِAnalytics",
+    path: "/analytics",
+    pos: req.user.position,
+    today: today,
+    dailyTasks: dailyTasks,
+    dailyTasksbyQueue: dailyTasksByQueue,
+    weeklyTasks: weeklyTasks,
+    weeklyTasksbyQueue: weeklyTasksByQueue,
+    MonthlyTasks: MonthlyTasks,
+    MonthlyTasksByQueue: MonthlyTasksByQueue,
+  });
+};
 exports.getSpl = (req, res, next) => {
   res.render("labeler/spl.ejs", {
     pageTitle: "SPL",
     path: "/spl",
-    pos: "labeler",
+    pos: req.user.position,
   });
 };
 exports.getHours = (req, res, next) => {
   res.render("labeler/hours.ejs", {
     pageTitle: "Hours",
     path: "/hours",
-    pos: "labeler",
+    pos: req.user.position,
   });
 };
 

@@ -1,0 +1,128 @@
+.date {
+  font-size: 8px;
+}
+.info {
+  background-color: var(--bg-100);
+  margin: 0;
+}
+.info h2 {
+  background-color: var(--bg-200);
+}
+.stats {
+  margin-left: 5px;
+  padding: 20px;
+  gap: 15px 3px;
+  justify-content: space-around;
+}
+.stats > div {
+  background-color: var(--bg-200);
+  padding: 20px;
+  border-radius: 20px;
+}
+h3 {
+  text-align: center;
+  position: relative;
+  width: fit-content;
+  margin: auto;
+  background-color: transparent;
+  z-index: 1;
+}
+h3::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -50%;
+  height: 10px;
+  width: 10px;
+  background-color: var(--primary-200);
+  border-radius: 50%;
+  z-index: -1;
+}
+h3::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -50%;
+  height: 10px;
+  width: 10px;
+  background-color: var(--primary-200);
+  border-radius: 50%;
+  z-index: -1;
+}
+.daily:hover h3::after {
+  animation: move-left 0.5s linear forwards;
+}
+.daily:hover h3::before {
+  animation: move-right 0.5s linear forwards;
+}
+.Weekly:hover h3::after {
+  animation: move-left 0.5s linear forwards;
+}
+.Weekly:hover h3::before {
+  animation: move-right 0.5s linear forwards;
+}
+.Monthly:hover h3::after {
+  animation: move-left 0.5s linear forwards;
+}
+.Monthly:hover h3::before {
+  animation: move-right 0.5s linear forwards;
+}
+
+@keyframes move-left {
+  50% {
+    right: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+
+  100% {
+    right: 0;
+    width: 50%;
+    border-radius: 0;
+    height: 100%;
+  }
+}
+
+@keyframes move-right {
+  50% {
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+
+  100% {
+    left: 0;
+    width: 50%;
+    border-radius: 0;
+    height: 100%;
+  }
+}
+.tasksNum {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.tasksNum span {
+  text-align: center;
+  font-size: 30px;
+}
+.tasksNum p {
+  text-align: center;
+  width: 100%;
+  font-size: 10px;
+  text-transform: capitalize;
+}
+.nums {
+  margin-top: 10px;
+  display: flex;
+}
+.crd .queue {
+  margin-top: 20px;
+}
+.crd {
+  box-shadow: 0px 3px 8px black;
+}
