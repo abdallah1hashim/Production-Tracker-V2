@@ -1,10 +1,11 @@
 const express = require("express");
 
 const indexController = require("../controllers/index");
+const isLoggedin = require("../middlewares/isloggedin");
 
 const router = express.Router();
 
-router.get("/", indexController.getIndex);
+router.get("/", isLoggedin, indexController.getIndex);
 router.get("/create-labeler", indexController.getCreateLabelers);
 router.get("/edit-labeler/:labelerId", indexController.getEditLabelers);
 router.post("/create-labeler", indexController.postCreateLabelers);

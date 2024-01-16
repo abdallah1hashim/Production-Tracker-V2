@@ -18,12 +18,10 @@ const transporter = nodemailer.createTransport(
 );
 
 exports.getIndex = (req, res, next) => {
-  const position = req.user && req.user.position ? req.user.position : "";
-
+  const isloggedin = req.session.isLoggedin || null;
   res.render("app/index.ejs", {
     pageTitle: "Production Tracker",
-    isLoggedin: req.session.isLoggedin,
-    position: position,
+    isLoggedin: isloggedin,
   });
 };
 

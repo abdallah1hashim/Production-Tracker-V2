@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "MONGO_USER=Inulla MONGO_PASSWORD=%24M%40%40g%23ME410 MONGO_DB=productionTracker node app.js",
+    "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "author": "@abdullah1hashim",

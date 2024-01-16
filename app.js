@@ -56,7 +56,7 @@ app.use(
 app.use(async (req, res, next) => {
   try {
     console.log(req.session.user);
-    const position = req.session.user.position;
+    const position = req.session.user.position || null;
     if (position === "Labeler") {
       const user = await Labeler.findById(req.session.user._id);
       req.user = user;
