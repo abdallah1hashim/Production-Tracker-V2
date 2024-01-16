@@ -114,8 +114,8 @@ exports.postCreateLabelers = async (req, res, next) => {
 
       await newLabeler.save();
     }
-    if (req.user.position === "Quality Control") res.redirect("/qc/home");
-    transporter.sendMail({
+    res.redirect("/");
+    await transporter.sendMail({
       to: newEmail,
       from: "app@productiontracker.com",
       subject: "Account Created",
