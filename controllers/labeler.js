@@ -138,6 +138,7 @@ exports.getAnalytics = async (req, res, next) => {
   const dayOfmonth = date.getDate();
   const dayOfWeek = date.getDay();
   const today = date.toDateString();
+  const todayTime = date.toLocalTimeString();
   console.log(date);
 
   // Calculate the beginning and ending of the day
@@ -227,6 +228,7 @@ exports.getAnalytics = async (req, res, next) => {
     path: "/analytics",
     pos: req.user.position,
     today: today,
+    todayTime: todayTime, 
     dailyTasks: dailyTasks,
     dailyTasksbyQueue: dailyTasksByQueue,
     weeklyTasks: weeklyTasks,
