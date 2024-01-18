@@ -1,5 +1,7 @@
 <%- include("../includes/head.ejs") %>
 <link rel="stylesheet" href="/css/labeler.css">
+<link rel="stylesheet" href="/css/analytics.css">
+<script defer src="/scripts/spl.js"></script>
 </head>
     <body>
         <header>
@@ -8,12 +10,29 @@
         <main>
             <div class="container">
 
+            
             <div class="row">
-              <%- include("../includes/side-nav.ejs") %>
+            <%- include("../includes/side-nav.ejs") %>
+            <input type="hidden" class="username" value="<%= username %>">
                 <div class=" main col-9 ">
                     <div class="info">
-                        
-                      </div>
+                        <div class="h3-con w-100">
+                            <h2>SPL</h2>
+                        </div>
+                    </div>
+                    <div class="date">
+                        <p><%= today %></p>
+                        <p><%= todayTime %></p>
+                    </div>
+                    <div class="spl-body wid">
+                        <!-- <div class="loader">
+                            Loading...
+                        </div> -->
+                        <div class="row crd">
+                            
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

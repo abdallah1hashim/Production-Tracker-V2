@@ -225,6 +225,7 @@ exports.getAnalytics = async (req, res, next) => {
   res.render("labeler/analytics.ejs", {
     pageTitle: "ِAnalytics",
     path: "/analytics",
+    user: req.user,
     pos: req.user.position,
     today: today,
     todayTime: todayTime,
@@ -237,10 +238,16 @@ exports.getAnalytics = async (req, res, next) => {
   });
 };
 exports.getSpl = (req, res, next) => {
+  const date = new Date();
+  const today = date.toDateString();
+  const todayTime = date.toLocaleTimeString();
   res.render("labeler/spl.ejs", {
     pageTitle: "SPL",
     path: "/spl",
     pos: req.user.position,
+    today: today,
+    todayTime: todayTime,
+    username: req.user.username,
   });
 };
 exports.getHours = (req, res, next) => {

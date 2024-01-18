@@ -1,5 +1,5 @@
 .date {
-  font-size: 8px;
+  f mk  ,l--ont-size: 8px;
 }
 .info {
   background-color: var(--bg-100);
@@ -13,12 +13,9 @@
   padding: 20px;
   gap: 15px 3px;
   justify-content: space-around;
+  margin: 0;
 }
-.stats > div {
-  background-color: var(--bg-200);
-  padding: 20px;
-  border-radius: 20px;
-}
+
 h3 {
   text-align: center;
   position: relative;
@@ -51,24 +48,18 @@ h3::before {
   border-radius: 50%;
   z-index: -1;
 }
-.daily:hover h3::after {
+.wid:hover > h3::after {
   animation: move-left 0.5s linear forwards;
 }
-.daily:hover h3::before {
+.wid:hover > h3::before {
   animation: move-right 0.5s linear forwards;
 }
-.Weekly:hover h3::after {
+/* .card-body:hover h2::after {
   animation: move-left 0.5s linear forwards;
 }
-.Weekly:hover h3::before {
+.stats-body:hover h2::before {
   animation: move-right 0.5s linear forwards;
-}
-.Monthly:hover h3::after {
-  animation: move-left 0.5s linear forwards;
-}
-.Monthly:hover h3::before {
-  animation: move-right 0.5s linear forwards;
-}
+} */
 
 @keyframes move-left {
   50% {
@@ -125,4 +116,28 @@ h3::before {
 }
 .crd {
   box-shadow: 0px 3px 8px black;
+  background-color: var(--bg-200);
+  padding: 20px;
+  border-radius: 20px;
+}
+.delay {
+  padding: 20px;
+  justify-content: center;
+}
+.delay-num {
+  text-align: center;
+}
+.delay-num span {
+  font-size: 40px;
+}
+/* ////////////////////// SPL /////////////////// */
+
+.spl-body .crd {
+  margin: 20px auto;
+  width: 80%;
+  height: 300px;
+}
+.loader {
+  margin: auto;
+  text-align: center;
 }
