@@ -3,9 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
-// Inulla
-// %24M%40%40g%23ME410
-// productionTracker
+const flash = require("connect-flash");
+
 const MONGODBURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@nullla.fupqou2.mongodb.net/${process.env.MONGO_DB}`;
 
 const app = express();
@@ -52,6 +51,8 @@ app.use(
     store: store,
   })
 );
+
+app.use(flash());
 
 app.use(async (req, res, next) => {
   try {

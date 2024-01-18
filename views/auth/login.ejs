@@ -22,6 +22,11 @@
                 <input type="text" name="username" placeholder="username" required>
                 <input type="password" name="password" placeholder="password" required>
                 <button type="submit"> login </button>
+                <% if(error && error.length > 0) { %>
+                <div class="error">
+                  <p>💥 <%= error %></p>
+                </div>
+                <% } %>
                 <!-- <a href=""></a> -->
             </form>
         </div>

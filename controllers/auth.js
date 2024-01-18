@@ -3,9 +3,13 @@ const QC = require("../module/qc");
 const TL = require("../module/tl");
 const STL = require("../module/stl");
 const bcrypt = require("bcryptjs");
+const flash = require("connect-flash");
 
 exports.getLogin = (req, res, next) => {
-  res.render("auth/login.ejs", { pageTitle: "Login" });
+  res.render("auth/login.ejs", {
+    pageTitle: "Login",
+    error: req.flash("error"),
+  });
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -43,10 +47,12 @@ exports.postLogin = async (req, res, next) => {
         }
       } else {
         // Incorrect password
+        req.flash("error", "Incorrect password");
         res.redirect("/login");
       }
     } else {
       // User not found
+      req.flash("error", "User not found");
       res.redirect("/login");
     }
   } catch (err) {

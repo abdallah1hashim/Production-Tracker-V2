@@ -67,3 +67,10 @@ footer a:hover {
     background-position: 0% 0%;
   }
 }
+.error {
+  width: 100%;
+  text-align: center;
+  border: 1px solid red;
+  background-color: #ff000017;
+  border-radius: 5px;
+}
