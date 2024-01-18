@@ -135,7 +135,6 @@ exports.postSubmitTask = (req, res, next) => {
 };
 exports.getAnalytics = async (req, res, next) => {
   const date = new Date();
-  const dayOfmonth = date.getDate();
   const dayOfWeek = date.getDay();
   const today = date.toDateString();
   const todayTime = date.toLocaleTimeString();
@@ -228,7 +227,7 @@ exports.getAnalytics = async (req, res, next) => {
     path: "/analytics",
     pos: req.user.position,
     today: today,
-    todayTime: todayTime, 
+    todayTime: todayTime,
     dailyTasks: dailyTasks,
     dailyTasksbyQueue: dailyTasksByQueue,
     weeklyTasks: weeklyTasks,

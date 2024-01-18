@@ -1,0 +1,5 @@
+{
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
+  "appService.defaultWebAppToDeploy": "/subscriptions/9b1f39e7-ecd1-4768-8639-fbb11672fd07/resourceGroups/Productrion-Tracker_group/providers/Microsoft.Web/sites/Productrion-Tracker",
+  "appService.deploySubpath": "."
+}
