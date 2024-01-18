@@ -19,7 +19,7 @@ getSheet().then(async (sheetsNames) => {
   );
   const data = await res.json();
   console.log(data.values[0][37]);
-  const id = `me494032`.toUpperCase();
+  const id = username.toUpperCase();
 
   const myIdRow = data.values.filter((row) => {
     return row.find((value) => value === id);

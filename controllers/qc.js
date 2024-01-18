@@ -46,6 +46,8 @@ exports.getLabelers = (req, res, next) => {
 // }
 exports.getAnalytics = async (req, res, next) => {
   const date = new Date();
+  date.setTime(date.getTime() + 2 * 60 * 60 * 1000);
+
   const dayOfWeek = date.getDay();
   const today = date.toDateString();
   const todayTime = date.toLocaleTimeString();
