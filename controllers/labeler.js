@@ -253,10 +253,16 @@ exports.getSpl = (req, res, next) => {
   });
 };
 exports.getHours = (req, res, next) => {
+  const date = new Date();
+  const today = date.toDateString();
+  const todayTime = date.toLocaleTimeString();
   res.render("labeler/hours.ejs", {
     pageTitle: "Hours",
     path: "/hours",
     pos: req.user.position,
+    today: today,
+    todayTime: todayTime,
+    username: req.user.username,
   });
 };
 
