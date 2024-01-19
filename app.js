@@ -56,7 +56,7 @@ app.use(flash());
 
 app.use(async (req, res, next) => {
   try {
-    console.log(req.session.user);
+    
     const position = req.session.user.position || null;
     if (position === "Labeler") {
       const user = await Labeler.findById(req.session.user._id);
@@ -89,6 +89,7 @@ const labelerRoutes = require("./routes/labeler");
 const qcRoutes = require("./routes/qc");
 const tlRoutes = require("./routes/tl");
 const stlRoutes = require("./routes/stl");
+const settingsRoutes = require("./routes/settings");
 const errorController = require("./controllers/error");
 
 app.use("/", indexRoutes);
@@ -97,6 +98,7 @@ app.use("/labeler", labelerRoutes);
 app.use("/qc", qcRoutes);
 app.use("/tl", tlRoutes);
 app.use("/stl", stlRoutes);
+app.use("/", settingsRoutes);
 app.use(errorController.get404);
 
 // app.use("/labeler", labelerRoutes);

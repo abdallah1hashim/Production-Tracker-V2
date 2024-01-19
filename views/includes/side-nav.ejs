@@ -32,6 +32,11 @@
             ><span><i class="fa-solid fa-clock"></i></span>  Hours</a
           >
         </li>
+        <li>
+          <a class="<%= path === "/settings"? "active" : "" %>" href="/settings"
+            ><span><i class="fa-solid fa-gear"></i></span>  Settings</a
+          >
+        </li>
       <% } else if (pos === "Quality Control"){  %>
         <li>
           <a class="<%= path === "/qc"? "active" : "" %>" href="/qc/home"
@@ -63,6 +68,11 @@
             ><span><i class="fa-solid fa-angle-right"></i></span>  Queues</a
           >
         </li>
+        <li>
+          <a class="<%= path === "/settings"? "active" : "" %>" href="/settings"
+            ><span><i class="fa-solid fa-gear"></i></span>  Settings</a
+          >
+        </li>
       <% } else if (pos === "Team Lead"){  %>
         <li>
           <a class="<%= path === "/tl"? "active" : "" %>" href="/tl/home"
@@ -87,6 +97,11 @@
         <li>
           <a class="<%= path === "/add-queue"? "active" : "" %>" href="/queue"
             ><span><i class="fa-solid fa-angle-right"></i></span>  Queues</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/settings"? "active" : "" %>" href="/settings"
+            ><span><i class="fa-solid fa-gear"></i></span>  Settings</a
           >
         </li>
       <% } else if (pos === "Senior Team Lead"){  %>
@@ -118,6 +133,11 @@
         <li>
           <a class="<%= path === "/create-tl"? "active" : "" %>" href="/create-TL"
             ><span><i class="fa-solid fa-user"></i></span>  Create Team Lead</a
+          >
+        </li>
+        <li>
+          <a class="<%= path === "/settings"? "active" : "" %>" href="/settings"
+            ><span><i class="fa-solid fa-gear"></i></span>  Settings</a
           >
         </li>
       <% } %>

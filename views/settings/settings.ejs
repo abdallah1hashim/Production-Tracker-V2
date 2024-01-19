@@ -1,0 +1,34 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="/css/settings.css">
+
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="header">
+                <div class="container">
+                    <h1>Settings</h1>
+                </div>
+            </div>
+            <div class="container">
+                <div class="settings row">
+                    <%- include("../includes/settings-sidebar.ejs") %>
+
+                    <div class="info col-9">
+                        <h2>Change Name</h2>
+                        <form action="/change-name" method="post">
+                            <label for="password">Your Password</label>
+                            <input type="password" id="password" name="password" placeholder="password" class="form-check-input" required>
+                            <label for="name">New Name</label>
+                            <input type="text" name="name" placeholder="Ex: John Wick" class="form-check-input" required>
+                            <div class="error"><%= error ? error : "" %></div>
+                            <input type="submit" class="submit-btn" value="Save">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+<%- include("../includes/end.ejs") %>

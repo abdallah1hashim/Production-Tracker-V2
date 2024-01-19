@@ -1,0 +1,33 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="/css/settings.css">
+
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="header">
+                <div class="container">
+                    <h1>Settings</h1>
+                </div>
+            </div>
+            <div class="container">
+                <div class="settings row">
+                    <%- include("../includes/settings-sidebar.ejs") %>
+
+                    <div class="info col-9">
+                        <h2>Change Email</h2>
+                        <form action="/change-email" method="post">
+                            <label for="password">Your Password</label>
+                            <input type="password" id="password" name="password" placeholder="password" class="form-check-input" required>
+                            <label for="email">New Email</label>
+                            <input type="text" id="email" name="email" placeholder="name@example.com" class="form-check-input" required>
+                            <input type="submit" class="submit-btn" value="Save">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+<%- include("../includes/end.ejs") %>
