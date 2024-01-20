@@ -10,6 +10,7 @@ exports.getSettings = (req, res, send) => {
     pageTitle: "Settings",
     path: "/settings",
     pos: req.user.positions,
+    success: req.flash("success"),
     error: req.flash("error"),
   });
 };
@@ -18,14 +19,15 @@ exports.postChangeName = async (req, res, send) => {
     const password = req.body.password;
     const newName = req.body.name;
     const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
-    
+
     if (!isPasswordCorrect) {
       req.flash("error", "Incorrect password");
       return res.redirect("/settings");
     }
     req.user.name = newName;
     await req.user.save();
-    res.redirect("/");
+    req.flash("success", "Name changed successfully!");
+    res.redirect("/settings");
   } catch (error) {
     console.log(error);
     req.flash("error", "something went Wrong :<");
@@ -38,7 +40,29 @@ exports.getChangeEmail = (req, res, send) => {
     pageTitle: "Settings",
     path: "/change-email",
     pos: req.user.positions,
+    success: req.flash("success"),
+    error: req.flash("error"),
   });
+};
+exports.postChangeEmail = async (req, res, send) => {
+  try {
+    const password = req.body.password;
+    const newEmail = req.body.email;
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+
+    if (!isPasswordCorrect) {
+      req.flash("error", "Incorrect password");
+      return res.redirect("/change-email");
+    }
+    req.user.email = newEmail;
+    await req.user.save();
+    req.flash("success", "Email Changed successfully!");
+    res.redirect("/change-email");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Something Went Wrong :<");
+    res.redirect("/");
+  }
 };
 exports.getChangePassword = (req, res, send) => {
   res.render("settings/change-password.ejs", {
@@ -46,42 +70,28 @@ exports.getChangePassword = (req, res, send) => {
     pageTitle: "Settings",
     path: "/change-password",
     pos: req.user.positions,
+    success: req.flash("success"),
+    error: req.flash("error"),
   });
 };
-// // if (req.user.position === "Labeler") {
-//   const user = await Labeler.findById(req.user._id);
-//   if (!bcrypt.compare(password, req.password)) {
-//     req.flash("error", "Incorrect password");
-//     return res.redirect("/settings");
-//   }
-//   user.name = newName;
-//   await user.save();
-//   req.
-// }
-// if (req.user.position === "Quality Control") {
-//   const user = await Labeler.findById(req.user._id);
-//   if (!bcrypt.compare(password, req.password)) {
-//     req.flash("error", "Incorrect password");
-//     return res.redirect("/settings");
-//   }
-//   user.name = newName;
-//   await user.save();
-// }
-// if (req.user.position === "Team Lead") {
-//   const user = await Labeler.findById(req.user._id);
-//   if (!bcrypt.compare(password, req.password)) {
-//     req.flash("error", "Incorrect password");
-//     return res.redirect("/settings");
-//   }
-//   user.name = newName;
-//   await user.save();
-// }
-// if (req.user.position === "Senior Team Lead") {
-//   const user = await Labeler.findById(req.user._id);
-//   if (!bcrypt.compare(password, req.password)) {
-//     req.flash("error", "Incorrect password");
-//     return res.redirect("/settings");
-//   }
-//   user.name = newName;
-//   await user.save();
-// }
+exports.postChangePassword = async (req, res, send) => {
+  try {
+    const password = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const isPasswordCorrect = await bcrypt.compare(password, req.user.password);
+
+    if (!isPasswordCorrect) {
+      req.flash("error", "Incorrect password");
+      return res.redirect("/change-password");
+    }
+    const hashedNewPassword = await bcrypt.hash(newPassword, 12);
+    req.user.password = hashedNewPassword;
+    await req.user.save();
+    req.flash("success", "Password changed successfully!");
+    res.redirect("/change-password");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Something Went Wrong :<");
+    res.redirect("/");
+  }
+};

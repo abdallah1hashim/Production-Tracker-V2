@@ -98,3 +98,7 @@ ul.sidebar li:last-child {
   margin-bottom: 10px;
   color: red;
 }
+.success {
+  margin-bottom: 10px;
+  color: lightgreen;
+}
