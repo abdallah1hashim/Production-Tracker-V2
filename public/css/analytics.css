@@ -1,5 +1,5 @@
 .date {
-  f mk  ,l--ont-size: 8px;
+  font-size: 8px;
 }
 .info {
   background-color: var(--bg-100);
@@ -144,4 +144,7 @@ h3::before {
 .loader {
   margin: auto;
   text-align: center;
+}
+main{
+  margin-top: 20px;
 }
