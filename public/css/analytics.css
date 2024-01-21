@@ -1,5 +1,10 @@
+.custom-container {
+  width: 80%;
+  margin: 0 auto;
+}
 .date {
   font-size: 16px;
+  padding-left: 20px;
 }
 .info {
   background-color: var(--bg-100);
@@ -155,9 +160,11 @@ h3::before {
 main {
   margin-top: 20px;
 }
+.wid {
+  padding-bottom: 50px;
+}
 #carouselExampleIndicators {
   height: 380px;
-  width: 80%;
   margin: auto;
 }
 #carouselExampleIndicators .active {
@@ -184,7 +191,7 @@ main {
 .carousel-control-prev {
   margin-left: 34px;
 }
-.crd {
+.task-tracking .crd {
   overflow: auto;
   border: 20px solid var(--bg-200);
   height: 350px;
