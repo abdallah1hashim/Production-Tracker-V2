@@ -53,7 +53,7 @@ footer a {
   width: 170%;
   height: 140%;
   background: linear-gradient(#00ccff, #d500f9);
-  animation: rotate 4s linear infinite;
+  /* animation: rotate 4s linear infinite; */
 }
 
 @keyframes rotate {
