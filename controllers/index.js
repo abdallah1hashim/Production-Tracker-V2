@@ -115,23 +115,23 @@ exports.postCreateLabelers = async (req, res, next) => {
       await newLabeler.save();
     }
     res.redirect("/");
-    await transporter.sendMail({
-      to: newEmail,
-      from: "app@productiontracker.com",
-      subject: "Account Created",
-      html: `
-     <p>Dear [User],</p>
-     <p>Your account has been successfully created.</p>
-     <p>Please click the following link to verify your email address and set up your password:</p>
-     <p>Your Username: ${newUsername}</p>
-     <p>Your Password: ${newPssword}</p>
-     <p>You can login anytime now!</p>
-     <a href="[Verification Link]">Login</a>
-     <p>If you did not create an account or have any concerns, please contact our support team.</p>
-     <p>Thank you for choosing our service!</p>
-     <p>Best regards</p>
-     `,
-    });
+    // await transporter.sendMail({
+    //   to: newEmail,
+    //   from: "app@productiontracker.com",
+    //   subject: "Account Created",
+    //   html: `
+    //  <p>Dear [User],</p>
+    //  <p>Your account has been successfully created.</p>
+    //  <p>Please click the following link to verify your email address and set up your password:</p>
+    //  <p>Your Username: ${newUsername}</p>
+    //  <p>Your Password: ${newPssword}</p>
+    //  <p>You can login anytime now!</p>
+    //  <a href="[Verification Link]">Login</a>
+    //  <p>If you did not create an account or have any concerns, please contact our support team.</p>
+    //  <p>Thank you for choosing our service!</p>
+    //  <p>Best regards</p>
+    //  `,
+    // });
   } catch (error) {
     console.log(error);
   }

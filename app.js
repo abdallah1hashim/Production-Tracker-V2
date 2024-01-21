@@ -27,22 +27,7 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
-// app.use("/labeler", express.static(path.join(__dirname, "public")));
-// app.use("/qc", express.static(path.join(__dirname, "public")));
-// app.use("/tl", express.static(path.join(__dirname, "public")));
-// app.use("/stl", express.static(path.join(__dirname, "public")));
-// app.use(
-//   "/css",
-//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
-// );
-// app.use(
-//   "/js",
-//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
-// );
-// app.use(
-//   "/js",
-//   express.static(path.join(__dirname, "node_modules/jquery/dist"))
-// );
+
 app.use(
   session({
     secret: "myappsecret",
@@ -56,8 +41,12 @@ app.use(flash());
 
 app.use(async (req, res, next) => {
   try {
-    
-    const position = req.session.user.position || null;
+    // Check if req.session.user exists and has a position property
+    const position =
+      req.session.user && req.session.user.position
+        ? req.session.user.position
+        : null;
+
     if (position === "Labeler") {
       const user = await Labeler.findById(req.session.user._id);
       req.user = user;
