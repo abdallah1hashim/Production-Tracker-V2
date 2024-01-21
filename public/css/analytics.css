@@ -1,5 +1,5 @@
 .date {
-  font-size: 8px;
+  font-size: 16px;
 }
 .info {
   background-color: var(--bg-100);
@@ -48,10 +48,16 @@ h3::before {
   border-radius: 50%;
   z-index: -1;
 }
-.wid:hover > h3::after {
+.task-tracking:hover h3::after {
   animation: move-left 0.5s linear forwards;
 }
-.wid:hover > h3::before {
+.task-tracking:hover h3::before {
+  animation: move-right 0.5s linear forwards;
+}
+.delay-body:hover h3::after {
+  animation: move-left 0.5s linear forwards;
+}
+.delay-body:hover h3::before {
   animation: move-right 0.5s linear forwards;
 }
 /* .card-body:hover h2::after {
@@ -151,6 +157,8 @@ main {
 }
 #carouselExampleIndicators {
   height: 380px;
+  width: 80%;
+  margin: auto;
 }
 #carouselExampleIndicators .active {
   height: 380px;
@@ -179,6 +187,7 @@ main {
 .crd {
   overflow: auto;
   border: 20px solid var(--bg-200);
+  height: 350px;
   max-height: 350px;
-  width: auto;
+  margin: auto;
 }
