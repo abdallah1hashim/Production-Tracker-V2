@@ -1,0 +1,179 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="/css/labeler.css">
+<link rel="stylesheet" href="/css/analytics.css">
+<script defer src="/scripts/analytics.js"></script>
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="container">
+
+            
+            <div class="row">
+              <%- include("../includes/side-nav.ejs") %>
+                <div class=" main col-9 ">
+                    <div class="info">
+                        <div class="h3-con w-100">
+                          <h2>Analytics</h2>
+                        </div>
+                      </div>
+                      <div class="date">
+                        <p><%= today %></p>
+     <p><%= todayTime %></p>
+                      </div>
+                      <div id="carouselExampleIndicators" class="carousel slide">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <div class="daily col-11 crd">
+                                <h4>Daily</h4>
+                                <div class="nums row" >
+                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= dailyTasks.length %></span></div>
+                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                </div>
+                                    <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %> %</div>
+                                    </div>
+                                    <div class="queue">
+                                        <% if (dailyTasksbyQueue){ %>
+                                        <p>by Queue: </p>
+                                        <% Object.entries(dailyTasksbyQueue).forEach(t => { %>
+                                        <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                        <% }) %>
+                                        <%} %>
+                                    </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="Weekly col-11  crd"><h4>Weekly</h4>
+                                <div class="nums row" >
+                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= weeklyTasks.length %></span></div>
+                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= weeklyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                </div>
+                                    <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 6 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000  / 6 *100) %> %</div>
+                                    </div>
+                                    <div class="queue">
+                                        <% if (weeklyTasksbyQueue){ %>
+                                        <p>by Queue: </p>
+                                        <% Object.entries(weeklyTasksbyQueue).forEach(t => { %>
+                                        <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                        <% }) %>
+                                        <%} %>
+                                    </div>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="Monthly col-11 crd"><h4>Monthly</h4>
+                                <div class="nums row" >
+                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= MonthlyTasks.length %></span></div>
+                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= MonthlyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                </div>
+                                <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26* 100) %> %</div>
+                                </div>
+                                <div class="queue">
+                                    <% if (MonthlyTasksByQueue){ %>
+                                    <p>by Queue: </p>
+                                    <% Object.entries(MonthlyTasksByQueue).forEach(t => { %>
+                                    <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                    <% }) %>
+                                    <%} %>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <i class="fa-solid fa-left-long"></i> <br>
+
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <i class="fa-solid fa-right-long"></i>
+
+                        </button>
+                      </div>
+                      <!-- <div class="stats-body wid">
+                        <div class="stats-header">
+                            <h3>Tasks Tracking</h3>
+                        </div>
+                        <div class="stats row">
+                            <div class="daily col-5 crd">
+                                <h4>Daily</h4>
+                                <div class="nums row" >
+                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= dailyTasks.length %></span></div>
+                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                </div>
+                                    <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %> %</div>
+                                    </div>
+                                    <div class="queue">
+                                        <% if (dailyTasksbyQueue){ %>
+                                        <p>by Queue: </p>
+                                        <% Object.entries(dailyTasksbyQueue).forEach(t => { %>
+                                        <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                        <% }) %>
+                                        <%} %>
+                                    </div>
+                            </div>
+                            <div class="Weekly col-5 crd"><h4>Weekly</h4>
+                                <div class="nums row" >
+                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= weeklyTasks.length %></span></div>
+                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= weeklyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                </div>
+                                    <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 6 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000  / 6 *100) %> %</div>
+                                    </div>
+                                    <div class="queue">
+                                        <% if (weeklyTasksbyQueue){ %>
+                                        <p>by Queue: </p>
+                                        <% Object.entries(weeklyTasksbyQueue).forEach(t => { %>
+                                        <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                        <% }) %>
+                                        <%} %>
+                                    </div>
+                            </div>
+                            <div class="Monthly col-11 crd"><h4>Monthly</h4>
+                                <div class="nums row" >
+                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= MonthlyTasks.length %></span></div>
+                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= MonthlyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                </div>
+                                <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26* 100) %> %</div>
+                                </div>
+                                <div class="queue">
+                                    <% if (MonthlyTasksByQueue){ %>
+                                    <p>by Queue: </p>
+                                    <% Object.entries(MonthlyTasksByQueue).forEach(t => { %>
+                                    <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                    <% }) %>
+                                    <%} %>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div> -->
+                    <% if (pos === "Labeler"){ %>
+                    <div class="Delay-body wid">
+                        <div class="Delay-header">
+                            <h3>Delay Time</h3>
+                        </div>
+                        <div class="delay row">
+                            <div class="col-11 crd">
+                                <input type="hidden" value="<%= user.username%>">
+                                <p>Your Total Delay Hours for this month:</p>
+                                <p class="delay-num"><span>00</span> Hours</p>
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+        </main>
+    </body>
+<%- include("../includes/end.ejs") %>

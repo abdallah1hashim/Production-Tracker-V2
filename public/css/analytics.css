@@ -132,19 +132,53 @@ h3::before {
 }
 /* ////////////////////// SPL /////////////////// */
 
-.spl-body .crd, .hours-body .crd {
+.spl-body .crd,
+.hours-body .crd {
   margin: 20px auto;
   width: 80%;
   height: 300px;
   display: flex;
-    flex-direction: column;
-    gap: 10px;
+  flex-direction: column;
+  gap: 10px;
 }
-}
+
 .loader {
   margin: auto;
   text-align: center;
 }
-main{
+main {
   margin-top: 20px;
+}
+#carouselExampleIndicators {
+  height: 380px;
+}
+#carouselExampleIndicators .active {
+  height: 380px;
+  color: inherit !important;
+}
+.carousel-item {
+  margin-top: 50px;
+}
+.carousel-item.active .crd {
+  margin: 0 auto;
+}
+#carouselExampleIndicators button {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+
+  width: fit-content;
+  font-size: 40px;
+}
+.carousel-control-next {
+  margin-right: 34px;
+}
+.carousel-control-prev {
+  margin-left: 34px;
+}
+.crd {
+  overflow: auto;
+  border: 20px solid var(--bg-200);
+  max-height: 350px;
+  width: auto;
 }

@@ -135,7 +135,7 @@ exports.getAnalytics = async (req, res, next) => {
     // set the initial value as an object
   }, {});
 
-  res.render("team/analytics.ejs", {
+  res.render("app/analytics.ejs", {
     pageTitle: "ِAnalytics",
     path: "/analytics",
     pos: req.user.position,
