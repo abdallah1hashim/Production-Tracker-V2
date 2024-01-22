@@ -326,6 +326,7 @@ exports.getEditTask = async (req, res, next) => {
       pos: req.user.position,
       queues: queues,
       labelerDetails: task.labelerId,
+      task: task
     });
   } catch (error) {
     console.log(error);

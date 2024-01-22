@@ -25,8 +25,8 @@
                         </div>
                         <div class="details">
                          <form action="/labeler/add-task" method="post">
-                            <p>number of objects: </p>
-                            <input type="text" name="numObj" required>
+                            <p>number of start objects: </p>
+                            <input type="text" name="numObj" required value="<%=  %>">
                             <p class="queue-label">Queue Name:</p>
                             <input class="select" list="items" required>
                             <datalist id="items">
