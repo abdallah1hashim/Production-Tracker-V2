@@ -7,6 +7,7 @@ const Q = require("../module/queues");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
+const range = require("../helpers/range");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -260,17 +261,53 @@ exports.postDeleteQueue = (req, res, next) => {
 // };
 exports.getLabelerDetails = async (req, res, next) => {
   try {
+    const date = new Date();
+    date.setTime(date.getTime() + range.MILLISECONDS_IN_HOUR);
+
+    const dayOfWeek = date.getDay();
+
+    const { beginningOfDayISOString, endingOfDayISOString } =
+      range.calculateDayRange(date);
+    const { beginningOfWeekISOString, endingOfWeekISOString } =
+      range.calculateWeekRange(date, dayOfWeek);
+    const { beginningOfMonthISOString, endingOfMonthISOString } =
+      range.calculateMonthRange(date);
+
     const labelerId = req.params.labelerId;
-    const submittedTasks = await Task.find({
+    const submittedTasksToday = await Task.find({
       labelerId: labelerId,
       submitted: true,
-    });
+      updatedAt: {
+        $gte: beginningOfWeekISOString,
+        $lte: endingOfWeekISOString,
+      },
+    }).populate("queueName");
+    const submittedTasksThisWeek = await Task.find({
+      labelerId: labelerId,
+      submitted: true,
+      updatedAt: {
+        $gte: beginningOfDayISOString,
+        $lte: endingOfDayISOString,
+      },
+    }).populate("queueName");
+    const submittedTasksThisMonth = await Task.find({
+      labelerId: labelerId,
+      submitted: true,
+      updatedAt: {
+        $gte: beginningOfMonthISOString,
+        $lte: endingOfMonthISOString,
+      },
+    }).populate("queueName");
 
     res.render("team/lableler-details.ejs", {
       pageTitle: "Labelers",
       path: "/labelers",
       pos: req.user.position,
-      labelerDetails: { submittedTasks },
+      labelerDetails: {
+        submittedTasksToday,
+        submittedTasksThisWeek,
+        submittedTasksThisMonth,
+      },
     });
   } catch (error) {
     console.log(error);

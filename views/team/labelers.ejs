@@ -27,7 +27,9 @@
                                 <th>#</th>
 
                             </tr>
-                            <% labelers.forEach(el => {%>
+                            <% labelers.sort((function(a, b) {
+                                return   a.device - b.device;
+                              })).forEach(el => {%>
                             <tr>
                                 <td>C-<%= el.device %></td>
                                 <td><a href="/labeler-details/<%= el._id %>"><%= el.username %></a></td>

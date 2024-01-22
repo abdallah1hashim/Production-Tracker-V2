@@ -29,7 +29,7 @@ exports.getStartedTask = (req, res, next) => {
 };
 exports.getLabelers = (req, res, next) => {
   Labeler.find({ team: req.user._id })
-    .then((labelers) => {
+  .then((labelers) => {
       res.render("team/labelers.ejs", {
         labelers: labelers,
         pageTitle: "Labelers",

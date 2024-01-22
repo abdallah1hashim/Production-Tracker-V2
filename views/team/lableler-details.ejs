@@ -1,6 +1,7 @@
 <%- include("../includes/head.ejs") %>
 <link rel="stylesheet" href="/css/labeler.css">
 <link rel="stylesheet" href="/css/table.css">
+<link rel="stylesheet" href="/css/analytics.css">
 <link rel="stylesheet" href="/css/labeler-details.css">
 </head>
 <body>
@@ -18,33 +19,124 @@
                     <div class="h2-con w-100">
                       <h2>Submitted Tasks</h2>
                     </div>
-                    <div class="submitted-tasks-table">
-                    <div class="scroller">
-                        <table>
-                            <tr>
-                                <th>Task ID</th>
-                                <th class="queue-cell">Queue</th>
-                                <th>Started</th>
-                                <th>Submitted</th>
-                                <th>from</th>
-                                <th>to</th>
-                                <th>#</th>
-                                <th>#</th>
-                            </tr>
-                            <% labelerDetails.submittedTasks.forEach(el => {%>
-                                <tr>
-                                    <td><%= el.id %></td>
-                                    <td class="queue-cell"><%= el.queueName?.name?.toUpperCase() ?? "no queue" %></td>
-                                    <td><%= el.startDate.split(",")[0] %></td>
-                                    <td><%= el.submittedDate.split(",")[0] %></td>
-                                    <td><%= el.StartednumObj %></td>
-                                    <td><%= el.StartednumObj %></td>
-                                    <td><a class="edit" href="#">edit</a></td>
-                                    <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
-                                </tr>
-                                <% }) %>
-                            </table>
+                    <div id="carouselExampleIndicators" class="carousel slide">
+                        <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                         </div>
+                        <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="daily col-11 crd">
+                                <h4>Daily</h4>
+                                <div class="submitted-tasks-table">
+                                    <div class="scroller">
+                                        <table>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th class="queue-cell">Queue</th>
+                                                <th>Started</th>
+                                                <th>Submitted</th>
+                                                <th>from</th>
+                                                <th>to</th>
+                                                <th>#</th>
+                                                <th>#</th>
+                                            </tr>
+                                            <% labelerDetails.submittedTasksToday.forEach(el => {%>
+                                                <tr>
+                                                    <td><%= el.id %></td>
+                                                    <td class="queue-cell"><%= el.queueName?.name?.toUpperCase() ?? "no queue" %></td>
+                                                    <td><%= el.startDate.split(",")[0] %></td>
+                                                    <td><%= el.submittedDate.split(",")[0] %></td>
+                                                    <td><%= el.StartednumObj %></td>
+                                                    <td><%= el.StartednumObj %></td>
+                                                    <td><a class="edit" href="#">edit</a></td>
+                                                    <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
+                                                </tr>
+                                                <% }) %>
+                                            </table>
+                                        </div>
+                                    </div>
+                                   
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="daily col-11 crd">
+                                <h4>Weekly</h4>
+                                <div class="submitted-tasks-table">
+                                    <div class="scroller">
+                                        <table>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th class="queue-cell">Queue</th>
+                                                <th>Started</th>
+                                                <th>Submitted</th>
+                                                <th>from</th>
+                                                <th>to</th>
+                                                <th>#</th>
+                                                <th>#</th>
+                                            </tr>
+                                            <% labelerDetails.submittedTasksThisWeek.forEach(el => {%>
+                                                <tr>
+                                                    <td><%= el.id %></td>
+                                                    <td class="queue-cell"><%= el.queueName?.name?.toUpperCase() ?? "no queue" %></td>
+                                                    <td><%= el.startDate.split(",")[0] %></td>
+                                                    <td><%= el.submittedDate.split(",")[0] %></td>
+                                                    <td><%= el.StartednumObj %></td>
+                                                    <td><%= el.StartednumObj %></td>
+                                                    <td><a class="edit" href="#">edit</a></td>
+                                                    <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
+                                                </tr>
+                                                <% }) %>
+                                            </table>
+                                        </div>
+                                    </div>
+                                   
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="daily col-11 crd">
+                                <h4>Monthly</h4>
+                                <div class="submitted-tasks-table">
+                                    <div class="scroller">
+                                        <table>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th class="queue-cell">Queue</th>
+                                                <th>Started</th>
+                                                <th>Submitted</th>
+                                                <th>from</th>
+                                                <th>to</th>
+                                                <th>#</th>
+                                                <th>#</th>
+                                            </tr>
+                                            <% labelerDetails.submittedTasksThisMonth.forEach(el => {%>
+                                                <tr>
+                                                    <td><%= el.id %></td>
+                                                    <td class="queue-cell"><%= el.queueName?.name?.toUpperCase() ?? "no queue" %></td>
+                                                    <td><%= el.startDate.split(",")[0] %></td>
+                                                    <td><%= el.submittedDate.split(",")[0] %></td>
+                                                    <td><%= el.StartednumObj %></td>
+                                                    <td><%= el.StartednumObj %></td>
+                                                    <td><a class="edit" href="#">edit</a></td>
+                                                    <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
+                                                </tr>
+                                                <% }) %>
+                                            </table>
+                                        </div>
+                                    </div>
+                                   
+                            </div>
+                        </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <i class="fa-solid fa-left-long"></i> <br>
+
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <i class="fa-solid fa-right-long"></i>
+
+                        </button>
                     </div>
                   </div>
             </div>

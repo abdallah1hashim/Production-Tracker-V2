@@ -1,11 +1,26 @@
 .info {
   background-color: transparent;
   padding-top: 0px;
+  padding: 0;
+  width: 100%;
+}
+.carousel-inner {
+  height: 80%;
+}
+.carousel-indicators {
+  z-index: -1;
+}
+.info #carouselExampleIndicators {
+  width: 100%;
+  height: 100% !important;
 }
 .submitted-tasks-table {
   background-color: var(--bg-200);
   padding: 15px;
   border-radius: 20px;
+}
+.submitted-tasks-table h3 {
+  text-align: center;
 }
 .scroller {
   border: 4px solid var(--bg-100);
@@ -17,7 +32,9 @@ th,
 td {
   padding: 0px 8px;
 }
-
+table button.delete {
+  font-size: 16px !important;
+}
 .queue-cell::-webkit-scrollbar {
   width: 0;
   display: none;
@@ -30,4 +47,10 @@ td {
   max-width: 74px;
   overflow: auto;
   scroll-behavior: smooth;
+}
+.carousel-item.active {
+  height: 100%;
+}
+.carousel-item {
+  height: 100%;
 }
