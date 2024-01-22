@@ -258,3 +258,32 @@ exports.postDeleteQueue = (req, res, next) => {
 //         path: "/create-qc",
 //       });
 // };
+exports.getLabelerDetails = async (req, res, next) => {
+  try {
+    const labelerId = req.params.labelerId;
+    const submittedTasks = await Task.find({
+      labelerId: labelerId,
+      submitted: true,
+    });
+
+    res.render("team/lableler-details.ejs", {
+      pageTitle: "Labelers",
+      path: "/labelers",
+      pos: req.user.position,
+      labelerDetails: { submittedTasks },
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+};
+exports.postDeleteTask = async (req, res, next) => {
+  try {
+    const taskId = req.body.taskId;
+    const task = await Task.deleteOne({ _id: taskId });
+    res.redirect(req.get("referer"));
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+};

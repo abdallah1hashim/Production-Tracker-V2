@@ -15,11 +15,7 @@
                 <div class=" main col-9 ">
                     <div class="info">
                         <div class="h2-con w-100">
-                          <h2>Tasks</h2>
-                        </div>
-                        <div class="search">
-                            <input type="text">
-                            <span></span>
+                          <h2>Started Tasks</h2>
                         </div>
                         <div class="scroller">
 
@@ -41,7 +37,7 @@
                                         <td><%= el.startDate.slice(0,11) %></td>
                                         <td><%= el.StartednumObj %></td>
                                         <td><a class="edit" href="#">edit</a></td>
-                                        <td><a class="delete" href="#">delete</a></td>
+                                        <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
                                     </tr>
                                     <% }) %>
                                 </table>

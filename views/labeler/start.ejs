@@ -31,13 +31,13 @@
                             <p>number of objects: </p>
                             <input type="text" name="numObj" required>
                             <p>Queue Name:</p>
-                                <select type="text" name="queueName">
+                                <select type="text" name="queueName" value="">
                                     <% queues.forEach(q => { %>
                                         <option value="<%= q._id %>"><%= q.name.toUpperCase() %></option>
                                         <% }) %>
                                 </select>
                             <p>Task ID:</p>
-                            <input type="text" name="TaskId" value>
+                            <input type="text" name="TaskId" value required>
                             <input type="hidden" name="labelerId" value="<%= labelerDetails._id %>">
                             <button type="submit">Start</button>
                          </form>

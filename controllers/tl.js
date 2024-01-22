@@ -22,7 +22,7 @@ exports.getStartedTask = (req, res, next) => {
       });
     })
     .catch((err) => {
-      err;
+      console.log(err);
     });
 };
 
@@ -37,6 +37,6 @@ exports.getLabelers = (req, res, next) => {
       });
     })
     .catch((err) => {
-      err;
+      console.log(err);
     });
 };

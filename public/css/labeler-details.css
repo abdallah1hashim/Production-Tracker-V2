@@ -1,0 +1,33 @@
+.info {
+  background-color: transparent;
+  padding-top: 0px;
+}
+.submitted-tasks-table {
+  background-color: var(--bg-200);
+  padding: 15px;
+  border-radius: 20px;
+}
+.scroller {
+  border: 4px solid var(--bg-100);
+}
+table {
+  width: 100%;
+}
+th,
+td {
+  padding: 0px 8px;
+}
+
+.queue-cell::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+.queue-cell {
+  white-space: nowrap;
+  /* display: block; */
+  white-space: nowrap;
+  margin: -2px;
+  max-width: 74px;
+  overflow: auto;
+  scroll-behavior: smooth;
+}

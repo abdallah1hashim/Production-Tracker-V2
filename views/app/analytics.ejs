@@ -24,86 +24,91 @@
                         <p><%= today %></p>
      <p><%= todayTime %></p>
                       </div>
-                      <div class="task-tracking wid">
-                      <div class="Delay-header">
-                        <h3>Task Trackig</h3>
-                    </div>
-                      <div id="carouselExampleIndicators" class="carousel slide">
-                        <div class="carousel-indicators">
-                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <% if (pos === "Labeler" || "Quality Control") { %>
+                        <div class="task-tracking wid">
+                        <div class="Delay-header">
+                            <h3>Task Trackig</h3>
                         </div>
-                        <div class="carousel-inner">
-                          <div class="carousel-item active">
-                            <div class="daily col-11 crd">
-                                <h4>Daily</h4>
-                                <div class="nums row" >
-                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= dailyTasks.length %></span></div>
-                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                        <div id="carouselExampleIndicators" class="carousel slide">
+                            <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="daily col-11 crd">
+                                    <h4>Daily</h4>
+                                    <div class="nums row" >
+                                        <div class="tasksNum col-6"><p>number of tasks: </p><span><%= dailyTasks.length %></span></div>
+                                        <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                    </div>
+                                        <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %> %</div>
+                                        </div>
+                                        <div class="queue">
+                                            <% if (dailyTasksbyQueue){ %>
+                                            <p>by Queue: </p>
+                                            <% Object.entries(dailyTasksbyQueue).forEach(t => { %>
+                                            <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                            <% }) %>
+                                            <%} %>
+                                        </div>
                                 </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="Weekly col-11  crd"><h4>Weekly</h4>
+                                    <div class="nums row" >
+                                        <div class="tasksNum col-6"><p>number of tasks: </p><span><%= weeklyTasks.length %></span></div>
+                                        <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= weeklyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                    </div>
+                                        <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 6 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000  / 6 *100) %> %</div>
+                                        </div>
+                                        <div class="queue">
+                                            <% if (weeklyTasksbyQueue){ %>
+                                            <p>by Queue: </p>
+                                            <% Object.entries(weeklyTasksbyQueue).forEach(t => { %>
+                                            <p><%= t[0] %>: <span><%= t[1] %></span></p>
+                                            <% }) %>
+                                            <%} %>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="Monthly col-11 crd"><h4>Monthly</h4>
+                                    <div class="nums row" >
+                                        <div class="tasksNum col-6"><p>number of tasks: </p><span><%= MonthlyTasks.length %></span></div>
+                                        <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= MonthlyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
+                                    </div>
                                     <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 * 100) %> %</div>
+                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26* 100) %> %</div>
                                     </div>
                                     <div class="queue">
-                                        <% if (dailyTasksbyQueue){ %>
+                                        <% if (MonthlyTasksByQueue){ %>
                                         <p>by Queue: </p>
-                                        <% Object.entries(dailyTasksbyQueue).forEach(t => { %>
+                                        <% Object.entries(MonthlyTasksByQueue).forEach(t => { %>
                                         <p><%= t[0] %>: <span><%= t[1] %></span></p>
                                         <% }) %>
                                         <%} %>
                                     </div>
-                            </div>
-                          </div>
-                          <div class="carousel-item">
-                            <div class="Weekly col-11  crd"><h4>Weekly</h4>
-                                <div class="nums row" >
-                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= weeklyTasks.length %></span></div>
-                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= weeklyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
-                                </div>
-                                    <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 6 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000  / 6 *100) %> %</div>
-                                    </div>
-                                    <div class="queue">
-                                        <% if (weeklyTasksbyQueue){ %>
-                                        <p>by Queue: </p>
-                                        <% Object.entries(weeklyTasksbyQueue).forEach(t => { %>
-                                        <p><%= t[0] %>: <span><%= t[1] %></span></p>
-                                        <% }) %>
-                                        <%} %>
-                                    </div>
-                            </div>
-                          </div>
-                          <div class="carousel-item">
-                            <div class="Monthly col-11 crd"><h4>Monthly</h4>
-                                <div class="nums row" >
-                                    <div class="tasksNum col-6"><p>number of tasks: </p><span><%= MonthlyTasks.length %></span></div>
-                                    <div class="tasksNum col-6" ><p>number of Objects: </p><span><%= MonthlyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) %></span></div>
-                                </div>
-                                <div class="progress " role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar" style="width:<%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26 * 100) %>%"><%= (dailyTasks.reduce((acc, cur) => acc += (cur.SubmittednumObj - cur.StartednumObj) , 0) / 1000 / 26* 100) %> %</div>
-                                </div>
-                                <div class="queue">
-                                    <% if (MonthlyTasksByQueue){ %>
-                                    <p>by Queue: </p>
-                                    <% Object.entries(MonthlyTasksByQueue).forEach(t => { %>
-                                    <p><%= t[0] %>: <span><%= t[1] %></span></p>
-                                    <% }) %>
-                                    <%} %>
                                 </div>
                             </div>
-                          </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <i class="fa-solid fa-left-long"></i> <br>
+
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <i class="fa-solid fa-right-long"></i>
+
+                            </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <i class="fa-solid fa-left-long"></i> <br>
-
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <i class="fa-solid fa-right-long"></i>
-
-                        </button>
-                      </div>
-                      </div>
+                        </div>
+                    <% } %>
+                    <% if (pos === "Senior Team Lead" || "Quality Control") { %>
+                       
+                    <% } %>
                     <% if (pos === "Labeler"){ %>
                     <div class="delay-body wid">
                         <div class="Delay-header">

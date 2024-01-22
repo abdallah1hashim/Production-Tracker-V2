@@ -30,7 +30,7 @@
                             <% labelers.forEach(el => {%>
                             <tr>
                                 <td>C-<%= el.device %></td>
-                                <td><%= el.username %></td>
+                                <td><a href="/labeler-details/<%= el._id %>"><%= el.username %></a></td>
                                 <td><%= el.name %></td>
                                 <td><a href="/edit-labeler/<%= el._id %>?edit=true" class="edit">edit</a></td>
                                 <td><form action="/delete-labeler" method="post"><input type="hidden" name="labelerId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>

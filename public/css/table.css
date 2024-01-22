@@ -8,6 +8,7 @@
   height: 350px;
   border: 1px solid black;
   box-shadow: 1px 1px 6px black;
+  overflow: auto;
 }
 .info .search {
   text-align: center;
@@ -68,11 +69,13 @@ input {
 }
 .scroller {
   position: relative;
+  height: 300px;
 }
 .scroller .add {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  position: sticky;
+  bottom: 2%;
+  left: 90%;
+  /* right: 19px; */
   background-color: var(--bg-100);
   padding: 1px 15px;
   font-size: 50px;
