@@ -314,6 +314,21 @@ exports.getLabelerDetails = async (req, res, next) => {
     res.redirect("/");
   }
 };
+exports.getEditTask = async (req, res, next) => {
+  const queues = await Q.find();
+  try {
+    const taskId = req.params.taskId;
+    res.render("team/edit-task.ejs", {
+      pageTitle: "Edit-Task",
+      path: "/labelers",
+      pos: req.user.position,
+      queues: queues,
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+};
 exports.postDeleteTask = async (req, res, next) => {
   try {
     const taskId = req.body.taskId;

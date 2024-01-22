@@ -1,5 +1,6 @@
 main form {
   width: 100%;
+  position: relative;
 }
 form input,
 select {
@@ -28,11 +29,28 @@ select {
   padding: 2px 7px;
 }
 
-.search_select_box button {
-  padding: 2px 7px !important;
-}
+
 .navbar form button {
   margin: 0;
 }
 
-/* .search_select_box */
+/* .tringle {
+  border: 6px solid;
+  position: absolute;
+  top: 43%;
+  right: 52%;
+  border-color: transparent var(--bg-100) transparent transparent;
+} */
+
+.select:focus + .tringle {
+  animation: rotate 0.3s ease forwards;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}

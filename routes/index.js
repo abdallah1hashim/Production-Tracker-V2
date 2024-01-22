@@ -18,6 +18,7 @@ router.post("/edit-queue", indexController.postِEditQueue);
 router.post("/delete-queue", indexController.postDeleteQueue);
 // router.get("/create-task", indexController.getCreateTask);
 router.get("/labeler-details/:labelerId", indexController.getLabelerDetails);
+router.get("/edit-task/:taskId", indexController.getEditTask);
 router.post("/delete-task", indexController.postDeleteTask);
 
 module.exports = router;
