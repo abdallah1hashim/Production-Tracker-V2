@@ -31,7 +31,8 @@
                             <p>number of objects: </p>
                             <input type="text" name="numObj" required>
                             <p>Queue Name:</p>
-                                <select type="text" name="queueName" value="">
+                                <option value=""></option>
+                                <select type="text" name="queueName" value="sele">
                                     <% queues.forEach(q => { %>
                                         <option value="<%= q._id %>"><%= q.name.toUpperCase() %></option>
                                         <% }) %>
