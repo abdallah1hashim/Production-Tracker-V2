@@ -20,15 +20,16 @@
                         <div class="details">
                          <form action="/labeler/post-submit-task" method="post">
                             <p>your Tasks: </p>
-                            <select name="taskId">
+                            <select name="taskId" required>
                                 <% tasks.forEach( task =>{ %>
                                     <option value="<%= task.id %>"><%= task.id %></option>
                                 <% })%>
                             </select>
                             <p>Number of object:</p>
-                            <input type="number" name="submitedObj" >
+                            <input type="number" name="submitedObj" required>
                             <p>Status of the Task:</p>
-                            <select name="status">
+                            <select name="status" required>
+                                <option disabled selected value>Select Status</option>
                                 <option value="submit">Submit</option>
                                 <option value="skip">Skip</option>
                                 <option value="abandoned">Abandoned</option>
