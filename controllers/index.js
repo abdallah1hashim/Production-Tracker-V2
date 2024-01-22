@@ -318,11 +318,14 @@ exports.getEditTask = async (req, res, next) => {
   const queues = await Q.find();
   try {
     const taskId = req.params.taskId;
+    const task = await Task.findById(taskId).populate("labelerId");
+
     res.render("team/edit-task.ejs", {
       pageTitle: "Edit-Task",
       path: "/labelers",
       pos: req.user.position,
       queues: queues,
+      labelerDetails: task.labelerId,
     });
   } catch (error) {
     console.log(error);

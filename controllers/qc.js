@@ -16,8 +16,12 @@ exports.getStartedTask = (req, res, next) => {
     .populate("queueName")
     .populate("labelerId")
     .then((tasks) => {
+      console.log(tasks);
+      const sortedTasks = tasks.sort(
+        (a, b) => a.labelerId.device - b.labelerId.device
+      );
       res.render("team/StartedTasks.ejs", {
-        tasks: tasks,
+        tasks: sortedTasks,
         pageTitle: "Started Tasks",
         path: "start-Task",
         pos: req.user.position,
@@ -29,7 +33,7 @@ exports.getStartedTask = (req, res, next) => {
 };
 exports.getLabelers = (req, res, next) => {
   Labeler.find({ team: req.user._id })
-  .then((labelers) => {
+    .then((labelers) => {
       res.render("team/labelers.ejs", {
         labelers: labelers,
         pageTitle: "Labelers",

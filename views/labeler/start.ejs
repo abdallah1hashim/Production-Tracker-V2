@@ -1,0 +1,55 @@
+<%- include("../includes/head.ejs") %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="/css/labeler.css">
+<link rel="stylesheet" href="/css/Form.css">
+
+<script defer src="/scripts/start.js"></script>
+
+
+</head>
+    <body>
+        <header>
+            <%- include("../includes/navigation.ejs") %>
+        </header>
+        <main>
+            <div class="container">
+
+            
+            <div class="row">
+              <%- include("../includes/side-nav.ejs") %>
+                <div class=" main col-9 ">
+                    <div class="info">
+                        <div class="h2-con w-100">
+                          <h2>Start Task</h2>
+                        </div>
+                        <div class="details">
+                         <form action="/labeler/add-task" method="post">
+                            <p>number of objects: </p>
+                            <input type="text" name="numObj" required>
+                            <p class="queue-label">Queue Name:</p>
+                            <input class="select" list="items" required>
+                            <datalist id="items">
+                                <option disabled selected value>Select Queue</option>
+                                <% queues.forEach(q => { %>
+                                    <option data-value="<%= q._id %>" value="<%= q.name.toUpperCase() %>"></option>
+                                    <% }) %>
+                                </datalist>
+                                <div class="tringle"></div>
+                            <input type="hidden" name="queueName" value="">
+                            <p>Task ID:</p>
+                            <input type="text" name="TaskId" value required>
+                            <input type="hidden" name="labelerId" value="<%= labelerDetails._id %>">
+                            <button type="submit">Start</button>
+                         </form>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        </main>
+
+
+        <script src="scripts/start.js"></script>
+    </body>
+<%- include("../includes/end.ejs") %>

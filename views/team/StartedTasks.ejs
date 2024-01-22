@@ -34,7 +34,7 @@
                                         <td>C-<%= el.labelerId.device %></td>
                                         <td><%= el.id %></td>
                                         <td><%= el.queueName?.name?.toUpperCase() ?? "no queue" %></td>
-                                        <td><%= el.startDate.slice(0,11) %></td>
+                                        <td><%= el.startDate.split(",")[0] %></td>
                                         <td><%= el.StartednumObj %></td>
                                         <td><a class="edit" href="/edit-task/<%= el._id %>">Edit</a></td>
                                         <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
