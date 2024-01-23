@@ -7,6 +7,7 @@
 <script defer src="/scripts/start.js"></script>
 
 
+
 </head>
     <body>
         <header>
@@ -24,11 +25,13 @@
                           <h2>Start Task</h2>
                         </div>
                         <div class="details">
-                         <form action="/labeler/add-task" method="post">
+                         <form action="/edit-task" method="post">
                             <p>number of start objects: </p>
-                            <input type="text" name="numObj" required value="<%=  %>">
+                            <input type="text" name="startNumObj" required value="<%= task.StartednumObj %>">
+                            <p>number of Submitted objects: </p>
+                            <input type="text" name="submitNumObj" required value="<%= task.SubmittednumObj %>">
                             <p class="queue-label">Queue Name:</p>
-                            <input class="select" list="items" required>
+                            <input class="select" list="items" required value="">
                             <datalist id="items">
                                 <option disabled selected value>Select Queue</option>
                                 <% queues.forEach(q => { %>
@@ -38,9 +41,18 @@
                                 <div class="tringle"></div>
                             <input type="hidden" name="queueName" value="">
                             <p>Task ID:</p>
-                            <input type="text" name="TaskId" value required>
-                            <input type="hidden" name="labelerId" value="<%= labelerDetails._id %>">
-                            <button type="submit">Start</button>
+                            <input type="text" name="TaskProdId" value="<%= task.id %>" required>
+                            <p>Status:</p>
+                            <select name="status">
+                                <option  selected value>Select Status</option>
+                                <option value="submit">Submit</option>
+                                <option value="skip">Skip</option>
+                                <option value="abandoned">Abandoned</option>
+                                <option value="taken">Taken</option>
+                            </select>
+                            
+                            <input type="hidden" name="taskId" value="<%= task._id %>">
+                            <button type="submit">Update</button>
                          </form>
                         </div>
                       </div>

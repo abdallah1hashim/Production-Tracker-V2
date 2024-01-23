@@ -8,6 +8,8 @@ exports.getHome = (req, res, next) => {
     pageTitle: "Home",
     path: "/qc",
     pos: req.user.position,
+    success: req.flash("success"),
+    error: req.flash("error"),
   });
 };
 

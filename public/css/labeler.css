@@ -149,5 +149,32 @@ footer a {
   background-color: var(--bg-200);
   border-radius: 5px;
 }
-
+.error {
+  background-color: #ff000036;
+  width: 100%;
+  padding: 10px 0px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-left: 3px solid red;
+  animation: disapear 1s ease-in-out 3s forwards;
+}
+.success {
+  background-color: #00ff7336;
+  width: 100%;
+  padding: 10px 0px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-left: 3px solid lightgreen;
+  animation: disapear 1s ease-in-out 3s forwards;
+}
+@keyframes disapear {
+  0% {
+  }
+  99% {
+    transform: translateX(200%);
+  }
+  100% {
+    display: none;
+  }
+}
 /* End */

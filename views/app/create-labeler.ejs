@@ -31,6 +31,7 @@
                             <input <%= editing ? `type="text"` : `type="password"` %> name="password" >
                             <p>Team:</p>
                             <select name="teamId">
+                                <option disabled value selected >select QC</option>
                                 <% qc.forEach( c => {  %>
                                     <option value="<%= c._id %>"><%= c.name %></option>
                                 <% })  %>

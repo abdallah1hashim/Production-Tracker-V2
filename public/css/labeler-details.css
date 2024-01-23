@@ -44,7 +44,7 @@ table button.delete {
   /* display: block; */
   white-space: nowrap;
   margin: -2px;
-  max-width: 74px;
+  max-width: 100px;
   overflow: auto;
   scroll-behavior: smooth;
 }

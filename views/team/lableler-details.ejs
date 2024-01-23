@@ -35,8 +35,8 @@
                                             <tr>
                                                 <th>Task ID</th>
                                                 <th class="queue-cell">Queue</th>
-                                                <th>Started</th>
-                                                <th>Submitted</th>
+                                                <th class="queue-cell">Started</th>
+                                                <th class="queue-cell">Submitted</th>
                                                 <th>from</th>
                                                 <th>to</th>
                                                 <th>#</th>
@@ -46,11 +46,11 @@
                                                 <tr>
                                                     <td><%= el.id %></td>
                                                     <td class="queue-cell"><%= el.queueName?.name?.toUpperCase() ?? "no queue" %></td>
-                                                    <td><%= el.startDate.split(",")[0] %></td>
-                                                    <td><%= el.submittedDate.split(",")[0] %></td>
+                                                    <td class="queue-cell"><%= el.startDate %></td>
+                                                    <td class="queue-cell"><%= el.submittedDate %></td>
                                                     <td><%= el.StartednumObj %></td>
                                                     <td><%= el.StartednumObj %></td>
-                                                    <td><a class="edit" href="#">edit</a></td>
+                                                    <td><a class="edit" href="/edit-task/<%= el._id %>">Edit</a></td>
                                                     <td><form  method="post" action="/delete-task"><input type="hidden" name="taskId" value="<%= el._id %>"><button class="delete">Delete</button></form></td>
                                                 </tr>
                                                 <% }) %>

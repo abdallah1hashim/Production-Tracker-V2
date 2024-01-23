@@ -278,16 +278,16 @@ exports.getLabelerDetails = async (req, res, next) => {
       labelerId: labelerId,
       submitted: true,
       updatedAt: {
-        $gte: beginningOfWeekISOString,
-        $lte: endingOfWeekISOString,
+        $gte: beginningOfDayISOString,
+        $lte: endingOfDayISOString,
       },
     }).populate("queueName");
     const submittedTasksThisWeek = await Task.find({
       labelerId: labelerId,
       submitted: true,
       updatedAt: {
-        $gte: beginningOfDayISOString,
-        $lte: endingOfDayISOString,
+        $gte: beginningOfWeekISOString,
+        $lte: endingOfWeekISOString,
       },
     }).populate("queueName");
     const submittedTasksThisMonth = await Task.find({
@@ -318,18 +318,66 @@ exports.getEditTask = async (req, res, next) => {
   const queues = await Q.find();
   try {
     const taskId = req.params.taskId;
-    const task = await Task.findById(taskId).populate("labelerId");
+    const task = await Task.findById(taskId).populate("queueName");
 
     res.render("team/edit-task.ejs", {
       pageTitle: "Edit-Task",
-      path: "/labelers",
+      path: "/labelerss",
       pos: req.user.position,
       queues: queues,
       labelerDetails: task.labelerId,
-      task: task
+      task: task,
     });
   } catch (error) {
     console.log(error);
+    req.flash(
+      "error",
+      "Something went wrong with getting into the edit task page. Try again later."
+    );
+    res.redirect("/");
+  }
+};
+exports.postEditTask = async (req, res, next) => {
+  try {
+    const updatedStartNumObj = req.body.startNumObj;
+    console.log(updatedStartNumObj);
+    const updatedSubmitNumObj = req.body.submitNumObj;
+    const updatedQueueName = req.body.queueName;
+    const updatedTaskProdId = req.body.TaskProdId;
+    const taskId = req.body.taskId;
+    const updatedStatus = req.body.status;
+
+    const task = await Task.findById(taskId);
+    if (!task) throw new Error("Faild To fetch task.");
+    task.StartednumObj = updatedStartNumObj;
+    task.SubmittednumObj = updatedSubmitNumObj;
+    task.queueName = updatedQueueName;
+    task.taskId = updatedTaskProdId;
+
+    if (updatedStatus === "submit") {
+      task.submitted = true;
+      task.skipped = false;
+    }
+    if (updatedStatus === "skip") {
+      task.submitted = false;
+      task.skipped = true;
+    }
+    if (
+      updatedStatus === "abandoned" ||
+      updatedStatus === "taken" ||
+      !updatedStatus
+    ) {
+      task.submitted = false;
+      task.skipped = false;
+      task.labelerId = null;
+    }
+
+    task.save();
+    req.flash("success", "Task updated successufully.");
+    res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", `${error.message}`);
     res.redirect("/");
   }
 };

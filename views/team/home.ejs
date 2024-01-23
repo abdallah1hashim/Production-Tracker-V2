@@ -11,8 +11,10 @@
             
             <div class="row">
               <%- include("../includes/side-nav.ejs") %>
-                <div class=" main col-9 ">
-                    <div class="info">
+              <div class=" main col-9 ">
+                <% if(success && success.length > 0){ %> <div class="success"><p><%= success %></p></div><% } %>
+                <% if(error && error.length > 0){ %> <div class="error"><p><%= error %></p></div><% } %>
+                <div class="info">
                         <div class="h2-con w-100">
                           <h2>User Details</h2>
                         </div>
