@@ -16,7 +16,7 @@ exports.getHome = async (req, res, next) => {
     path: "/labler",
     pos: req.user.position,
     error: req.flash("error"),
-    success: req.flash("success"),
+    success: req.flash("success")
   });
 };
 
