@@ -15,6 +15,8 @@ exports.getHome = async (req, res, next) => {
     pageTitle: "Home",
     path: "/labler",
     pos: req.user.position,
+    error: req.flash("error"),
+    success: req.flash("success"),
   });
 };
 
@@ -124,6 +126,9 @@ exports.postSubmitTask = (req, res, next) => {
         task.submitted = false;
         task.skipped = false;
         task.labelerId = null;
+        task.teamLeadId = null;
+        task.teamLeadId = null;
+        task.seniorId = null;
       }
 
       return task.save(); // Save the updated task

@@ -370,6 +370,9 @@ exports.postEditTask = async (req, res, next) => {
       task.submitted = false;
       task.skipped = false;
       task.labelerId = null;
+      task.teamLeadId = null;
+      task.teamLeadId = null;
+      task.seniorId = null;
     }
 
     task.save();
