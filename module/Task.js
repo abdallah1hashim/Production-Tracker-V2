@@ -21,6 +21,7 @@ const TaskSchema = new Schema(
     teamLeadId: {
       type: Schema.Types.ObjectId,
       ref: "TL",
+      required: true,
     },
     seniorId: {
       type: Schema.Types.ObjectId,

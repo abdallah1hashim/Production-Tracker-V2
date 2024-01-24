@@ -21,8 +21,9 @@ exports.getHome = async (req, res, next) => {
 };
 
 exports.getStartTask = (req, res, next) => {
-  Q.find()
+  Q.find({})
     .then((obj) => {
+      console.log(req.user);
       res.render("labeler/start.ejs", {
         labelerDetails: req.user,
         queues: obj,
@@ -45,8 +46,10 @@ exports.postStartTask = async (req, res, next) => {
     const numObj = req.body.numObj;
     const date = new Date().toLocaleString();
     const teamId = req.user.team._id;
-    const seniotId = req.user.seniorId._id;
-    const teamLeadId = req.user.teamLeadId;
+    const seniotId = req.user.seniorId;
+    const teamLeadId = req.user.location;
+    console.log(req.user);
+    console.log(teamLeadId);
 
     let task = await Task.findOne({ id: TaskId });
 
@@ -72,6 +75,7 @@ exports.postStartTask = async (req, res, next) => {
       task.queueName = queueName;
       task.labelerId = labelerId;
       task.teamId = teamId;
+      task.teamLeadId = teamLeadId;
       task.submitted = false;
       task.skipped = false;
 
