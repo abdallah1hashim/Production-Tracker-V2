@@ -46,7 +46,7 @@ exports.postStartTask = async (req, res, next) => {
     const date = new Date().toLocaleString();
     const teamId = req.user.team._id;
     const seniotId = req.user.seniorId._id;
-    const teamLeadId = req.user.teamLead._id;
+    const teamLeadId = req.user.teamLeadId._id;
 
     let task = await Task.findOne({ id: TaskId });
 
