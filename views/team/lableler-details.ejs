@@ -15,19 +15,13 @@
         <div class="row">
           <%- include("../includes/side-nav.ejs") %>
             <div class=" main col-9 ">
-                <div class="info ">
-                    <div class="h2-con w-100">
-                      <h2>Submitted Tasks</h2>
-                    </div>
-                    <div id="carouselExampleIndicators" class="carousel slide">
-                        <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                        </div>
+                <h1>Labeler Details</h1>
+                  <section class="submitted-tasks">
+                    <h2>Submitted Tasks</h2>
+                    <div id="carouselExample" class="carousel slide">
                         <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="daily col-11 crd">
+                          <div class="carousel-item active">
+                            <div class="daily col-10 crd">
                                 <h4>Daily</h4>
                                 <div class="submitted-tasks-table">
                                     <div class="scroller">
@@ -59,9 +53,9 @@
                                     </div>
                                    
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="daily col-11 crd">
+                          </div>
+                          <div class="carousel-item">
+                            <div class="daily col-10 crd">
                                 <h4>Weekly</h4>
                                 <div class="submitted-tasks-table">
                                     <div class="scroller">
@@ -93,9 +87,9 @@
                                     </div>
                                    
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="daily col-11 crd">
+                          </div>
+                          <div class="carousel-item">
+                            <div class="daily col-10 crd">
                                 <h4>Monthly</h4>
                                 <div class="submitted-tasks-table">
                                     <div class="scroller">
@@ -127,21 +121,30 @@
                                     </div>
                                    
                             </div>
+                          </div>
                         </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <i class="fa-solid fa-left-long"></i> <br>
-
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <i class="fa-solid fa-left-long"></i>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
                             <i class="fa-solid fa-right-long"></i>
-
-                        </button>
-                    </div>
-                  </div>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                  </section>
+                  <section class="spl">
+                    <h2>SPL</h2>
+                    <div class="crd col-10"></div>
+                  </section>
+                  <section class="spl">
+                    <h2>Hours</h2>
+                    <div class="crd col-10"></div>
+                  </section>
             </div>
         </div>
     </div>
     </main>
+    
 </body>
 <%- include("../includes/end.ejs") %>
