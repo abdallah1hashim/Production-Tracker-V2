@@ -1,4 +1,5 @@
 const Task = require("../module/Task");
+const Labeler = require("../module/Labeler");
 
 exports.getHome = (req, res, send) => {
   res.render("team/home.ejs", {
@@ -6,6 +7,8 @@ exports.getHome = (req, res, send) => {
     pageTitle: "Home",
     path: "/stl",
     pos: req.user.position,
+    success: req.flash("success"),
+    error: req.flash("error"),
   });
 };
 
@@ -17,6 +20,21 @@ exports.getStartedTask = (req, res, next) => {
         tasks: tasks,
         pageTitle: "Started Tasks",
         path: "/started-Task",
+        pos: req.user.position,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+exports.getLabelers = (req, res, next) => {
+  Labeler.find({ seniorId: req.user._id })
+    .then((labelers) => {
+      console.log(labelers);
+      res.render("team/labelers.ejs", {
+        labelers: labelers,
+        pageTitle: "Labelers",
+        path: "/labelers",
         pos: req.user.position,
       });
     })
@@ -146,6 +164,8 @@ exports.getAnalytics = async (req, res, next) => {
     obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
     return obj;
   }, {});
+
+  
   res.render("app/analytics.ejs", {
     pageTitle: "ِAnalytics",
     path: "/analytics",

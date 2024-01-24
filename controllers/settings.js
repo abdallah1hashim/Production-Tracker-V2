@@ -9,7 +9,7 @@ exports.getSettings = (req, res, send) => {
     user: req.user,
     pageTitle: "Settings",
     path: "/settings",
-    pos: req.user.positions,
+    pos: req.user.position,
     success: req.flash("success"),
     error: req.flash("error"),
   });

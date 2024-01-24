@@ -16,7 +16,7 @@ exports.getHome = async (req, res, next) => {
     path: "/labler",
     pos: req.user.position,
     error: req.flash("error"),
-    success: req.flash("success")
+    success: req.flash("success"),
   });
 };
 
@@ -46,7 +46,7 @@ exports.postStartTask = async (req, res, next) => {
     const date = new Date().toLocaleString();
     const teamId = req.user.team._id;
     const seniotId = req.user.seniorId._id;
-    const teamLeadId = req.user._id;
+    const teamLeadId = req.user.teamLead._id;
 
     let task = await Task.findOne({ id: TaskId });
 

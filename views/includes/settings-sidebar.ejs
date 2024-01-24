@@ -2,4 +2,13 @@
     <li class="<%= path === "/settings" ? "active" : "" %>"><a href="/settings">Change Name</a></li>
     <li class="<%= path === "/change-email" ? "active" : "" %>"><a href="/change-email">Change Email</a></li>
     <li class="<%= path === "/change-password" ? "active" : "" %>"><a href="/change-password">Change password</a></li>
+    <% if (pos === "Quality Control" || pos === "Team Lead" || pos === "Senior Team Lead") { %>
+        <li class="<%= path === "/username" ? "active" : "" %>"><a href="/change-username">Change username</a></li>
+    <% } %>
+    <% if (pos === "Team Lead") { %>
+        <li class="<%= path === "/location-name" ? "active" : "" %>"><a href="/change-location-name">Change Location Name</a></li>
+    <% } %>
+    <% if (pos === "Senior Team Lead") { %>
+        <li class="<%= path === "/shift-name" ? "active" : "" %>"><a href="/change-shift-name">Change Shift Name</a></li>
+    <% } %>
 </ul>
