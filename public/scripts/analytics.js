@@ -50,13 +50,19 @@ async function getAttendenceSheet() {
       .slice(5);
     const attainedDays = userAttendance
       .map((day, i) =>
-        day === "P" || "T" || "T1" || "T2" || "T3" ? i + 1 : null
+        day === "P" ||
+        day === "T" ||
+        day === "T1" ||
+        day === "T2" ||
+        day === "T3"
+          ? i + 1
+          : null
       )
       .filter((dayIndex) => dayIndex !== null);
     const apsentDays = userAttendance
       .map((day, i) => (day === "0" ? i + 1 : null))
       .filter((dayIndex) => dayIndex !== null);
-    console.log(attainedDays, apsentDays);
+    console.log(userAttendance, attainedDays, apsentDays);
     attendanceDiv.querySelector("span").innerHTML = attainedDays.length;
     attendanceDiv.insertAdjacentHTML(
       "beforeend",
