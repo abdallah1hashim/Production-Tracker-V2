@@ -19,7 +19,7 @@ const InfoSchema = new Schema({
     type: String,
     required: true,
   },
-  shift: {
+  shift_: {
     type: String,
     required: true,
   },

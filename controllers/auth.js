@@ -1,7 +1,7 @@
-const Labeler = require("../module/Labeler");
-const QC = require("../module/qc");
-const TL = require("../module/tl");
-const STL = require("../module/stl");
+const Labeler = require("../models/Labeler");
+const QC = require("../models/Qc");
+const TL = require("../models/Tl");
+const STL = require("../models/Stl");
 const bcrypt = require("bcryptjs");
 const flash = require("connect-flash");
 

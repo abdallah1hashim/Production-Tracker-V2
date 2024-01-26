@@ -1,9 +1,10 @@
-const Task = require("../module/Task");
-const Labeler = require("../module/Labeler");
-const QC = require("../module/qc");
-const TL = require("../module/tl");
-const STL = require("../module/stl");
-const Q = require("../module/queues");
+const Task = require("../models/Task");
+const Labeler = require("../models/Labeler");
+const QC = require("../models/Qc");
+const Info = require("../models/Info");
+const TL = require("../models/Tl");
+const STL = require("../models/Stl");
+const Q = require("../models/Queue");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
@@ -82,35 +83,42 @@ exports.postCreateLabelers = async (req, res, next) => {
     const newPssword = req.body.password;
     const hashedPassword = await bcrypt.hash(newPssword, 12);
     const newTeam = req.body.teamId;
-    const newTeamLead = req.body.teamlead;
-    const newSenior = req.body.senior;
-    const position = req.body.position;
+    const newFloor = req.body.floor;
+    const newShift = req.body.Shift;
+    const newPosition = "Labeler";
 
     const labeler = await Labeler.findOne({ username: newUsername });
 
     if (labeler) {
-      labeler.name = newName;
+      // check if labeler already exists
+      labeler.info.name = newName;
+      labeler.info.email = newEmail;
+      labeler.info.password = hashedPassword;
+      labeler.info.floor = newFloor;
+      labeler.info.shift_ = newShift;
+      labeler.info.position = newPosition;
       labeler.device = newDevice;
       labeler.username = newUsername;
-      labeler.email = newEmail;
-      labeler.password = hashedPassword;
-      labeler.team = newTeam;
-      labeler.location = newTeamLead;
-      labeler.seniorId = newSenior;
-      labeler.position = position;
+      labeler.qcId = newTeam;
       labeler.save();
     }
     if (!labeler) {
-      const newLabeler = new Labeler({
+      // check if labeler is not exists it will make a new labeler
+      const info = new Info({
         name: newName,
-        device: newDevice,
-        username: newUsername,
         email: newEmail,
         password: hashedPassword,
-        team: newTeam,
-        location: newTeamLead,
-        seniorId: newSenior,
-        position: position,
+        floor : newFloor,
+        shift_: newShift,
+        position: newPosition,
+      });
+
+      const newLabeler = new Labeler({
+        device: newDevice,
+        username: newUsername,
+        qcId: newTeam,
+        info: info,
+        
       });
 
       await newLabeler.save();
