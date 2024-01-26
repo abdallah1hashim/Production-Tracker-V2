@@ -112,12 +112,24 @@
                     <% if (pos === "Labeler"){ %>
                     <div class="delay-body wid">
                         <div class="Delay-header">
+                            <h3>Attendence</h3>
+                        </div>
+                        <div class="delay row">
+                            <div class="col-11 crd">
+                                <p>Your total days this month:</p>
+                                <p class="attendence-num"><span>00</span> Attended Days</p>
+                            </div>
+                        </div>
+                        <% } %>
+                    <% if (pos === "Labeler"){ %>
+                    <div class="delay-body wid">
+                        <div class="Delay-header">
                             <h3>Delay Time</h3>
                         </div>
                         <div class="delay row">
                             <div class="col-11 crd">
                                 <input type="hidden" value="<%= user.username%>">
-                                <p>Your Total Delay Hours for this month:</p>
+                                <p>Your total delay hours for this month:</p>
                                 <p class="delay-num"><span>00</span> Hours</p>
                             </div>
                         </div>

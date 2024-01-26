@@ -20,24 +20,24 @@
                         <div class="details">
                          <form <%= editing ? `action=/edit-labeler` : `action=/create-labeler` %> method="post">
                             <p>Name: </p>
-                            <input type="text" name="name" <%= editing ? `value=${labeler.name}` : ""; %>>
+                            <input type="text" required name="name" <%= editing ? `value=${labeler.name}` : ""; %>>
                             <p>Device:</p>
-                            <input type="number" name="device" <%= editing ? `value=${labeler.device}` : "";%> >
+                            <input type="number" required name="device" <%= editing ? `value=${labeler.device}` : "";%> >
                             <p>username: </p>
-                            <input type="text" name="username" <%= editing ? `value=${labeler.username}` : "" %>>
+                            <input type="text" required name="username" <%= editing ? `value=${labeler.username}` : "" %>>
                             <p>email: </p>
-                            <input type="email" name="email" <%= editing ? `value=${labeler.email}` : "" %>>
+                            <input type="email" required name="email" <%= editing ? `value=${labeler.email}` : "" %>>
                             <p>password: </p>
                             <input <%= editing ? `type="text"` : `type="password"` %> name="password" >
                             <p>Team:</p>
-                            <select name="teamId">
+                            <select name="teamId" required>
                                 <option disabled value selected >select QC</option>
                                 <% qc.forEach( c => {  %>
                                     <option value="<%= c._id %>"><%= c.name %></option>
                                 <% })  %>
                             </select>
                             <p>Team Lead:</p>
-                            <select name="teamlead">
+                            <select name="teamlead" required>
                                 <% tl.forEach( c => {  %>
                                     <option value="<%= c._id %>"><%= c.name %></option>
                                 <% })  %>

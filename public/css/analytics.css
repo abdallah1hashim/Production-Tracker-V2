@@ -135,10 +135,12 @@ h3::before {
   padding: 20px;
   justify-content: center;
 }
-.delay-num {
+.delay-num,
+.attendence-num {
   text-align: center;
 }
-.delay-num span {
+.delay-num span,
+.attendence-num span {
   font-size: 40px;
 }
 /* ////////////////////// SPL /////////////////// */

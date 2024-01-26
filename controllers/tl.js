@@ -16,9 +16,11 @@ exports.getStartedTask = (req, res, next) => {
   Task.find({ teamLeadId: req.user._id, submitted: false, skipped: false })
     .populate("labelerId")
     .then((tasks) => {
-      console.log(tasks);
+      const sortedTasks = tasks.sort(
+        (a, b) => a.labelerId.device - b.labelerId.device
+      );
       res.render("team/StartedTasks.ejs", {
-        tasks: tasks,
+        tasks: sortedTasks,
         pageTitle: "Started Tasks",
         path: "/started-tasks",
         pos: req.user.position,

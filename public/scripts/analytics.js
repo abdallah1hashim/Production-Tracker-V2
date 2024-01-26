@@ -1,5 +1,6 @@
 const username = document.querySelector(".delay input").value;
-const output = document.querySelector(".delay-num span");
+const delayDiv = document.querySelector(".delay-num");
+const attendanceDiv = document.querySelector(".attendence-num");
 
 async function getSheet() {
   const res = await fetch(
@@ -13,16 +14,54 @@ async function getSheet() {
 }
 
 getSheet().then(async (sheetsNames) => {
-  console.log(sheetsNames);
-  const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1uIq-o9hWSlolTnYop9nMNtKRCduGcJ8AjawnQ4JgrRQ/values/${sheetsNames[1]}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
-  );
-  const data = await res.json();
-  console.log(data.values[0][37]);
-  const id = username.toUpperCase();
+  try {
+    delayDiv.querySelector("span").innerHTML = "Loading...";
+    const res = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/1uIq-o9hWSlolTnYop9nMNtKRCduGcJ8AjawnQ4JgrRQ/values/${sheetsNames[1]}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+    );
+    const data = await res.json();
 
-  const myIdRow = data.values.filter((row) => {
-    return row.find((value) => value === id);
-  });
-  output.innerHTML = myIdRow[0][37];
+    if (!res.ok) throw new Error("faild to fetch data from sheet. Try again");
+
+    const id = username.toUpperCase();
+
+    const myIdRow = data.values.filter((row) => {
+      return row.find((value) => value === id);
+    });
+    if (!myIdRow) throw new Error("faild to find the data");
+    delayDiv.querySelector("span").innerHTML = myIdRow[0][37];
+  } catch (error) {
+    delayDiv.innerHTML = error.message;
+  }
 });
+
+async function getAttendenceSheet() {
+  try {
+    attendanceDiv.querySelector("span").innerHTML = "Loading...";
+    const res = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/1HEpBrF-Rs9M0RJiSwPX1BKGqV-3c2U2jZVREynAT-yY/values/Attendance?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+    );
+    if (!res.ok) throw new Error("faild to fetch data");
+    const data = await res.json();
+    if (!data) throw new Error("faild to fetch data");
+    console.log(data);
+    const userAttendance = data.values
+      .filter((value) => value.includes(username))[0]
+      .slice(5);
+    const attainedDays = userAttendance
+      .map((day, i) => (day === "P" ? i + 1 : null))
+      .filter((dayIndex) => dayIndex !== null);
+    const apsentDays = userAttendance
+      .map((day, i) => (day === "0" ? i + 1 : null))
+      .filter((dayIndex) => dayIndex !== null);
+    console.log(attainedDays, apsentDays);
+    attendanceDiv.querySelector("span").innerHTML = attainedDays.length;
+    attendanceDiv.insertAdjacentHTML(
+      "beforeend",
+      `<br><span>${apsentDays.length}</span> Absent Days`
+    );
+  } catch (error) {
+    attendanceDiv.querySelector("span").innerHTML = error.message;
+  }
+}
+getAttendenceSheet();
