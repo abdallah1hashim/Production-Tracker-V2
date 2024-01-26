@@ -49,7 +49,9 @@ async function getAttendenceSheet() {
       .filter((value) => value.includes(username))[0]
       .slice(5);
     const attainedDays = userAttendance
-      .map((day, i) => (day === "P" ? i + 1 : null))
+      .map((day, i) =>
+        day === "P" || "T" || "T1" || "T2" || "T3" ? i + 1 : null
+      )
       .filter((dayIndex) => dayIndex !== null);
     const apsentDays = userAttendance
       .map((day, i) => (day === "0" ? i + 1 : null))
