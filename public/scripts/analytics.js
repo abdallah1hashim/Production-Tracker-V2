@@ -46,7 +46,7 @@ async function getAttendenceSheet() {
     if (!data) throw new Error("faild to fetch data");
     console.log(data);
     const userAttendance = data.values
-      .filter((value) => value.includes(username))[0]
+      .filter((value) => value.includes(username.toUpperCase()))[0]
       .slice(5);
     const attainedDays = userAttendance
       .map((day, i) =>
