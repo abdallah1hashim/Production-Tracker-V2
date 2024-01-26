@@ -152,23 +152,25 @@ exports.postEditLabelers = async (req, res, next) => {
     const newDevice = req.body.device;
     const newUsername = req.body.username;
     const newEmail = req.body.email;
-    const newPssword = req.body.password;
+    const newPassword = req.body.password;
     const hashedPassword = await bcrypt.hash(newPssword, 12);
     const newTeam = req.body.teamId;
-    const newTeamLead = req.body.teamlead;
-    const newSenior = req.body.senior;
+    const newFloor = req.body.floor;
+    const newShift = req.body.shift_;
+    
 
     const labeler = await Labeler.findById(labelerId);
     if (!labeler) res.redirect("/");
 
-    labeler.name = newName;
+    labeler.info.name = newName;
+    labeler.info.email = newEmail;
+    labeler.info.password = hashedPassword;
+    labeler.info.floor = newFloor;
+    labeler.info.shift_ = newShift;
+    labeler.info.position = newPosition;
     labeler.device = newDevice;
     labeler.username = newUsername;
-    labeler.email = newEmail;
-    labeler.password = hashedPassword;
-    labeler.team = newTeam;
-    labeler.location = newTeamLead;
-    labeler.seniorId = newSenior;
+    labeler.qcId = newTeam;
     labeler.save();
     if (req.user.position === "Quality Control") res.redirect("/qc/labelers");
     if (req.user.position === "Team Lead") res.redirect("/tl/labelers");
