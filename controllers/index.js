@@ -3,7 +3,6 @@ const Labeler = require("../models/Labeler");
 const QC = require("../models/Qc");
 const Info = require("../models/Info");
 const TL = require("../models/Tl");
-const STL = require("../models/Stl");
 const Q = require("../models/Queue");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
