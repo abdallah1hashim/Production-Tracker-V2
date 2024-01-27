@@ -29,4 +29,8 @@ const InfoSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Info", InfoSchema);
+// module.exports = mongoose.model("Info", InfoSchema);
+
+module.exports = mongoose.models.Info || mongoose.model('Info', InfoSchema);
+
+

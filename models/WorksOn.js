@@ -21,4 +21,6 @@ const WorksOnSchema = new Schema({
   { timestamps: true }
 );
 
-module.exports = mongoose.model("WorksOn", WorksOnSchema);
+// module.exports = mongoose.model("WorksOn", WorksOnSchema);
+
+module.exports = mongoose.models.WorksOn || mongoose.model('WorksOn', WorksOnSchema);

@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const QcSchema = new Schema({
-    info: [InfoSchema],
+    info: {
+        type:Schema.Types.ObjectId,
+        ref:'Info',
+      },
     tlId: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -12,4 +15,6 @@ const QcSchema = new Schema({
   
 });
 
-module.exports = mongoose.model("Qc", QcSchema);
+// module.exports = mongoose.model("Qc", QcSchema);
+
+module.exports = mongoose.models.Qc || mongoose.model('Qc', QcSchema);

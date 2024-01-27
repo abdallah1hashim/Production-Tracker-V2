@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 
+
 const Schema = mongoose.Schema;
 
 const LabelerSchema = new Schema({
-  info: [InfoSchema],
+  info: {
+    type: Schema.Types.ObjectId,
+    ref:'Info',
+  },
   username: {
     type: String,
     required: true,
@@ -21,4 +25,6 @@ const LabelerSchema = new Schema({
 });
 
 
-module.exports = mongoose.model("Labeler", LabelerSchema);
+// module.exports = mongoose.model("Labeler", LabelerSchema);
+
+module.exports = mongoose.models.Labeler || mongoose.model('Labeler', LabelerSchema);

@@ -18,10 +18,10 @@ const store = new MongoDBStore({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const Labeler = require("./module/Labeler");
-const QC = require("./module/qc");
-const TL = require("./module/tl");
-const STL = require("./module/stl");
+const Labeler = require("./models/Labeler");
+const QC = require("./models/Qc");
+const TL = require("./models/Tl");
+const STL = require("./models/Stl");
 
 app.set("view engine", "ejs");
 app.set("views", "views");

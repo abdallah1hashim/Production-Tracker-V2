@@ -20,9 +20,9 @@
                         <div class="details">
                          <form <%= editing ? `action=/edit-labeler` : `action=/create-labeler` %> method="post">
                             <p>Name: </p>
-                            <input type="text" required name="name" <%= editing ? `value=${labeler.name}` : ""; %>>
+                            <input type="text" required name="name" <%= editing ? `value=${labeler.name}` : "" ; %>>
                             <p>Device:</p>
-                            <input type="number" required name="device" <%= editing ? `value=${labeler.device}` : "";%> >
+                            <input type="number" required name="device" <%= editing ? `value=${labeler.device}` : "" ; %> >
                             <p>username: </p>
                             <input type="text" required name="username" <%= editing ? `value=${labeler.username}` : "" %>>
                             <p>email: </p>
