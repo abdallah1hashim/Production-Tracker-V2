@@ -15,8 +15,8 @@ async function getSheet() {
 }
 
 getSheet().then(async (sheetsNames) => {
-  const fileterednames = sheetsNames.filter((item) => item.includes("ab"));
-  const curSheet = fileterednames.slice(-1)[0];
+  // const fileterednames = sheetsNames.filter((item) => item.includes("ab"));
+  const curSheet = sheetsNames.slice(-1)[0];
 
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/15TI7wC8qRSCK2hk32bWTOggEa54p3RYE_9aPQXTilAc/values/${curSheet}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
@@ -55,15 +55,13 @@ getSheet().then(async (sheetsNames) => {
 
   // Use map instead of forEach
   await Promise.all(
-    sheetsNames
-      .filter((item) => item.includes("ab"))
-      .map(async (name) => {
-        const sheet = await fetch(
-          `https://sheets.googleapis.com/v4/spreadsheets/15TI7wC8qRSCK2hk32bWTOggEa54p3RYE_9aPQXTilAc/values/${name}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
-        );
-        const data = await sheet.json();
-        sheets.push(data);
-      })
+    sheetsNames.map(async (name) => {
+      const sheet = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/15TI7wC8qRSCK2hk32bWTOggEa54p3RYE_9aPQXTilAc/values/${name}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+      );
+      const data = await sheet.json();
+      sheets.push(data);
+    })
   );
 
   console.log(sheets);
