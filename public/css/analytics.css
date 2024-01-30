@@ -201,12 +201,13 @@ main {
   margin: auto;
   overflow: auto;
 }
-.spl-body .crd {
+.spl-body .crd,
+.hours-body .crd {
   display: flex;
   gap: 10px;
   flex-direction: column;
   overflow: hidden auto;
 }
-.spl-body .crd span {
+.crd span {
   font-size: 30px;
 }

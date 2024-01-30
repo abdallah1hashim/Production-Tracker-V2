@@ -35,7 +35,6 @@ getSheet().then(async (sheetsNames) => {
   );
   myIdRow[0].slice(7).forEach((item, i) => {
     if (!item || item == 0) return;
-    console.log(i);
 
     const markup = `
     <div>
@@ -48,11 +47,11 @@ getSheet().then(async (sheetsNames) => {
       <span class="num">${item}</span>
     </div>
       `;
-    console.log(data.values[0][i + 5]);
+
     splList.insertAdjacentHTML("beforeend", markup);
   });
 });
 const lodderMarkup = `<div class="loader">
 Loading...
 </div>`;
-output.innerHTML = lodderMarkup;
+splList.innerHTML = lodderMarkup;
