@@ -1,5 +1,5 @@
 const username = document.querySelector(".username").value;
-const output = document.querySelector(".spl-body  .crd");
+const splList = document.querySelector(".spl-body  .crd .list");
 const outputDate = document.querySelector(".spl-body");
 
 async function getSheet() {
@@ -28,7 +28,7 @@ getSheet().then(async (sheetsNames) => {
     return row.find((value) => value === id);
   });
   console.log(username, myIdRow[0]);
-  output.innerHTML = "";
+  splList.innerHTML = "";
   outputDate.insertAdjacentHTML(
     "afterbegin",
     `<span>${curSheet.replace(/%2(\d|[A-Z])/g, "/")}</span>`
@@ -38,16 +38,18 @@ getSheet().then(async (sheetsNames) => {
     console.log(i);
 
     const markup = `
-    <p class="name">${
-      (data.values[0][i + 7] !== "" && data.values[0][i + 7] + "(FP)")  ||
-      (data.values[0][i + 6] !== "" && "NO. labels FP")  ||
-      (data.values[0][i + 5] !== "" && data.values[0][i + 5]+ "(QA)")  ||
-      (data.values[0][i + 4] !== "" && "NO. labels QA")
-    }</p>
-    <span class="num">${item}</span>
-    `;
+    <div>
+      <p class="name">${
+        (data.values[0][i + 7] !== "" && data.values[0][i + 7] + "(FP)") ||
+        (data.values[0][i + 6] !== "" && "NO. labels FP") ||
+        (data.values[0][i + 5] !== "" && data.values[0][i + 5] + "(QA)") ||
+        (data.values[0][i + 4] !== "" && "NO. labels QA")
+      }</p>
+      <span class="num">${item}</span>
+    </div>
+      `;
     console.log(data.values[0][i + 5]);
-    output.insertAdjacentHTML("beforeend", markup);
+    splList.insertAdjacentHTML("beforeend", markup);
   });
 });
 const lodderMarkup = `<div class="loader">

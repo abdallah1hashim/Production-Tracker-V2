@@ -200,3 +200,12 @@ main {
   max-height: 350px;
   margin: auto;
 }
+.spl-body .crd .list {
+  overflow: auto;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.spl-body .crd .list span {
+  font-size: 30px;
+}
