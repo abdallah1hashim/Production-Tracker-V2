@@ -2,7 +2,6 @@ const username = document.querySelector(".username").value;
 const output = document.querySelector(".spl-body  .crd");
 const outputDate = document.querySelector(".spl-body");
 
-
 async function getSheet() {
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/1I3HSt1_WYaVlChTK37VJyYSW07xIA09sq-4lsZyN4og?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
@@ -15,8 +14,7 @@ async function getSheet() {
 }
 
 getSheet().then(async (sheetsNames) => {
-  const fileterednames = sheetsNames.filter((item) => item.includes("ab"));
-  const curSheet = fileterednames.slice(-1)[0];
+  const curSheet = sheetsNames.slice(-1)[0];
   console.log(curSheet[0]);
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/1I3HSt1_WYaVlChTK37VJyYSW07xIA09sq-4lsZyN4og/values/${curSheet}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
