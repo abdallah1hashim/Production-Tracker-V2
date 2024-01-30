@@ -36,14 +36,15 @@ getSheet().then(async (sheetsNames) => {
   myIdRow[0].slice(7).forEach((item, i) => {
     if (!item || item == 0) return;
     console.log(i);
+
     const markup = `
-    <span class="num">${item}</span>
     <p class="name">${
-      data.values[0][i + 7] &&
-      data.values[0][i + 6] &&
-      data.values[0][i + 5] &&
-      data.values[0][i + 4]
+      (data.values[0][i + 7] !== "" && data.values[0][i + 7] + "(FP)")  ||
+      (data.values[0][i + 6] !== "" && "NO. labels FP")  ||
+      (data.values[0][i + 5] !== "" && data.values[0][i + 5]+ "(QA)")  ||
+      (data.values[0][i + 4] !== "" && "NO. labels QA")
     }</p>
+    <span class="num">${item}</span>
     `;
     console.log(data.values[0][i + 5]);
     output.insertAdjacentHTML("beforeend", markup);

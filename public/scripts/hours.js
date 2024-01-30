@@ -76,7 +76,7 @@ getSheet().then(async (sheetsNames) => {
       }
     });
   });
-  console.log(myUserInfo);
+  
   const totalHours = myUserInfo.reduce((acc, curr) => {
     return (acc = +curr[7] + +curr[8] + acc);
   }, 0);
