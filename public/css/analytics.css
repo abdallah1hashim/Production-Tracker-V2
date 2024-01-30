@@ -199,13 +199,14 @@ main {
   height: 350px;
   max-height: 350px;
   margin: auto;
-}
-.spl-body .crd .list {
   overflow: auto;
+}
+.spl-body .crd {
   display: flex;
   gap: 10px;
   flex-direction: column;
+  overflow: hidden auto;
 }
-.spl-body .crd .list span {
+.spl-body .crd span {
   font-size: 30px;
 }

@@ -1,5 +1,5 @@
 const username = document.querySelector(".username").value;
-const splList = document.querySelector(".spl-body  .crd .list");
+const splList = document.querySelector(".spl-body  .crd ");
 const outputDate = document.querySelector(".spl-body");
 
 async function getSheet() {
