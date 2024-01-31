@@ -83,7 +83,12 @@ exports.postCreateLabelers = async (req, res, next) => {
     const newShift = req.body.Shift;
     const newPosition = "Labeler";
 
-    const labeler = await Labeler.findOne({ username: newUsername });
+    // const info = await Info.findOne({ username: newUsername });
+    // ///////////////////////////////////////////////////////////////////this may be wrong
+    // const labeler = await Labeler.findOne({ info: info });
+
+    const labeler = await Labeler.findOne({ 'info.username': newUsername }).populate('info');
+
 
     if (labeler) {
       // check if labeler already exists
@@ -94,7 +99,7 @@ exports.postCreateLabelers = async (req, res, next) => {
       labeler.info.shift_ = newShift;
       labeler.info.position = newPosition;
       labeler.device = newDevice;
-      labeler.username = newUsername;
+      labeler.info.username = newUsername;
       labeler.qcId = newTeam;
       labeler.save();
     }
@@ -106,12 +111,12 @@ exports.postCreateLabelers = async (req, res, next) => {
         password: hashedPassword,
         floor : newFloor,
         shift_: newShift,
+        username: newUsername,
         position: newPosition,
       });
 
       const newLabeler = new Labeler({
         device: newDevice,
-        username: newUsername,
         qcId: newTeam,
         info: info,
         
@@ -165,7 +170,7 @@ exports.postEditLabelers = async (req, res, next) => {
     labeler.info.shift_ = newShift;
     labeler.info.position = newPosition;
     labeler.device = newDevice;
-    labeler.username = newUsername;
+    labeler.info.username = newUsername;
     labeler.qcId = newTeam;
     labeler.save();
     if (req.user.position === "Quality Control") res.redirect("/qc/labelers");
@@ -237,7 +242,7 @@ exports.postAddQueue = async (req, res, next) => {
   }
 };
 
-exports.postِEditQueue = async (req, res, next) => {
+exports.postEditQueue = async (req, res, next) => {
   try {
     const name = req.body.name;
     const queueId = req.body.queueId;

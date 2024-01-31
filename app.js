@@ -5,8 +5,8 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 
-const MONGODBURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@nullla.fupqou2.mongodb.net/${process.env.MONGO_DB}`;
-
+//const MONGODBURI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@nullla.fupqou2.mongodb.net/${process.env.MONGO_DB}`;
+const MONGODBURI = 'mongodb+srv://user1:user1@cluster0.rxbnleg.mongodb.net/?retryWrites=true&w=majority';
 const app = express();
 const port = 3000;
 const store = new MongoDBStore({

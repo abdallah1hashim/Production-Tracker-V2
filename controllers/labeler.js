@@ -1,6 +1,6 @@
 const Labeler = require("../models/Labeler");
 const Task = require("../models/Task");
-const Q = require("../models/queues");
+const Q = require("../models/Queue");
 const WorksOn = require("../models/WorksOn");
 let LabelerUser;
 

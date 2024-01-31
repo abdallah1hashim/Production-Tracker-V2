@@ -8,10 +8,6 @@ const LabelerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref:'Info',
   },
-  username: {
-    type: String,
-    required: true,
-  },
   qcId: {
     type: Schema.Types.ObjectId,
     required: true,

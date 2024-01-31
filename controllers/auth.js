@@ -16,20 +16,21 @@ exports.postLogin = async (req, res, next) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
+
     const user =
-      (await Labeler.findOne({ username: username })) ||
-      (await QC.findOne({ username: username })) ||
-      (await TL.findOne({ username: username })) ||
-      (await STL.findOne({ username: username }));
+      (await Labeler.findOne({ username: username }).populate('info')) ||
+      (await QC.findOne({ 'info.username': username }).populate('info')) ||
+      (await TL.findOne({ 'info.username': username }).populate('info')) ||
+      (await STL.findOne({ 'info.username': username }).populate('info'));
 
     if (user) {
-      const match = await bcrypt.compare(password, user.password);
+      const match = await bcrypt.compare(password, user.info.password);
 
       if (match) {
         req.session.isLoggedin = true;
         req.session.user = user;
 
-        switch (user.position) {
+        switch (user.info.position) {
           case "Labeler":
             res.redirect("/labeler/home");
             break;
