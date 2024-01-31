@@ -1,7 +1,7 @@
-const Labeler = require("../module/Labeler");
-const QC = require("../module/Labeler");
-const TL = require("../module/Labeler");
-const STL = require("../module/Labeler");
+const Labeler = require("../models/Labeler");
+const QC = require("../models/Labeler");
+const TL = require("../models/Labeler");
+const STL = require("../models/Labeler");
 const bcrypt = require("bcryptjs");
 
 exports.getSettings = (req, res, send) => {

@@ -1,5 +1,8 @@
-const Task = require("../module/Task");
-const Labeler = require("../module/Labeler");
+const Task = require("../models/Task");
+const Labeler = require("../models/Labeler");
+const WorksOn = require("../models/WorksOn");
+const QC = require("../models/Qc");
+const TL = require("../models/Tl");
 
 exports.getHome = (req, res, send) => {
   res.render("team/home.ejs", {
@@ -12,37 +15,81 @@ exports.getHome = (req, res, send) => {
   });
 };
 
-exports.getStartedTask = (req, res, next) => {
-  Task.find({ seniroId: req.user._id, submitted: false, skipped: false })
-    .populate("labelerId")
-    .then((tasks) => {
-      res.render("team/StartedTasks.ejs", {
-        tasks: tasks,
-        pageTitle: "Started Tasks",
-        path: "/started-Task",
-        pos: req.user.position,
+exports.getStartedTask = async (req, res, next) => {
+  try {
+    // Find all Team Leaders associated with the Senior Team Leader
+    const teamLeaders = await TL.find({ stlID: req.user._id });
+
+    // Extract Team Leader IDs from the found Team Leaders
+    const teamLeaderIds = teamLeaders.map(teamLeader => teamLeader._id);
+
+    // Find all QCs associated with the Team Leaders
+    const qcs = await QC.find({ tlId: { $in: teamLeaderIds } });
+
+    // Extract QC IDs from the found QCs
+    const qcIds = qcs.map(qc => qc._id);
+
+    // Find all labelers associated with the QCs
+    const labelers = await Labeler.find({ qcId: { $in: qcIds } });
+
+    // Extract labeler IDs from the found labelers
+    const labelerIds = labelers.map(labeler => labeler._id);
+
+    // Find tasks for the current Senior Team Leader with submittedNumObj 0
+    const tasks = await WorksOn.find({ labelerId: { $in: labelerIds }, submittedNumObj: 0 })
+      .populate({
+        path: 'taskId',
+        populate: {
+          path: 'queueId',
+        },
       });
-    })
-    .catch((err) => {
-      console.log(err);
+
+    res.render('team/StartedTasks.ejs', {
+      tasks: tasks,
+      pageTitle: 'Started Tasks',
+      path: '/started-Task',
+      pos: req.user.position,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
-exports.getLabelers = (req, res, next) => {
-  Labeler.find({ seniorId: req.user._id })
-    .then((labelers) => {
-      console.log(labelers);
-      res.render("team/labelers.ejs", {
-        labelers: labelers,
-        pageTitle: "Labelers",
-        path: "/labelers",
-        pos: req.user.position,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+exports.getLabelers = async (req, res, next) => {
+  try {
+    // Find all Team Leaders associated with the Senior Team Leader
+    const teamLeaders = await TL.find({ stlID: req.user._id });
+
+    // Extract Team Leader IDs from the found Team Leaders
+    const teamLeaderIds = teamLeaders.map(teamLeader => teamLeader._id);
+
+    // Find all QCs associated with the Team Leaders
+    const qcs = await QC.find({ tlId: { $in: teamLeaderIds } });
+
+    // Extract QC IDs from the found QCs
+    const qcIds = qcs.map(qc => qc._id);
+
+    // Find all labelers associated with the QCs
+    const labelers = await Labeler.find({ qcId: { $in: qcIds } });
+
+    // Extract labeler IDs from the found labelers
+    const labelerIds = labelers.map(labeler => labeler._id);
+
+    res.render('team/labelers.ejs', {
+      labelers: labelerIds,
+      pageTitle: 'Labelers',
+      path: '/labelers',
+      pos: req.user.position,
     });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
+
+// need to be modified
 exports.getAnalytics = async (req, res, next) => {
   console.log(req.user.position);
 

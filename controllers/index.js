@@ -283,7 +283,7 @@ exports.getLabelerDetails = async (req, res, next) => {
     const labelerId = req.params.labelerId;
     const submittedTasksToday = await Task.find({
       labelerId: labelerId,
-      status: "submitted",
+      status: "submit",
       updatedAt: {
         $gte: beginningOfDayISOString,
         $lte: endingOfDayISOString,
@@ -291,7 +291,7 @@ exports.getLabelerDetails = async (req, res, next) => {
     }).populate("queueName");
     const submittedTasksThisWeek = await Task.find({
       labelerId: labelerId,
-      status: "submitted",
+      status: "submit",
       updatedAt: {
         $gte: beginningOfWeekISOString,
         $lte: endingOfWeekISOString,
@@ -299,7 +299,7 @@ exports.getLabelerDetails = async (req, res, next) => {
     }).populate("queueName");
     const submittedTasksThisMonth = await Task.find({
       labelerId: labelerId,
-      status: "submitted",
+      status: "submit",
       updatedAt: {
         $gte: beginningOfMonthISOString,
         $lte: endingOfMonthISOString,

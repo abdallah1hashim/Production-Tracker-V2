@@ -1,6 +1,6 @@
-const Labeler = require("../module/Labeler");
-const Task = require("../module/Task");
-const Qc = require("../module/qc");
+const Labeler = require("../models/Labeler");
+const Task = require("../models/Task");
+const Qc = require("../models/Qc");
 
 exports.getHome = (req, res, next) => {
   res.render("team/home.ejs", {
@@ -13,43 +13,58 @@ exports.getHome = (req, res, next) => {
   });
 };
 
-exports.getStartedTask = (req, res, next) => {
-  Task.find({ teamId: req.user._id, submitted: false, skipped: false })
-    .populate("queueName")
-    .populate("labelerId")
-    .then((tasks) => {
-      console.log(tasks);
-      const sortedTasks = tasks.sort(
-        (a, b) => a.labelerId.device - b.labelerId.device
-      );
-      res.render("team/StartedTasks.ejs", {
-        tasks: sortedTasks,
-        pageTitle: "Started Tasks",
-        path: "start-Task",
-        pos: req.user.position,
+exports.getStartedTask = async (req, res, next) => {
+  try {
+    // Find all labelers with qcId equal to the current user's ID
+    const labelers = await Labeler.find({ qcId: req.user._id });
+
+    // Extract labeler IDs from the found labelers
+    const labelerIds = labelers.map(labeler => labeler._id);
+
+    // Find tasks for the current team with submitted false and skipped false
+    const tasks = await WorksOn.find({ labelerId: { $in: labelerIds }, submittedNumObj: 0 })
+      .populate({
+        path: 'taskId',
+        populate: {
+          path: 'queueId',
+        },
       });
-    })
-    .catch((err) => {
-      console.log(err);
+
+    // Sort tasks based on queue name
+    const sortedTasks = tasks.sort((a, b) => a.taskId.queueId.name.localeCompare(b.taskId.queueId.name));
+
+    res.render('team/StartedTasks.ejs', {
+      tasks: sortedTasks,
+      pageTitle: 'Started Tasks',
+      path: 'start-Task',
+      pos: req.user.position,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
-exports.getLabelers = (req, res, next) => {
-  Labeler.find({ team: req.user._id })
-    .then((labelers) => {
-      res.render("team/labelers.ejs", {
-        labelers: labelers,
-        pageTitle: "Labelers",
-        path: "/labelers",
-        pos: req.user.position,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+exports.getLabelers = async (req, res, next) => {
+  try {
+    // Find labelers with the specified team ID
+    const labelers = await Labeler.find({ qcId: req.user._id });
+
+    res.render('team/labelers.ejs', {
+      labelers: labelers,
+      pageTitle: 'Labelers',
+      path: '/labelers',
+      pos: req.user.position,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 // exports.postEditQueue= (req, res, next) {
 
 // }
+
+// need to be updated
 exports.getAnalytics = async (req, res, next) => {
   const date = new Date();
   date.setTime(date.getTime() + 2 * 60 * 60 * 1000);

@@ -1,5 +1,5 @@
-const Task = require("../module/Task");
-const Labeler = require("../module/Labeler");
+const Task = require("../models/Task");
+const Labeler = require("../models/Labeler");
 const helper = require("../helpers/range");
 
 exports.getHome = (req, res, send) => {
@@ -12,39 +12,73 @@ exports.getHome = (req, res, send) => {
     error: req.flash("error"),
   });
 };
-exports.getStartedTask = (req, res, next) => {
-  Task.find({ teamLeadId: req.user._id, submitted: false, skipped: false })
-    .populate("labelerId")
-    .then((tasks) => {
-      const sortedTasks = tasks.sort(
-        (a, b) => a.labelerId.device - b.labelerId.device
-      );
-      res.render("team/StartedTasks.ejs", {
-        tasks: sortedTasks,
-        pageTitle: "Started Tasks",
-        path: "/started-tasks",
-        pos: req.user.position,
+exports.getStartedTask = async (req, res, next) => {
+  try {
+    // Find all QCs associated with the Team Lead
+    const qcs = await Qc.find({ tlId: req.user._id });
+
+    // Extract QC IDs from the found QCs
+    const qcIds = qcs.map(qc => qc._id);
+
+    // Find all labelers associated with the QCs
+    const labelers = await Labeler.find({ qcId: { $in: qcIds } });
+
+    // Extract labeler IDs from the found labelers
+    const labelerIds = labelers.map(labeler => labeler._id);
+
+    // Find tasks for the current team lead with submittedNumObj 0
+    const tasks = await WorksOn.find({ labelerId: { $in: labelerIds }, submittedNumObj: 0 })
+      .populate({
+        path: 'taskId',
+        populate: {
+          path: 'queueId',
+        },
       });
-    })
-    .catch((err) => {
-      console.log(err);
+
+    // Sort tasks based on queue name
+    const sortedTasks = tasks.sort((a, b) => a.taskId.queueId.name.localeCompare(b.taskId.queueId.name));
+
+    res.render('team/StartedTasks.ejs', {
+      tasks: sortedTasks,
+      pageTitle: 'Started Tasks',
+      path: '/started-tasks',
+      pos: req.user.position,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
-exports.getLabelers = (req, res, next) => {
-  Labeler.find({ location: req.user._id })
-    .then((labelers) => {
-      res.render("team/labelers.ejs", {
-        labelers: labelers,
-        pageTitle: "Labelers",
-        path: "/labelers",
-        pos: req.user.position,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+exports.getLabelers = async (req, res, next) => {
+  try{
+  // Find all QCs associated with the Team Lead
+  const qcs = await Qc.find({ tlId: req.user._id });
+
+  // Extract QC IDs from the found QCs
+  const qcIds = qcs.map(qc => qc._id);
+
+  // Find all labelers associated with the QCs
+  const labelers = await Labeler.find({ qcId: { $in: qcIds } });
+
+  // Extract labeler IDs from the found labelers
+  const labelerIds = labelers.map(labeler => labeler._id);
+
+  res.render('team/labelers.ejs', {
+    labelers: labelerIds,
+    pageTitle: 'Labelers',
+    path: '/labelers',
+    pos: req.user.position,
+  });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+  
 };
+
+// need to be updated
 exports.getAnalytics = async (req, res, next) => {
   const date = new Date();
   date.setTime(date.getTime() + helper.MILLISECONDS_IN_HOUR);
