@@ -1,13 +1,12 @@
-const Labeler = require("../module/Labeler");
-const Task = require("../module/Task.js");
-const Q = require("../module/queues");
+const Labeler = require("../models/Labeler");
+const Task = require("../models/Task");
+const Q = require("../models/queues");
+const WorksOn = require("../models/WorksOn");
 let LabelerUser;
 
 exports.getHome = async (req, res, next) => {
   LabelerUser = await Labeler.findOne(req.user._id)
-    .populate({ path: "team", select: "name" })
-    .populate({ path: "seniorId" })
-    .populate({ path: "location", select: "locationName _id" })
+    .populate({ path: "qcId", select: "name" })
     .exec();
 
   res.render("labeler/home.ejs", {
@@ -45,46 +44,30 @@ exports.postStartTask = async (req, res, next) => {
     const queueName = req.body.queueName;
     const numObj = req.body.numObj;
     const date = new Date().toLocaleString();
-    const teamId = req.user.team._id;
-    const seniotId = req.user.seniorId;
-    const teamLeadId = req.user.location;
-    console.log(req.user);
-    console.log(teamLeadId);
+    const qcId = req.user.team._id;
 
     let task = await Task.findOne({ id: TaskId });
 
     if (!task) {
       const startTask = new Task({
         id: TaskId,
+        queueName: queueName,
+        status: "Started",
+      });
+
+      const worksOn = new WorksOn({
+        labelerId: labelerId,
+        TaskId: TaskId,
         StartednumObj: numObj,
         startDate: date,
-        queueName: queueName,
-        labelerId: labelerId,
-        teamId: teamId,
-        seniorId: seniotId,
-        teamLeadId: teamLeadId,
-        submitted: false,
-        skipped: false,
-        labelersWorkedOn: [{ labelerId: labelerId }],
       });
 
       await startTask.save();
-    } else if (task && labelerId) {
-      task.StartednumObj = numObj;
-      task.startDate = date;
-      task.queueName = queueName;
-      task.labelerId = labelerId;
-      task.teamId = teamId;
-      task.teamLeadId = teamLeadId;
-      task.submitted = false;
-      task.skipped = false;
-
-      const labelerWorkedOn = { labelerId: labelerId };
-      task.labelersWorkedOn.push(labelerWorkedOn);
-
-      await task.save();
+      await worksOn.save();
+    } 
+    else{
+      res.status(404).send("this task is already in progress");
     }
-
     return res.redirect("/labeler/home");
   } catch (err) {
     console.error(err);
@@ -94,7 +77,7 @@ exports.postStartTask = async (req, res, next) => {
 };
 
 exports.getSubmitTask = (req, res, next) => {
-  Task.find({ labelerId: req.user._id, submitted: false, skipped: false })
+  Task.find({ labelerId: req.user._id, status: "Started"})
     .then((tasks) => {
       res.render("labeler/submit.ejs", {
         tasks: tasks,
@@ -107,41 +90,34 @@ exports.getSubmitTask = (req, res, next) => {
 };
 exports.postSubmitTask = (req, res, next) => {
   const submittedObjects = req.body.submitedObj;
-  const status = req.body.status;
   const taskId = req.body.taskId;
   const submitDate = new Date().toLocaleString();
+  const status = req.body.status;
   Task.findOne({ id: +taskId })
     .then((task) => {
       if (!task) {
         // Handle case where task with given ID is not found
         return res.status(404).send("Task not found");
       }
+      let worksOn =  worksOn.findOne({ taskId: taskId });
 
-      task.SubmittednumObj = +submittedObjects;
-      task.submittedDate = submitDate;
 
-      if (status === "submit") {
-        task.submitted = true;
-        task.skipped = false;
-      } else if (status === "skip") {
-        task.submitted = false;
-        task.skipped = true;
-      } else if (status === "abandoned" || status === "taken") {
-        task.submitted = false;
-        task.skipped = false;
-        task.labelerId = null;
-        task.teamLeadId = null;
-        task.teamLeadId = null;
-        task.seniorId = null;
-      }
+      worksOn.submittedObj = submittedObjects;
+      worksOn.submitDate = submitDate;
 
+      task.status = status;
+
+      worksOn.save();
       return task.save(); // Save the updated task
+
     })
     .then(() => {
       res.redirect("/labeler/home");
     })
     .catch((err) => console.log(err));
 };
+
+/// need to be updated
 exports.getAnalytics = async (req, res, next) => {
   const date = new Date();
   date.setTime(date.getTime() + 2 * 60 * 60 * 1000);

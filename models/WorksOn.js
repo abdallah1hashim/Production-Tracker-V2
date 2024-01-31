@@ -13,8 +13,14 @@ const WorksOnSchema = new Schema({
     required: true,
     ref: "Labeler",
   },
-  StartednumObj: { type: Number },
-  SubmittednumObj: { type: Number },
+  StartednumObj: { 
+    type: Number,
+    default: 0, 
+  },
+  SubmittednumObj: {
+    type: Number,
+    default: 0,
+  },
   startDate: { type: String },
   submittedDate: { type: String },
   },

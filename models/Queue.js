@@ -3,10 +3,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const QueueSchema = new Schema({
-  id: { 
-    type: Number,
-    unique: true
-  },
   name: { 
     type: String,
     required: true,

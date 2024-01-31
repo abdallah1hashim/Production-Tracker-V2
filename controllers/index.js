@@ -1,4 +1,5 @@
 const Task = require("../models/Task");
+const WorksOn = require("../models/WorksOn");
 const Labeler = require("../models/Labeler");
 const QC = require("../models/Qc");
 const Info = require("../models/Info");
@@ -29,12 +30,10 @@ exports.getIndex = (req, res, next) => {
 exports.getCreateLabelers = async (req, res, next) => {
   try {
     const qc = await QC.find();
-    const tl = await TL.find();
     const user = req.user;
 
     res.render("app/create-labeler", {
       qc: qc,
-      tl: tl,
       user: user,
       pageTitle: "Create Labeler",
       path: "/create-labeler",
@@ -49,7 +48,6 @@ exports.getEditLabelers = async (req, res, next) => {
   try {
     const editMode = req.query.edit;
     const qc = await QC.find();
-    const tl = await TL.find();
     const user = req.user;
     const labelerId = req.params.labelerId;
 
@@ -61,7 +59,6 @@ exports.getEditLabelers = async (req, res, next) => {
 
     res.render("app/create-labeler", {
       qc: qc,
-      tl: tl,
       user: user,
       pageTitle: "Edit Labeler",
       path: "/create-labeler",
@@ -216,29 +213,30 @@ exports.getQueue = async (req, res, next) => {
   });
 };
 exports.postAddQueue = async (req, res, next) => {
-  const name = req.body.name;
-  const task = await Task.findOne({ _id: "6597cdbef00a2b6650a7f0eb" });
-
-  if (task.queues.includes(name.toLowerCase())) res.redirect("add-queue");
-  task.queues.push(name.toLowerCase());
-  task.save();
-
-  if (req.user.position === "Quality Control") res.redirect("/qc/home");
-};
-exports.postِAddQueue = async (req, res, next) => {
   try {
     const name = req.body.name;
-    const existingQueue = await Q.findOne({ name: name });
 
-    if (existingQueue) throw new Error("Queue Already Exists");
+    // Find the queue with the given name
+    const queue = await Q.findOne({ name });
 
-    const newQueue = new Q({ name: name });
-    newQueue.save();
-    res.redirect("queue");
+    // If the queue already exists, redirect to "add-queue"
+    if (queue) return res.redirect("add-queue");
+
+    // Create a new queue
+    const newQueue = new Q({ name });
+    await newQueue.save();
+
+
+    // If the user's position is "Quality Control," redirect to "/qc/home"
+    if (req.user.position === "Quality Control") return res.redirect("/qc/home");
+
   } catch (error) {
-    console.log(error);
+    // Handle errors appropriately
+    console.error(error);
+    next(error);
   }
 };
+
 exports.postِEditQueue = async (req, res, next) => {
   try {
     const name = req.body.name;
@@ -285,7 +283,7 @@ exports.getLabelerDetails = async (req, res, next) => {
     const labelerId = req.params.labelerId;
     const submittedTasksToday = await Task.find({
       labelerId: labelerId,
-      submitted: true,
+      status: "submitted",
       updatedAt: {
         $gte: beginningOfDayISOString,
         $lte: endingOfDayISOString,
@@ -293,7 +291,7 @@ exports.getLabelerDetails = async (req, res, next) => {
     }).populate("queueName");
     const submittedTasksThisWeek = await Task.find({
       labelerId: labelerId,
-      submitted: true,
+      status: "submitted",
       updatedAt: {
         $gte: beginningOfWeekISOString,
         $lte: endingOfWeekISOString,
@@ -301,7 +299,7 @@ exports.getLabelerDetails = async (req, res, next) => {
     }).populate("queueName");
     const submittedTasksThisMonth = await Task.find({
       labelerId: labelerId,
-      submitted: true,
+      status: "submitted",
       updatedAt: {
         $gte: beginningOfMonthISOString,
         $lte: endingOfMonthISOString,
@@ -323,33 +321,10 @@ exports.getLabelerDetails = async (req, res, next) => {
     res.redirect("/");
   }
 };
-exports.getEditTask = async (req, res, next) => {
-  const queues = await Q.find();
-  try {
-    const taskId = req.params.taskId;
-    const task = await Task.findById(taskId).populate("queueName");
 
-    res.render("team/edit-task.ejs", {
-      pageTitle: "Edit-Task",
-      path: "/labelerss",
-      pos: req.user.position,
-      queues: queues,
-      labelerDetails: task.labelerId,
-      task: task,
-    });
-  } catch (error) {
-    console.log(error);
-    req.flash(
-      "error",
-      "Something went wrong with getting into the edit task page. Try again later."
-    );
-    res.redirect("/");
-  }
-};
 exports.postEditTask = async (req, res, next) => {
   try {
     const updatedStartNumObj = req.body.startNumObj;
-    console.log(updatedStartNumObj);
     const updatedSubmitNumObj = req.body.submitNumObj;
     const updatedQueueName = req.body.queueName;
     const updatedTaskProdId = req.body.TaskProdId;
@@ -357,32 +332,18 @@ exports.postEditTask = async (req, res, next) => {
     const updatedStatus = req.body.status;
 
     const task = await Task.findById(taskId);
+    const worksOn = await WorksOn.findById(taskId);
+    const queue = await queue.findById(task.queueId);
     if (!task) throw new Error("Faild To fetch task.");
-    task.StartednumObj = updatedStartNumObj;
-    task.SubmittednumObj = updatedSubmitNumObj;
-    task.queueName = updatedQueueName;
+
+
+    worksOn.StartednumObj = updatedStartNumObj;
+    worksOn.SubmittednumObj = updatedSubmitNumObj;
+
+    queue.Name = updatedQueueName;
     task.taskId = updatedTaskProdId;
 
-    if (updatedStatus === "submit") {
-      task.submitted = true;
-      task.skipped = false;
-    }
-    if (updatedStatus === "skip") {
-      task.submitted = false;
-      task.skipped = true;
-    }
-    if (
-      updatedStatus === "abandoned" ||
-      updatedStatus === "taken" ||
-      !updatedStatus
-    ) {
-      task.submitted = false;
-      task.skipped = false;
-      task.labelerId = null;
-      task.teamLeadId = null;
-      task.teamLeadId = null;
-      task.seniorId = null;
-    }
+    task.status = updatedStatus;
 
     task.save();
     req.flash("success", "Task updated successufully.");
@@ -393,6 +354,8 @@ exports.postEditTask = async (req, res, next) => {
     res.redirect("/");
   }
 };
+
+// this function is to handle delete tasks
 exports.postDeleteTask = async (req, res, next) => {
   try {
     const taskId = req.body.taskId;

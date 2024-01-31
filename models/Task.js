@@ -3,12 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
-  id: { 
-    type: Number,
-    unique: true
-  },
-  submitted: { type: Boolean },
-  skipped: { type: Boolean },
+  id: { type: String },
+  status: { type: String },
   queueId: {
     type: Schema.Types.ObjectId,
     required: true,
