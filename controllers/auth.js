@@ -25,11 +25,11 @@ exports.postLogin = async (req, res, next) => {
       req.flash("error", "User not found");
       return res.redirect("/login");
     }
-      // ||
-      // await QC.findOne({ info: info }) ||
-      // await TL.findOne({ info: info }) ||
-      // await STL.findOne({ info: info })
-    const user = await Labeler.findOne({ info: info });
+      
+    const user = await Labeler.findOne({ info: info })||
+                 await QC.findOne({ info: info }) ||
+                 await TL.findOne({ info: info }) ||
+                 await STL.findOne({ info: info });
     
     if (!user) {
       // User not found
@@ -37,8 +37,8 @@ exports.postLogin = async (req, res, next) => {
       return res.redirect("/login");
     }
 
-    const match = await bcrypt.compare(password, info.password);
-    console.log(match);
+    const match = info.password.toString() === password.toString();
+    
     if (match) {
       req.session.isLoggedin = true;
       req.session.user = user;

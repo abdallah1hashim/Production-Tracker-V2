@@ -5,9 +5,7 @@ const WorksOn = require("../models/WorksOn");
 let LabelerUser;
 
 exports.getHome = async (req, res, next) => {
-  LabelerUser = await Labeler.findOne(req.user._id)
-    .populate({ path: "qcId", select: "name" })
-    .exec();
+  LabelerUser = await Labeler.findOne(req.user._id);
 
   res.render("labeler/home.ejs", {
     labelerDetails: LabelerUser,
