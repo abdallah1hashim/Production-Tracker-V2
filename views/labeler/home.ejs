@@ -23,12 +23,12 @@
                             <i class="fa-solid fa-user"></i>
                           </div>
                           <div class="personal-info">
-                            <h3><%= labelerDetails.name %></h3>
+                            <h3><%= labelerDetails.info.name %></h3>
                             <div class="personal-info-text">
-                              <p>EMAIL: <%= labelerDetails.username%>@meti.ai</p>
-                              <p>SHIFT: <%= labelerDetails.seniorId.shiftName %></p>
-                              <p>LOCATION: <%= labelerDetails.location.locationName %></p>
-                              <p>TEAM: <%= labelerDetails.team.name %></p>
+                              <p>EMAIL: <%= labelerDetails.info.username%>@meti.ai</p>
+                              <p>SHIFT: <%= labelerDetails.info.shift_ %></p>
+                              <p>LOCATION: <%= labelerDetails.info.floor %></p>
+                              <p>TEAM: <%= qc.info.name %></p>
                               <p>DEVICE: C-<%= labelerDetails.device %></p>
                             </div>
                           </div>

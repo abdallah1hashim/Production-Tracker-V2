@@ -2,13 +2,18 @@ const Labeler = require("../models/Labeler");
 const Task = require("../models/Task");
 const Q = require("../models/Queue");
 const WorksOn = require("../models/WorksOn");
+const Qc = require("../models/Qc");
 let LabelerUser;
 
 exports.getHome = async (req, res, next) => {
-  LabelerUser = await Labeler.findOne(req.user._id);
+  console.log(req.user._id);
+  LabelerUser = await Labeler.findOne({_id :req.user._id});
+
+  qcUser = await Qc.findOne({_id :LabelerUser.qcId});
 
   res.render("labeler/home.ejs", {
     labelerDetails: LabelerUser,
+    qc:qcUser,
     pageTitle: "Home",
     path: "/labler",
     pos: req.user.position,

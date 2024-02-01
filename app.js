@@ -43,8 +43,8 @@ app.use(async (req, res, next) => {
   try {
     // Check if req.session.user exists and has a position property
     const position =
-      req.session.user && req.session.user.position
-        ? req.session.user.position
+      req.session.user && req.session.user.info.position
+        ? req.session.user.info.position
         : null;
 
     if (position === "Labeler") {
@@ -52,13 +52,11 @@ app.use(async (req, res, next) => {
       req.user = user;
     }
     if (position === "Quality Control") {
-      const user = await QC.findById(req.session.user._id)
-        .populate("teamLeadId")
-        .populate("seniorId");
+      const user = await QC.findById(req.session.user._id);
       req.user = user;
     }
     if (position === "Team Lead") {
-      const user = await TL.findById(req.session.user._id).populate("seniorId");
+      const user = await TL.findById(req.session.user._id);
       req.user = user;
     }
     if (position === "Senior Team Lead") {
