@@ -17,7 +17,7 @@ getSheet().then(async (sheetsNames) => {
   try {
     delayDiv.querySelector("span").innerHTML = "Loading...";
     const res = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/1uIq-o9hWSlolTnYop9nMNtKRCduGcJ8AjawnQ4JgrRQ/values/${sheetsNames[0]}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+      `https://sheets.googleapis.com/v4/spreadsheets/1uIq-o9hWSlolTnYop9nMNtKRCduGcJ8AjawnQ4JgrRQ/values/${sheetsNames[2]}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
     );
     const data = await res.json();
 
