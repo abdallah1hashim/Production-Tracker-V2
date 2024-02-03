@@ -28,13 +28,11 @@
                             <p>number of objects: </p>
                             <input type="text" name="numObj" required>
                             <p class="queue-label">Queue Name:</p>
-                            <input class="select" list="items" required placeholder="Select a queue">
-                            <datalist id="items">
-                                <option disabled selected value>Select Queue</option>
-                                <% queues.forEach(q => { %>
-                                    <option data-value="<%= q._id %>" value="<%= q.name.toUpperCase() %>"></option>
-                                    <% }) %>
-                                </datalist>
+                            <select>
+                            <% queues.forEach(q => { %>
+                                <option data-value="<%= q._id %>" value="<%= q.name.toUpperCase() %>"></option>
+                                <% }) %>
+                            </select>
                                 <div class="tringle"></div>
                             <input type="hidden" name="queueName" value="">
                             <p>Task ID:</p>

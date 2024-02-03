@@ -50,14 +50,13 @@ exports.postStartTask = async (req, res, next) => {
     const queueName = req.body.queueName;
     const numObj = req.body.numObj;
     const date = new Date().toLocaleString();
-    const qcId = req.user.team._id;
 
     let task = await Task.findOne({ id: TaskId });
 
     if (!task) {
       const startTask = new Task({
         id: TaskId,
-        queueName: queueName,
+        queueId: queueName,
         status: "Started",
       });
 
