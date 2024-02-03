@@ -5,6 +5,7 @@ const Info = require("../models/Info");
 const WorksOn = require("../models/WorksOn");
 const Qc = require("../models/Qc");
 const { mongo } = require("mongoose");
+const Queue = require("../models/Queue");
 let LabelerUser;
 
 exports.getHome = async (req, res, next) => {
@@ -51,23 +52,28 @@ exports.postStartTask = async (req, res, next) => {
     const numObj = req.body.numObj;
     const date = new Date().toLocaleString();
 
+    const queue = await Queue.findOne({name :queueName});
+
+
     let task = await Task.findOne({ id: TaskId });
 
     if (!task) {
       const startTask = new Task({
         id: TaskId,
-        queueId: queueName,
+        queueId: queue._id,
         status: "Started",
       });
 
+      await startTask.save();
+
       const worksOn = new WorksOn({
         labelerId: labelerId,
-        TaskId: TaskId,
+        taskId: startTask._id,
         StartednumObj: numObj,
         startDate: date,
       });
 
-      await startTask.save();
+      
       await worksOn.save();
     } 
     else{
