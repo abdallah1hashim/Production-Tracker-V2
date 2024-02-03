@@ -1,37 +1,40 @@
 const Labeler = require("../models/Labeler");
 const Task = require("../models/Task");
 const Q = require("../models/Queue");
+const Info = require("../models/Info");
 const WorksOn = require("../models/WorksOn");
 const Qc = require("../models/Qc");
+const { mongo } = require("mongoose");
 let LabelerUser;
 
 exports.getHome = async (req, res, next) => {
-  console.log(req.user._id);
-  LabelerUser = await Labeler.findOne({_id :req.user._id});
 
-  qcUser = await Qc.findOne({_id :LabelerUser.qcId});
+  LabelerUser = await Labeler.findOne({info :req.session.user.info}).populate('info').populate('qcId');
+
+  qcUser = await Qc.findOne({_id :LabelerUser.qcId}).populate('info');
 
   res.render("labeler/home.ejs", {
     labelerDetails: LabelerUser,
     qc:qcUser,
     pageTitle: "Home",
     path: "/labler",
-    pos: req.user.position,
+    pos: LabelerUser.info.position,
     error: req.flash("error"),
     success: req.flash("success"),
   });
 };
 
-exports.getStartTask = (req, res, next) => {
+exports.getStartTask = async (req, res, next) => {
+  const user = req.session.user;
+  const info = await Info.findOne({_id :user.info});
   Q.find({})
     .then((obj) => {
-      console.log(req.user);
       res.render("labeler/start.ejs", {
-        labelerDetails: req.user,
+        labelerDetails: user,
         queues: obj,
         pageTitle: "Start Task",
         path: "/start-task",
-        pos: req.user.position,
+        pos: info.position,
       });
     })
     .catch((err) => {
@@ -79,14 +82,16 @@ exports.postStartTask = async (req, res, next) => {
   }
 };
 
-exports.getSubmitTask = (req, res, next) => {
-  Task.find({ labelerId: req.user._id, status: "Started"})
+exports.getSubmitTask = async (req, res, next) => {
+  const info = await Info.findOne({_id :req.session.user.info});
+  WorksOn.find({ labelerId: req.session.user._id})
     .then((tasks) => {
+      const startedTasks = tasks.filter(task => task.status === 'Started');
       res.render("labeler/submit.ejs", {
-        tasks: tasks,
+        tasks: startedTasks,
         pageTitle: "Submit Task",
         path: "/submit-task",
-        pos: req.user.position,
+        pos: info.position,
       });
     })
     .catch((err) => console.log(err));
@@ -128,7 +133,7 @@ exports.getAnalytics = async (req, res, next) => {
   const dayOfWeek = date.getDay();
   const today = date.toDateString();
   const todayTime = date.toLocaleTimeString();
-  console.log(date);
+  
 
   // Calculate the beginning and ending of the day
   const beginningOfDay = new Date(date);
@@ -159,64 +164,79 @@ exports.getAnalytics = async (req, res, next) => {
   const beginningOfMonthISOString = beginningOfMonth.toISOString();
   const endingOfMonthISOString = endingOfMonth.toISOString();
 
-  const dailyTasks = await Task.find({
-    labelerId: req.user._id,
-    submitted: true,
-    updatedAt: {
+  const worksOndaily = await WorksOn.find({ labelerId: req.session.user._id,
+    submitDate: {
       $gte: beginningOfDayISOString,
       $lte: endingOfDayISOString,
-    },
-  }).populate("queueName");
+    }}).populate('taskId')
+  
+  const dailyTasks = await Task.find({_id: worksOndaily.taskId}).populate('queueId');
+
+  // const dailyTasks = await Task.find({
+  //   labelerId: req.user._id,
+  //   submitted: true,
+  //   updatedAt: {
+  //     $gte: beginningOfDayISOString,
+  //     $lte: endingOfDayISOString,
+  //   },
+  // }).populate("queueName");
   const dailyTasksByQueue = dailyTasks.reduce(function (obj, v) {
     // increment or set the property
     // `(obj[v.status] || 0)` returns the property value if defined
     // or 0 ( since `undefined` is a falsy value
-    obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
+    obj[v.queueId.name] = (obj[v.queueId.name] || 0) + 1;
     // return the updated object
     return obj;
     // set the initial value as an object
   }, {});
 
-  const weeklyTasks = await Task.find({
-    labelerId: req.user._id,
-    submitted: true,
-    updatedAt: {
+  const worksOnWeek = await WorksOn.find({ labelerId: req.session.user._id,
+    submitDate: {
       $gte: beginningOfWeekISOString,
       $lte: endingOfWeekISOString,
-    },
-  }).populate("queueName");
+    }}).populate('taskId')
+  
+  const weeklyTasks = await Task.find({_id: worksOnWeek.taskId}).populate('queueId');
+
+  
   const weeklyTasksByQueue = weeklyTasks.reduce(function (obj, v) {
     // increment or set the property
     // `(obj[v.status] || 0)` returns the property value if defined
     // or 0 ( since `undefined` is a falsy value
-    obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
-    // return the updated object
-    return obj;
-    // set the initial value as an object
-  }, {});
-  const MonthlyTasks = await Task.find({
-    labelerId: req.user._id,
-    submitted: true,
-    updatedAt: {
-      $gte: beginningOfMonthISOString,
-      $lte: endingOfMonthISOString,
-    },
-  }).populate("queueName");
-  const MonthlyTasksByQueue = MonthlyTasks.reduce(function (obj, v) {
-    // increment or set the property
-    // `(obj[v.status] || 0)` returns the property value if defined
-    // or 0 ( since `undefined` is a falsy value
-    obj[v.queueName.name] = (obj[v.queueName.name] || 0) + 1;
+    obj[v.queueId.name] = (obj[v.queueId.name] || 0) + 1;
     // return the updated object
     return obj;
     // set the initial value as an object
   }, {});
 
+  const worksOnMonthly = await WorksOn.find({ labelerId: req.session.user._id,
+    submitDate: {
+      $gte: beginningOfMonthISOString,
+      $lte: endingOfMonthISOString,
+    }}).populate('taskId')
+  
+  const MonthlyTasks = await Task.find({_id: worksOnMonthly.taskId}).populate('queueId');
+  
+  const MonthlyTasksByQueue = MonthlyTasks.reduce(function (obj, v) {
+    // increment or set the property
+    // `(obj[v.status] || 0)` returns the property value if defined
+    // or 0 ( since `undefined` is a falsy value
+    obj[v.queueId.name] = (obj[v.queueId.name] || 0) + 1;
+    // return the updated object
+    return obj;
+    // set the initial value as an object
+  }, {});
+
+
+  const info = await Info.findOne({_id :req.session.user.info});
+  const user = await Labeler.findOne({info :req.session.user.info}).populate('info')
+
+
   res.render("app/analytics.ejs", {
     pageTitle: "ِAnalytics",
     path: "/analytics",
-    user: req.user,
-    pos: req.user.position,
+    user: user,
+    pos: info.position,
     today: today,
     todayTime: todayTime,
     dailyTasks: dailyTasks,
@@ -234,7 +254,7 @@ exports.getSpl = (req, res, next) => {
   res.render("labeler/spl.ejs", {
     pageTitle: "SPL",
     path: "/spl",
-    pos: req.user.position,
+    pos: req.session.user.info.position,
     today: today,
     todayTime: todayTime,
     username: req.user.username,

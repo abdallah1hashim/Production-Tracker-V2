@@ -26,10 +26,10 @@ exports.postLogin = async (req, res, next) => {
       return res.redirect("/login");
     }
       
-    const user = await Labeler.findOne({ info: info })||
-                 await QC.findOne({ info: info }) ||
-                 await TL.findOne({ info: info }) ||
-                 await STL.findOne({ info: info });
+    const user = await Labeler.findOne({ info: info }).populate('info')||
+                 await QC.findOne({ info: info }).populate('info') ||
+                 await TL.findOne({ info: info }).populate('info') ||
+                 await STL.findOne({ info: info }).populate('info');
     
     if (!user) {
       // User not found
@@ -43,17 +43,23 @@ exports.postLogin = async (req, res, next) => {
       req.session.isLoggedin = true;
       req.session.user = user;
 
+      
       switch (info.position) {
         case "Labeler":
-          return res.redirect("/labeler/home");
+          res.redirect("/labeler/home");
+          break;
         case "Quality Control":
-          return res.redirect("/qc/home");
+          res.redirect("/qc/home");
+          break; 
         case "Team Lead":
-          return res.redirect("/tl/home");
+          res.redirect("/tl/home");
+          break;
         case "Senior Team Lead":
-          return res.redirect("/stl/home");
+          res.redirect("/stl/home");
+          break;
         default:
-          return res.redirect("/");
+          res.redirect("/");
+          break;
       }
     } else {
       // Incorrect password

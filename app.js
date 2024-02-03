@@ -48,15 +48,17 @@ app.use(async (req, res, next) => {
         : null;
 
     if (position === "Labeler") {
-      const user = await Labeler.findById(req.session.user._id);
+      const user = await Labeler.findById(req.session.user._id).populate("info");
       req.user = user;
     }
     if (position === "Quality Control") {
-      const user = await QC.findById(req.session.user._id);
+      const user = await QC.findById(req.session.user._id)
+        .populate("teamLeadId")
+        .populate("seniorId");
       req.user = user;
     }
     if (position === "Team Lead") {
-      const user = await TL.findById(req.session.user._id);
+      const user = await TL.findById(req.session.user._id).populate("seniorId");
       req.user = user;
     }
     if (position === "Senior Team Lead") {

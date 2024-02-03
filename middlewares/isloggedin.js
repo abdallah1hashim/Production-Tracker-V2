@@ -1,12 +1,13 @@
 module.exports = (req, res, next) => {
   if (req.session.isLoggedin) {
-    if (req.user.position === "Labeler") {
+    const position_ = req.session.user.info.position;
+    if (position_ === "Labeler") {
       return res.redirect("/labeler/home");
-    } else if (req.user.position === "Quality Control") {
+    } else if (position_ === "Quality Control") {
       return res.redirect("/qc/home");
-    } else if (req.user.position === "Team Lead") {
+    } else if (position_ === "Team Lead") {
       return res.redirect("/tl/home");
-    } else if (req.user.position === "Senior Team Lead") {
+    } else if (position_ === "Senior Team Lead") {
       return res.redirect("/stl/home");
     }
   }
