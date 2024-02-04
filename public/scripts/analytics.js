@@ -47,7 +47,8 @@ async function getAttendenceSheet() {
     console.log(data);
     const userAttendance = data.values
       .filter((value) => value.includes(username.toUpperCase()))[0]
-      .slice(5);
+      .slice(6);
+    console.log(userAttendance);
     const attainedDays = userAttendance
       .map((day, i) =>
         day === "P" ||
