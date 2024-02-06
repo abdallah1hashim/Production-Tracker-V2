@@ -9,20 +9,19 @@
         <main>
             <div class="container">
 
-            
             <div class="row">
               <%- include("../includes/side-nav.ejs") %>
                 <div class=" main col-9 ">
                     <div class="info">
                         <div class="h2-con w-100">
-                          <h2>Start Task</h2>
+                          <h2>Submit Task</h2>
                         </div>
                         <div class="details">
                          <form action="/labeler/post-submit-task" method="post">
                             <p>your Tasks: </p>
                             <select name="taskId" required>
                                 <% tasks.forEach( task =>{ %>
-                                    <option value="<%= task.id %>"><%= task.id %></option>
+                                    <option value="<%= task.id %>"> <%= task.id %> </option>
                                 <% })%>
                             </select>
                             <p>Number of object:</p>
@@ -30,10 +29,10 @@
                             <p>Status of the Task:</p>
                             <select name="status" required>
                                 <option disabled selected value>Select Status</option>
-                                <option value="submit">Submit</option>
-                                <option value="skip">Skip</option>
-                                <option value="abandoned">Abandoned</option>
-                                <option value="taken">Taken</option>
+                                <option value="Submit">Submit</option>
+                                <option value="Skip">Skip</option>
+                                <option value="Abandoned">Abandoned</option>
+                                <option value="Taken">Taken</option>
                             </select>
                             <button type="submit">Submit</button>
                          </form>

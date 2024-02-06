@@ -88,46 +88,73 @@ exports.postStartTask = async (req, res, next) => {
 };
 
 exports.getSubmitTask = async (req, res, next) => {
-  const info = await Info.findOne({_id :req.session.user.info});
-  WorksOn.find({ labelerId: req.session.user._id})
-    .then((tasks) => {
-      const startedTasks = tasks.filter(task => task.status === 'Started');
-      res.render("labeler/submit.ejs", {
-        tasks: startedTasks,
-        pageTitle: "Submit Task",
-        path: "/submit-task",
-        pos: info.position,
-      });
-    })
-    .catch((err) => console.log(err));
+  try {
+    const info = await Info.findOne({ _id: req.session.user.info });
+
+    const worksOn = await WorksOn.find({ labelerId: req.session.user._id });
+
+    // Extract task IDs from worksOn
+    const taskIds = worksOn.map(work => work.taskId);
+
+    // Query tasks based on task IDs and status "Started"
+    const tasks = await Task.find({ _id: { $in: taskIds }, status: "Started" });
+
+    
+    res.render("labeler/submit.ejs", {
+      tasks: tasks,
+      pageTitle: "Submit Task",
+      path: "/submit-task",
+      pos: info.position,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
 };
-exports.postSubmitTask = (req, res, next) => {
-  const submittedObjects = req.body.submitedObj;
-  const taskId = req.body.taskId;
-  const submitDate = new Date().toLocaleString();
-  const status = req.body.status;
-  Task.findOne({ id: +taskId })
-    .then((task) => {
-      if (!task) {
-        // Handle case where task with given ID is not found
-        return res.status(404).send("Task not found");
-      }
-      let worksOn =  worksOn.findOne({ taskId: taskId });
 
+exports.postSubmitTask = async (req, res, next) => {
+  try {
+    const submittedObjects = req.body.submittedObj;
+    const taskId = req.body.taskId;
+    const submitDate = new Date().toLocaleString();
+    const status = req.body.status;
 
-      worksOn.submittedObj = submittedObjects;
-      worksOn.submitDate = submitDate;
+    // Find the Task document based on taskId
+    const task = await Task.findOne({ id: +taskId });
 
-      task.status = status;
+    // Find the WorksOn document based on taskId
+    const worksOn = await WorksOn.findOne({ taskId: task._id });
 
-      worksOn.save();
-      return task.save(); // Save the updated task
+    if (!worksOn) {
+      // Handle case where WorksOn document with given taskId is not found
+      return res.status(404).send("WorksOn document not found");
+    }
 
-    })
-    .then(() => {
-      res.redirect("/labeler/home");
-    })
-    .catch((err) => console.log(err));
+    // Update the WorksOn document
+    worksOn.submittedObj = submittedObjects;
+    worksOn.submitDate = submitDate;
+
+    // Save the updated WorksOn document
+    await worksOn.save();
+
+    
+
+    if (!task) {
+      // Handle case where task with given ID is not found
+      return res.status(404).send("Task not found");
+    }
+
+    // Update the Task document
+    task.status = status;
+
+    // Save the updated Task document
+    await task.save();
+
+    res.redirect("/labeler/home");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
 /// need to be updated
@@ -170,21 +197,17 @@ exports.getAnalytics = async (req, res, next) => {
   const endingOfMonthISOString = endingOfMonth.toISOString();
 
   const worksOndaily = await WorksOn.find({ labelerId: req.session.user._id,
-    submitDate: {
+    updatedAt: {
       $gte: beginningOfDayISOString,
       $lte: endingOfDayISOString,
-    }}).populate('taskId')
-  
-  const dailyTasks = await Task.find({_id: worksOndaily.taskId}).populate('queueId');
+    }}).populate('taskId');
 
-  // const dailyTasks = await Task.find({
-  //   labelerId: req.user._id,
-  //   submitted: true,
-  //   updatedAt: {
-  //     $gte: beginningOfDayISOString,
-  //     $lte: endingOfDayISOString,
-  //   },
-  // }).populate("queueName");
+
+  // Extract task IDs from worksOn
+  const taskIds = worksOndaily.map(work => work.taskId);
+ 
+  const dailyTasks = await Task.find({_id: { $in: taskIds }}).populate('queueId');
+
   const dailyTasksByQueue = dailyTasks.reduce(function (obj, v) {
     // increment or set the property
     // `(obj[v.status] || 0)` returns the property value if defined
@@ -196,7 +219,7 @@ exports.getAnalytics = async (req, res, next) => {
   }, {});
 
   const worksOnWeek = await WorksOn.find({ labelerId: req.session.user._id,
-    submitDate: {
+    updatedAt: {
       $gte: beginningOfWeekISOString,
       $lte: endingOfWeekISOString,
     }}).populate('taskId')
@@ -215,7 +238,7 @@ exports.getAnalytics = async (req, res, next) => {
   }, {});
 
   const worksOnMonthly = await WorksOn.find({ labelerId: req.session.user._id,
-    submitDate: {
+    updatedAt: {
       $gte: beginningOfMonthISOString,
       $lte: endingOfMonthISOString,
     }}).populate('taskId')
@@ -245,6 +268,7 @@ exports.getAnalytics = async (req, res, next) => {
     today: today,
     todayTime: todayTime,
     dailyTasks: dailyTasks,
+    worksOndaily: worksOndaily,
     dailyTasksbyQueue: dailyTasksByQueue,
     weeklyTasks: weeklyTasks,
     weeklyTasksbyQueue: weeklyTasksByQueue,
@@ -252,30 +276,36 @@ exports.getAnalytics = async (req, res, next) => {
     MonthlyTasksByQueue: MonthlyTasksByQueue,
   });
 };
-exports.getSpl = (req, res, next) => {
+exports.getSpl = async (req, res, next) => {
   const date = new Date();
   const today = date.toDateString();
   const todayTime = date.toLocaleTimeString();
+
+  const user = await Labeler.findOne({info :req.session.user.info}).populate('info');
+
   res.render("labeler/spl.ejs", {
     pageTitle: "SPL",
     path: "/spl",
-    pos: req.session.user.info.position,
+    pos: user.info.position,
     today: today,
     todayTime: todayTime,
-    username: req.user.username,
+    username: user.info.username,
   });
 };
-exports.getHours = (req, res, next) => {
+exports.getHours = async (req, res, next) => {
   const date = new Date();
   const today = date.toDateString();
   const todayTime = date.toLocaleTimeString();
+
+  const user = await Labeler.findOne({info :req.session.user.info}).populate('info');
+
   res.render("labeler/hours.ejs", {
     pageTitle: "Hours",
     path: "/hours",
-    pos: req.user.position,
+    pos: user.info.position,
     today: today,
     todayTime: todayTime,
-    username: req.user.username,
+    username: user.info.username,
   });
 };
 
