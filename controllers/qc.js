@@ -1,13 +1,24 @@
 const Labeler = require("../models/Labeler");
 const Task = require("../models/Task");
 const Qc = require("../models/Qc");
+const Tl = require("../models/Tl");
 
-exports.getHome = (req, res, next) => {
+exports.getHome = async (req, res, next) => {
+
+  const qcUser = await Qc.findOne({ _id: req.session.user._id }).populate('info');
+
+  console.log(qcUser.tlId);
+
+  const tl = await Tl.findOne({ _id: qcUser.tlId }).populate('info');
+  
+  console.log(tl);
+
   res.render("team/home.ejs", {
-    user: req.user,
+    user: qcUser,
+    tlOfQc: tl,
     pageTitle: "Home",
     path: "/qc",
-    pos: req.user.position,
+    pos: qcUser.info.position,
     success: req.flash("success"),
     error: req.flash("error"),
   });

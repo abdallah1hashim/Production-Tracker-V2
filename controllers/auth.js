@@ -20,17 +20,29 @@ exports.postLogin = async (req, res, next) => {
 
     const info = await Info.findOne({ username: username });
 
+    
+
     if (!info) {
       // User not found
       req.flash("error", "User not found");
       return res.redirect("/login");
     }
       
-    const user = await Labeler.findOne({ info: info }).populate('info')||
-                 await QC.findOne({ info: info }).populate('info') ||
-                 await TL.findOne({ info: info }).populate('info') ||
-                 await STL.findOne({ info: info }).populate('info');
+    var user = await Labeler.findOne({ info: info }).populate('info');
+    if (!user) {
+      var user = await QC.findOne({ info: info }).populate('info');
+    }
+    if (!user) {
+      var user = await TL.findOne({ info: info }).populate('info');
+    }
+    if (!user) {
+      var user = await STL.findOne({ info: info }).populate('info');
+    }
     
+
+    
+
+    console.log(user);
     if (!user) {
       // User not found
       req.flash("error", "User not found");
@@ -38,6 +50,8 @@ exports.postLogin = async (req, res, next) => {
     }
 
     const match = info.password.toString() === password.toString();
+
+    
     
     if (match) {
       req.session.isLoggedin = true;
