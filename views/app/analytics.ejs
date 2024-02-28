@@ -121,6 +121,7 @@
                             </div>
                         </div>
                         <% } %>
+                        <input type="hidden" class="username" value="<%= user.username%>">
                     <% if (pos === "Labeler" && ["ME494032","ME422386","ME853578","ME709791","ME500995","ME326976","ME767152","ME804806","ME768174"]
                             .includes(user.username) ){ %>
                     <div class="delay-body wid">
@@ -129,7 +130,6 @@
                         </div>
                         <div class="delay row">
                             <div class="col-11 crd">
-                                <input type="hidden" value="<%= user.username%>">
                                 <p>Your total delay hours for this month:</p>
                                 <p class="delay-num"><span>00</span> Hours</p>
                             </div>
