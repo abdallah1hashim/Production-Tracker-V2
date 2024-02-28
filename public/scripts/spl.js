@@ -4,7 +4,7 @@ const outputDate = document.querySelector(".spl-body");
 
 async function getSheet() {
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1I3HSt1_WYaVlChTK37VJyYSW07xIA09sq-4lsZyN4og?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+    `https://sheets.googleapis.com/v4/spreadsheets/1jN-nbNJxWyFadRCEOMV7GnP9WX1lN2nOmh8CliQgn_Q?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
   );
   const data = await res.json();
   const sheetsNames = data.sheets.map((sheet) => {
@@ -17,7 +17,7 @@ getSheet().then(async (sheetsNames) => {
   const curSheet = sheetsNames.slice(-1)[0];
   console.log(curSheet[0]);
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1I3HSt1_WYaVlChTK37VJyYSW07xIA09sq-4lsZyN4og/values/${curSheet}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+    `https://sheets.googleapis.com/v4/spreadsheets/1jN-nbNJxWyFadRCEOMV7GnP9WX1lN2nOmh8CliQgn_Q/values/${curSheet}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
   );
   const data = await res.json();
   console.log(data.values);

@@ -5,7 +5,7 @@ const id = username.toUpperCase() + "@meti.ai";
 
 async function getSheet() {
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/15TI7wC8qRSCK2hk32bWTOggEa54p3RYE_9aPQXTilAc?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+    `https://sheets.googleapis.com/v4/spreadsheets/1idy2I6-yhacTR_EeVWZg0yR8QdSZB6Zh_wa20cVZfxM?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
   );
   const data = await res.json();
   const sheetsNames = data.sheets.map((sheet) => {
@@ -19,7 +19,7 @@ getSheet().then(async (sheetsNames) => {
   const curSheet = sheetsNames.slice(-1)[0];
 
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/15TI7wC8qRSCK2hk32bWTOggEa54p3RYE_9aPQXTilAc/values/${curSheet}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+    `https://sheets.googleapis.com/v4/spreadsheets/1idy2I6-yhacTR_EeVWZg0yR8QdSZB6Zh_wa20cVZfxM/values/${curSheet}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
   );
   const data = await res.json();
 
@@ -57,7 +57,7 @@ getSheet().then(async (sheetsNames) => {
   await Promise.all(
     sheetsNames.map(async (name) => {
       const sheet = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/15TI7wC8qRSCK2hk32bWTOggEa54p3RYE_9aPQXTilAc/values/${name}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
+        `https://sheets.googleapis.com/v4/spreadsheets/1idy2I6-yhacTR_EeVWZg0yR8QdSZB6Zh_wa20cVZfxM/values/${name}?key=AIzaSyA1DiDSTDT-E1KtlFhUpeecLxnKh_Uxxf8`
       );
       const data = await sheet.json();
       sheets.push(data);
@@ -76,7 +76,7 @@ getSheet().then(async (sheetsNames) => {
       }
     });
   });
-  
+
   const totalHours = myUserInfo.reduce((acc, curr) => {
     return (acc = +curr[7] + +curr[8] + acc);
   }, 0);
